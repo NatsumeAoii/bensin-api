@@ -146,25 +146,34 @@ def build_province_file(prov_obj: Dict[str, Any]) -> Dict[str, Any]:
     province_name = prov_obj.get('province')
     slug = slugify(province_name)
     products = []
+    
     pertamina_updated_at = None
+    for p in prov_obj.get('list_price', []):
+        updated = p.get('updatedDate')
+        if updated:
+            pertamina_updated_at = updated
+            break
+
     for p in prov_obj.get('list_price', []):
         prod_name = p.get('product') or ''
         raw_price = p.get('price')
         updated = p.get('updatedDate')
-        if pertamina_updated_at is None and updated:
-            pertamina_updated_at = updated
         price_rupiah, availability = parse_price(raw_price)
         
         prod_clean = prod_name.strip().upper() if isinstance(prod_name, str) else None
-        prod_canonical = PRODUCT_CANONICAL_MAP.get(prod_clean, prod_clean) if prod_clean else None
+        prod_canonical = PRODUCT_CANONICAL_MAP.get(prod_clean, prod_clean) if prod_clean else 'UNKNOWN'
         
-        products.append({
-            'product': prod_name.strip() if isinstance(prod_name, str) else prod_name,
-            'product_canonical': prod_canonical,
+        prod_item = {
+            'product': prod_canonical,
             'price_rupiah': price_rupiah,
             'availability': availability,
-            'pertamina_updated_at': updated,
-        })
+        }
+        
+        if updated and updated != pertamina_updated_at:
+            prod_item['pertamina_updated_at'] = updated
+            
+        products.append(prod_item)
+
     payload = {
         'province': province_name,
         'province_slug': slug,
@@ -270,7 +279,6 @@ def main() -> None:
         'provinsi': {},
         'endpoints': {
             'all_provinces': '/v1/nasional.json',
-            'by_province_katalog': {},
         }
     }
 
@@ -298,7 +306,6 @@ def main() -> None:
             'products_count': products_count,
             'file_size_bytes': file_size,
         }
-        index['endpoints']['by_province_katalog'][slug] = '/' + prov_path
         nasional_list.append({
             'province': payload['province'],
             'province_slug': slug,

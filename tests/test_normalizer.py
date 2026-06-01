@@ -64,12 +64,12 @@ def test_product_canonical_mapping():
         ]
     }
     payload = build_province_file(prov_obj)
-    products = {p['product']: p['product_canonical'] for p in payload['products']}
+    products = [p['product'] for p in payload['products']]
     
-    assert products['BIO SOLAR'] == 'BIOSOLAR'
-    assert products['Pertamax'] == 'PERTAMAX'
-    assert products['PERTADEX'] == 'PERTAMINA DEX'
-    assert products['NewFuel 99'] == 'NEWFUEL 99'
+    assert 'BIOSOLAR' in products
+    assert 'PERTAMAX' in products
+    assert 'PERTAMINA DEX' in products
+    assert 'NEWFUEL 99' in products
 
 
 def test_generated_index_exists():

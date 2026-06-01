@@ -8,7 +8,6 @@ Availability = Literal['available', 'unavailable', 'unknown']
 
 class ProductModel(BaseModel):
     product: constr(strip_whitespace=True)
-    product_canonical: Optional[constr(strip_whitespace=True)] = None
     price_rupiah: Optional[int] = None
     availability: Availability
     pertamina_updated_at: Optional[str] = None
