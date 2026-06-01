@@ -48,18 +48,79 @@ def parse_price(raw: Any) -> Tuple[Optional[int], str]:
     s = str(raw).strip()
     if s == '' or s.lower() in ('n/a', 'na', 'null'):
         return None, 'unavailable'
+    
     # remove currency prefixes
     s = re.sub(r'(?i)^\s*(rp|idr)\s*', '', s)
-    # remove non-digit characters commonly used as thousand separators
-    s_clean = re.sub(r'[\.\s,]', '', s)
-    # extract digits only
-    digits = re.sub(r'[^0-9]', '', s_clean)
-    if digits == '':
+    s = s.strip()
+    
+    if not any(c.isdigit() for c in s):
         return None, 'unknown'
-    try:
-        val = int(digits)
-    except ValueError:
-        return None, 'unknown'
+        
+    has_dot = '.' in s
+    has_comma = ',' in s
+    
+    if has_dot and has_comma:
+        dot_idx = s.rfind('.')
+        comma_idx = s.rfind(',')
+        if dot_idx > comma_idx:
+            thousands_sep = ','
+            decimal_sep = '.'
+        else:
+            thousands_sep = '.'
+            decimal_sep = ','
+    elif has_dot:
+        parts = s.split('.')
+        if len(parts) > 2:
+            thousands_sep = '.'
+            decimal_sep = None
+        else:
+            last_part = parts[-1]
+            if len(last_part) == 3:
+                thousands_sep = '.'
+                decimal_sep = None
+            else:
+                thousands_sep = None
+                decimal_sep = '.'
+    elif has_comma:
+        parts = s.split(',')
+        if len(parts) > 2:
+            thousands_sep = ','
+            decimal_sep = None
+        else:
+            last_part = parts[-1]
+            if len(last_part) == 3:
+                thousands_sep = ','
+                decimal_sep = None
+            else:
+                thousands_sep = None
+                decimal_sep = ','
+    else:
+        thousands_sep = None
+        decimal_sep = None
+
+    if thousands_sep:
+        s = s.replace(thousands_sep, '')
+        
+    if decimal_sep:
+        parts = s.split(decimal_sep)
+        integer_part = re.sub(r'[^0-9]', '', parts[0])
+        decimal_part = re.sub(r'[^0-9]', '', parts[1])
+        if not integer_part:
+            integer_part = '0'
+        try:
+            val_float = float(f"{integer_part}.{decimal_part}")
+            val = int(val_float + 0.5)
+        except ValueError:
+            return None, 'unknown'
+    else:
+        digits = re.sub(r'[^0-9]', '', s)
+        if digits == '':
+            return None, 'unknown'
+        try:
+            val = int(digits)
+        except ValueError:
+            return None, 'unknown'
+
     if val == 0:
         return None, 'unavailable'
     return val, 'available'
@@ -123,8 +184,8 @@ def write_json(path: str, data: Any) -> None:
         elif ProvinceModel is not None and '/provinsi/' in path.replace('\\', '/'):
             ProvinceModel.model_validate(data)
     except Exception as e:
-        # print validation error but still write; in CI we may want to fail instead
-        print('Validation warning:', e)
+        print('Validation error:', e)
+        raise e
     with open(path, 'w', encoding='utf-8') as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
 

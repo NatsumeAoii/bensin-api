@@ -33,6 +33,20 @@ def test_parse_none_unavailable():
     assert status == 'unavailable'
 
 
+def test_parse_decimals():
+    val, status = parse_price('Rp 12.500,00')
+    assert val == 12500
+    assert status == 'available'
+
+    val, status = parse_price('12,500.50')
+    assert val == 12501
+    assert status == 'available'
+
+    val, status = parse_price('12500.00')
+    assert val == 12500
+    assert status == 'available'
+
+
 def test_slugify_examples():
     assert slugify('Prov. Aceh') == 'aceh'
     assert slugify('Prov. DI Yogyakarta') == 'di-yogyakarta'
