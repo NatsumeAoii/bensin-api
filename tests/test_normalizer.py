@@ -1,6 +1,6 @@
 import json
 import os
-from src.fetch_normalize import parse_price, slugify
+from src.fetch_normalize import parse_price, slugify, build_province_file
 
 
 def test_parse_numeric_string():
@@ -51,6 +51,25 @@ def test_slugify_examples():
     assert slugify('Prov. Aceh') == 'aceh'
     assert slugify('Prov. DI Yogyakarta') == 'di-yogyakarta'
     assert slugify('Free Trade Zone (FTZ) Sabang') == 'free-trade-zone-ftz-sabang'
+
+
+def test_product_canonical_mapping():
+    prov_obj = {
+        'province': 'Aceh',
+        'list_price': [
+            {'product': 'BIO SOLAR', 'price': '6800', 'updatedDate': '2026-06-01'},
+            {'product': 'Pertamax', 'price': '12500', 'updatedDate': '2026-06-01'},
+            {'product': 'PERTADEX', 'price': '13000', 'updatedDate': '2026-06-01'},
+            {'product': 'NewFuel 99', 'price': '15000', 'updatedDate': '2026-06-01'},
+        ]
+    }
+    payload = build_province_file(prov_obj)
+    products = {p['product']: p['product_canonical'] for p in payload['products']}
+    
+    assert products['BIO SOLAR'] == 'BIOSOLAR'
+    assert products['Pertamax'] == 'PERTAMAX'
+    assert products['PERTADEX'] == 'PERTAMINA DEX'
+    assert products['NewFuel 99'] == 'NEWFUEL 99'
 
 
 def test_generated_index_exists():

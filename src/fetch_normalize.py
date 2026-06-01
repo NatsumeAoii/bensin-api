@@ -24,6 +24,20 @@ UPSTREAM_URL = 'https://api.web.mypertamina.id/price'
 OUT_DIR = os.path.join(ROOT, 'v1')
 PROV_DIR = os.path.join(OUT_DIR, 'provinsi')
 
+PRODUCT_CANONICAL_MAP = {
+    'PERTALITE': 'PERTALITE',
+    'PERTAMAX': 'PERTAMAX',
+    'PERTAMAX TURBO': 'PERTAMAX TURBO',
+    'PERTAMAX GREEN 95': 'PERTAMAX GREEN 95',
+    'PERTAMAX GREEN': 'PERTAMAX GREEN 95',
+    'DEXLITE': 'DEXLITE',
+    'PERTAMINA DEX': 'PERTAMINA DEX',
+    'PERTADEX': 'PERTAMINA DEX',
+    'SOLAR': 'BIOSOLAR',
+    'BIO SOLAR': 'BIOSOLAR',
+    'BIOSOLAR': 'BIOSOLAR',
+}
+
 
 def iso_now() -> str:
     return datetime.now(timezone.utc).isoformat().replace('+00:00','Z')
@@ -143,9 +157,13 @@ def build_province_file(prov_obj: Dict[str, Any]) -> Dict[str, Any]:
         if pertamina_updated_at is None and updated:
             pertamina_updated_at = updated
         price_rupiah, availability = parse_price(raw_price)
+        
+        prod_clean = prod_name.strip().upper() if isinstance(prod_name, str) else None
+        prod_canonical = PRODUCT_CANONICAL_MAP.get(prod_clean, prod_clean) if prod_clean else None
+        
         products.append({
             'product': prod_name.strip() if isinstance(prod_name, str) else prod_name,
-            'product_canonical': prod_name.strip().upper() if isinstance(prod_name, str) else None,
+            'product_canonical': prod_canonical,
             'price_rupiah': price_rupiah,
             'availability': availability,
             'pertamina_updated_at': updated,
@@ -201,12 +219,28 @@ def main() -> None:
     if args.fetch:
         try:
             import httpx
+            import time
 
             print('Fetching upstream:', UPSTREAM_URL)
-            with httpx.Client(timeout=30.0) as client:
-                resp = client.get(UPSTREAM_URL)
-                resp.raise_for_status()
-                raw = resp.text
+            max_retries = 3
+            backoff_factor = 2.0
+            raw = None
+            
+            for attempt in range(1, max_retries + 1):
+                try:
+                    with httpx.Client(timeout=15.0) as client:
+                        resp = client.get(UPSTREAM_URL)
+                        resp.raise_for_status()
+                        raw = resp.text
+                    break
+                except Exception as exc:
+                    print(f"Attempt {attempt} failed: {exc}")
+                    if attempt == max_retries:
+                        raise exc
+                    sleep_time = backoff_factor ** attempt
+                    print(f"Retrying in {sleep_time} seconds...")
+                    time.sleep(sleep_time)
+
             ts = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')
             os.makedirs(RAW_DIR, exist_ok=True)
             raw_path = os.path.join(RAW_DIR, f'raw-{ts}.json')
