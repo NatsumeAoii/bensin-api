@@ -12,31 +12,28 @@ Designed as a local generator suitable to run in GitHub Actions.
 from __future__ import annotations
 import json
 import os
+import sys
+
+# Ensure repository root is in sys.path
+ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+if ROOT_DIR not in sys.path:
+    sys.path.insert(0, ROOT_DIR)
+
 import re
 import unicodedata
 from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional, Tuple
 
-ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-PRICE_FILE = os.path.join(ROOT, 'price.json')
-RAW_DIR = os.path.join(ROOT, 'raw')
-UPSTREAM_URL = 'https://api.web.mypertamina.id/price'
-OUT_DIR = os.path.join(ROOT, 'v1')
-PROV_DIR = os.path.join(OUT_DIR, 'provinsi')
-
-PRODUCT_CANONICAL_MAP = {
-    'PERTALITE': 'PERTALITE',
-    'PERTAMAX': 'PERTAMAX',
-    'PERTAMAX TURBO': 'PERTAMAX TURBO',
-    'PERTAMAX GREEN 95': 'PERTAMAX GREEN 95',
-    'PERTAMAX GREEN': 'PERTAMAX GREEN 95',
-    'DEXLITE': 'DEXLITE',
-    'PERTAMINA DEX': 'PERTAMINA DEX',
-    'PERTADEX': 'PERTAMINA DEX',
-    'SOLAR': 'BIOSOLAR',
-    'BIO SOLAR': 'BIOSOLAR',
-    'BIOSOLAR': 'BIOSOLAR',
-}
+from src.config import (
+    ROOT,
+    PRICE_FILE,
+    RAW_DIR,
+    UPSTREAM_URL,
+    OUT_DIR,
+    PROV_DIR,
+    PRODUCT_CANONICAL_MAP,
+)
+from src.schemas import ProvinceModel, IndexModel
 
 
 def iso_now() -> str:
@@ -179,27 +176,11 @@ def build_province_file(prov_obj: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def write_json(path: str, data: Any) -> None:
-    # Validate with pydantic when possible
-    try:
-        from src.schemas import ProvinceModel, IndexModel
-    except Exception:
-        # try adding repository root to sys.path so imports work when script run directly
-        import sys
-
-        if ROOT not in sys.path:
-            sys.path.insert(0, ROOT)
-        try:
-            from src.schemas import ProvinceModel, IndexModel
-        except Exception as e:
-            print('Validation warning: failed to import schemas:', e)
-            ProvinceModel = None
-            IndexModel = None
-
     try:
         # determine which model to use
-        if IndexModel is not None and path.endswith('index.json'):
+        if path.endswith('index.json'):
             IndexModel.model_validate(data)
-        elif ProvinceModel is not None and '/provinsi/' in path.replace('\\', '/'):
+        elif '/provinsi/' in path.replace('\\', '/'):
             ProvinceModel.model_validate(data)
     except Exception as e:
         print('Validation error:', e)
