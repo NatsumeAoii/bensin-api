@@ -72,11 +72,25 @@ def test_product_canonical_mapping():
     assert 'NEWFUEL 99' in products
 
 
-def test_generated_index_exists():
-    path = os.path.join(os.path.dirname(__file__), '..', 'v1', 'index.json')
-    path = os.path.abspath(path)
-    assert os.path.exists(path)
-    with open(path, 'r', encoding='utf-8') as f:
-        idx = json.load(f)
-    assert 'provinsi_count' in idx
-    assert idx['provinsi_count'] >= 0
+def test_write_json_function(tmp_path):
+    test_file = tmp_path / "index.json"
+    valid_data = {
+        'api_name': 'Indonesia Fuel Price API',
+        'version': 'v1',
+        'author': 'Nasrullah Gunawan',
+        'github_repository': 'https://github.com/nasgunawann/bensin-api',
+        'synced_at': '2026-06-01T11:11:11Z',
+        'pertamina_updated_at': '2026-06-01T15:59:37.000Z',
+        'provinsi_count': 0,
+        'provinsi': {},
+        'endpoints': {
+            'all_provinces': '/v1/nasional.json'
+        }
+    }
+    from src.fetch_normalize import write_json
+    write_json(str(test_file), valid_data)
+    
+    assert test_file.exists()
+    with open(test_file, 'r', encoding='utf-8') as f:
+        written_data = json.load(f)
+    assert written_data['api_name'] == 'Indonesia Fuel Price API'
