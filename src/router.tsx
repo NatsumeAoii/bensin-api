@@ -6,6 +6,11 @@ import { SkeletonLoader } from "@/components/SkeletonLoader";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import { Layout } from "@/components/Layout";
 
+const routerBasename =
+  import.meta.env.BASE_URL === "/"
+    ? "/"
+    : import.meta.env.BASE_URL.replace(/\/$/, "");
+
 /**
  * Retryable lazy import — wraps a dynamic import with retry logic
  * so that chunk load failures (CDN blip, flaky network) can be recovered.
@@ -106,31 +111,34 @@ function RootLayout() {
   );
 }
 
-export const router = createBrowserRouter([
-  {
-    element: <RootLayout />,
-    children: [
-      {
-        element: <Layout />,
-        children: [
-          {
-            path: "/",
-            element: <LazyRoute element={<ProvinceListPage />} />,
-          },
-          {
-            path: "/provinsi/:slug",
-            element: <LazyRoute element={<ProvinceDetailPage />} />,
-          },
-          {
-            path: "/nasional",
-            element: <LazyRoute element={<NationalPage />} />,
-          },
-          {
-            path: "*",
-            element: <LazyRoute element={<NotFoundPage />} />,
-          },
-        ],
-      },
-    ],
-  },
-]);
+export const router = createBrowserRouter(
+  [
+    {
+      element: <RootLayout />,
+      children: [
+        {
+          element: <Layout />,
+          children: [
+            {
+              path: "/",
+              element: <LazyRoute element={<ProvinceListPage />} />,
+            },
+            {
+              path: "/provinsi/:slug",
+              element: <LazyRoute element={<ProvinceDetailPage />} />,
+            },
+            {
+              path: "/nasional",
+              element: <LazyRoute element={<NationalPage />} />,
+            },
+            {
+              path: "*",
+              element: <LazyRoute element={<NotFoundPage />} />,
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  { basename: routerBasename }
+);

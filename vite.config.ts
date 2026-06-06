@@ -3,7 +3,8 @@ import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import { resolve } from "path";
 
-export default defineConfig({
+export default defineConfig(({ command }) => ({
+  base: command === "build" ? "/bensin-api/" : "/",
   plugins: [react(), tailwindcss()],
   css: {
     transformer: "lightningcss",
@@ -32,4 +33,4 @@ export default defineConfig({
       "@": resolve(__dirname, "src"),
     },
   },
-});
+}));
