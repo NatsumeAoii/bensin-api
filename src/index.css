@@ -1,0 +1,204 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  /* Brand palette — warm energy colors */
+  --color-brand-50: #fff7ed;
+  --color-brand-100: #ffedd5;
+  --color-brand-200: #fed7aa;
+  --color-brand-300: #fdba74;
+  --color-brand-400: #fb923c;
+  --color-brand-500: #f97316;
+  --color-brand-600: #ea580c;
+  --color-brand-700: #c2410c;
+  --color-brand-800: #9a3412;
+  --color-brand-900: #7c2d12;
+
+  /* Accent — teal for contrast pop */
+  --color-accent-400: #2dd4bf;
+  --color-accent-500: #14b8a6;
+  --color-accent-600: #0d9488;
+
+  /* Semantic colors */
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
+
+  /* Light mode surfaces */
+  --color-surface: #ffffff;
+  --color-surface-alt: #fafaf9;
+  --color-surface-elevated: #ffffff;
+
+  /* Dark mode surfaces */
+  --color-dark-surface: #0c0a09;
+  --color-dark-surface-alt: #1c1917;
+  --color-dark-surface-elevated: #292524;
+
+  /* Typography */
+  --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+  --font-mono: ui-monospace, "Cascadia Code", Consolas, monospace;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+
+  body {
+    min-width: 320px;
+    overflow-x: hidden;
+    max-width: 100vw;
+    font-family: var(--font-sans);
+    color: #1c1917;
+    background-color: #fafaf9;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Minimum 14px body text on small viewports */
+  @media (max-width: 639px) {
+    body {
+      font-size: 14px;
+    }
+  }
+
+  html.dark body {
+    color: #fafaf9;
+    background-color: #0c0a09;
+  }
+
+  :focus-visible {
+    outline: 2px solid #f97316;
+    outline-offset: 2px;
+  }
+
+  html.dark :focus-visible {
+    outline-color: #fb923c;
+  }
+}
+
+@layer utilities {
+  .transition-theme {
+    transition-property: color, background-color, border-color, outline-color, fill, stroke, box-shadow;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 200ms;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .transition-theme {
+      transition-duration: 0ms;
+    }
+  }
+
+  .touch-active:active {
+    transform: scale(0.98);
+    opacity: 0.9;
+  }
+
+  .text-gradient {
+    background: linear-gradient(135deg, #f97316, #ef4444);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .bg-gradient-brand {
+    background: linear-gradient(135deg, #f97316, #ea580c);
+  }
+
+  .bg-gradient-hero {
+    background: linear-gradient(135deg, #1c1917 0%, #292524 50%, #44403c 100%);
+  }
+
+  .bg-gradient-hero-light {
+    background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 50%, #fafaf9 100%);
+  }
+
+  .bg-mesh {
+    background-image:
+      radial-gradient(at 40% 20%, rgba(249, 115, 22, 0.08) 0px, transparent 50%),
+      radial-gradient(at 80% 0%, rgba(239, 68, 68, 0.06) 0px, transparent 50%),
+      radial-gradient(at 0% 50%, rgba(20, 184, 166, 0.05) 0px, transparent 50%);
+  }
+
+  html.dark .bg-mesh {
+    background-image:
+      radial-gradient(at 40% 20%, rgba(249, 115, 22, 0.12) 0px, transparent 50%),
+      radial-gradient(at 80% 0%, rgba(239, 68, 68, 0.08) 0px, transparent 50%),
+      radial-gradient(at 0% 50%, rgba(20, 184, 166, 0.06) 0px, transparent 50%);
+  }
+
+  .card-glow {
+    box-shadow:
+      0 1px 3px rgba(0, 0, 0, 0.04),
+      0 4px 12px rgba(0, 0, 0, 0.03);
+  }
+
+  .card-glow:hover {
+    box-shadow:
+      0 4px 12px rgba(249, 115, 22, 0.08),
+      0 8px 24px rgba(0, 0, 0, 0.06);
+  }
+
+  html.dark .card-glow {
+    box-shadow:
+      0 1px 3px rgba(0, 0, 0, 0.2),
+      0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  html.dark .card-glow:hover {
+    box-shadow:
+      0 4px 12px rgba(249, 115, 22, 0.15),
+      0 8px 24px rgba(0, 0, 0, 0.3);
+  }
+
+  .shimmer {
+    background: linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.03) 25%,
+      rgba(0, 0, 0, 0.06) 50%,
+      rgba(0, 0, 0, 0.03) 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+
+  html.dark .shimmer {
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.03) 25%,
+      rgba(255, 255, 255, 0.06) 50%,
+      rgba(255, 255, 255, 0.03) 75%
+    );
+    background-size: 200% 100%;
+  }
+
+  @keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in {
+    animation: fade-in 0.3s ease-out;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-fade-in {
+      animation: none;
+    }
+  }
+}

@@ -31,6 +31,13 @@ class IndexProvinceEntry(BaseModel):
     file_size_bytes: int
 
 
+class NationalModel(BaseModel):
+    version: constr(min_length=1, strip_whitespace=True)
+    synced_at: constr(min_length=1, strip_whitespace=True)
+    pertamina_updated_at: Optional[str] = None
+    provinces: List[ProvinceModel] = Field(..., min_length=1)
+
+
 class IndexModel(BaseModel):
     api_name: constr(strip_whitespace=True)
     version: constr(strip_whitespace=True)

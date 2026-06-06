@@ -24,7 +24,7 @@ import unicodedata
 from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional, Tuple
 
-from src.config import (
+from pipeline.config import (
     ROOT,
     PRICE_FILE,
     RAW_DIR,
@@ -33,7 +33,7 @@ from src.config import (
     PROV_DIR,
     PRODUCT_CANONICAL_MAP,
 )
-from src.schemas import ProvinceModel, IndexModel
+from pipeline.schemas import ProvinceModel, IndexModel, NationalModel
 
 
 def iso_now() -> str:
@@ -134,6 +134,8 @@ def parse_price(raw: Any) -> Tuple[Optional[int], str]:
 
     if val == 0:
         return None, 'unavailable'
+    if val < 0:
+        return None, 'unknown'
     return val, 'available'
 
 
@@ -189,6 +191,8 @@ def write_json(path: str, data: Any) -> None:
         # determine which model to use
         if path.endswith('index.json'):
             IndexModel.model_validate(data)
+        elif path.endswith('nasional.json'):
+            NationalModel.model_validate(data)
         elif '/provinsi/' in path.replace('\\', '/'):
             ProvinceModel.model_validate(data)
     except Exception as e:

@@ -1,4 +1,8 @@
-.antigravitycli
+# Node.js
+node_modules/
+dist/
+dist-ssr/
+*.local
 
 # Python virtual envs
 .venv/
@@ -6,19 +10,16 @@ venv/
 ENV/
 env/
 
-# Byte-compiled / optimized / DLL files
+# Byte-compiled / optimized
 __pycache__/
 *.py[cod]
 *$py.class
-
-# C extensions
 *.so
 
 # Distribution / packaging
 .Python
 build/
 develop-eggs/
-dist/
 downloads/
 eggs/
 .eggs/
@@ -30,11 +31,7 @@ var/
 *.egg-info/
 *.egg
 
-# Installer logs
-pip-log.txt
-pip-delete-this-directory.txt
-
-# Unit test / coverage reports
+# Test / coverage reports
 .tox/
 .nox/
 .coverage
@@ -43,20 +40,37 @@ pip-delete-this-directory.txt
 .pytest_cache/
 htmlcov/
 
-# PyBuilder
-target/
+# Hypothesis test cache
+.hypothesis/
+
+# Kiro
+.kiro
 
 # IDEs and editors
 .idea/
-.vscode/
+.vscode/*
+!.vscode/extensions.json
 *.swp
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
 
 # OS files
 .DS_Store
 Thumbs.db
 
-# Raw upstream payloads (optional: ignored to avoid committing large or sensitive raw files)
+# Raw upstream payloads
 raw/
 
 # Logs
 *.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# Misc
+pip-log.txt
+pip-delete-this-directory.txt
+.antigravitycli

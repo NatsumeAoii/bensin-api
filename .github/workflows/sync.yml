@@ -16,17 +16,54 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.14"
+          python-version: "3.12"
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       - name: Run generator (fetch upstream)
         run: |
-          python src/fetch_normalize.py --fetch
+          python pipeline/fetch_normalize.py --fetch
       - name: Run tests
         run: |
-          python -m pytest
+          python -m pytest pipeline/tests/
+      - name: Data sanity check
+        run: |
+          python -c "
+          import json, os, sys
+
+          # Check 1: index.json has >= 30 provinces
+          with open('v1/index.json') as f:
+              idx = json.load(f)
+          if len(idx.get('provinsi', {})) < 30:
+              print('FAIL: index.json has fewer than 30 province entries')
+              sys.exit(1)
+
+          # Check 2: >= 50% non-null prices across all province files
+          total = 0
+          non_null = 0
+          prov_dir = 'v1/provinsi'
+          for fname in os.listdir(prov_dir):
+              if not fname.endswith('.json'):
+                  continue
+              with open(os.path.join(prov_dir, fname)) as f:
+                  prov = json.load(f)
+              for p in prov.get('products', []):
+                  total += 1
+                  if p.get('price_rupiah') is not None:
+                      non_null += 1
+          if total == 0 or (non_null / total) < 0.5:
+              print(f'FAIL: only {non_null}/{total} prices are non-null (need >=50%)')
+              sys.exit(1)
+
+          # Check 3: nasional.json file size between 10KB and 10MB
+          size = os.path.getsize('v1/nasional.json')
+          if size < 10240 or size > 10485760:
+              print(f'FAIL: nasional.json size {size} bytes outside 10KB-10MB range')
+              sys.exit(1)
+
+          print('All sanity checks passed')
+          "
       - name: Create Pull Request
         id: cpr
         uses: peter-evans/create-pull-request@v6

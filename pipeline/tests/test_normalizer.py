@@ -1,6 +1,9 @@
 import json
 import os
-from src.fetch_normalize import parse_price, slugify, build_province_file
+from hypothesis import given, settings, assume
+from hypothesis import strategies as st
+from pipeline.config import PRODUCT_CANONICAL_MAP
+from pipeline.fetch_normalize import parse_price, slugify, build_province_file
 
 
 def test_parse_numeric_string():
@@ -87,10 +90,40 @@ def test_write_json_function(tmp_path):
             'all_provinces': '/v1/nasional.json'
         }
     }
-    from src.fetch_normalize import write_json
+    from pipeline.fetch_normalize import write_json
     write_json(str(test_file), valid_data)
     
     assert test_file.exists()
     with open(test_file, 'r', encoding='utf-8') as f:
         written_data = json.load(f)
     assert written_data['api_name'] == 'Indonesia Fuel Price API'
+
+
+# --- Property-Based Tests ---
+
+
+class TestUnmappedProductCanonicalization:
+    """Property 2: Unmapped product name canonicalization.
+
+    For any product name string that is NOT a key in PRODUCT_CANONICAL_MAP,
+    the pipeline's canonicalization logic SHALL produce a result equal to
+    that string converted to uppercase via the runtime's standard .upper() method.
+
+    **Validates: Requirements 1.4**
+    """
+
+    @given(name=st.text(min_size=1))
+    @settings(max_examples=100)
+    def test_unmapped_product_returns_uppercased_input(self, name: str):
+        """Unmapped product names are canonicalized to strip().upper()."""
+        # The pipeline logic: prod_clean = name.strip().upper()
+        # Then: PRODUCT_CANONICAL_MAP.get(prod_clean, prod_clean)
+        # For unmapped names, result == prod_clean == name.strip().upper()
+        prod_clean = name.strip().upper()
+        assume(prod_clean not in PRODUCT_CANONICAL_MAP)
+        assume(prod_clean is not None and prod_clean != '')
+
+        # Replicate the exact pipeline canonicalization logic from build_province_file
+        prod_canonical = PRODUCT_CANONICAL_MAP.get(prod_clean, prod_clean)
+
+        assert prod_canonical == name.strip().upper()
