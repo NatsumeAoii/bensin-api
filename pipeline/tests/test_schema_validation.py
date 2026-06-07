@@ -89,27 +89,45 @@ def test_province_schema_validates():
 # Hypothesis Strategies
 # ---------------------------------------------------------------------------
 
+
+def non_blank_text(max_size: int) -> st.SearchStrategy[str]:
+    """Generate text that stays non-empty after whitespace stripping.
+
+    The schema constrains string fields with ``strip_whitespace=True`` (and
+    ``min_length=1`` on required identifiers), so Pydantic strips surrounding
+    whitespace before length validation. A whitespace-only value such as ``' '``
+    becomes ``''`` and is rejected. Generating already-stripped, non-empty text
+    keeps the payload genuinely valid and unchanged through validation, so it
+    round-trips exactly through ``write_json``.
+    """
+    return (
+        st.text(min_size=1, max_size=max_size)
+        .map(str.strip)
+        .filter(lambda s: len(s) >= 1)
+    )
+
+
 availability_strategy = st.sampled_from(['available', 'unavailable', 'unknown'])
 
 product_strategy = st.fixed_dictionaries({
-    'product': st.text(min_size=1, max_size=50),
+    'product': non_blank_text(50),
     'price_rupiah': st.one_of(st.none(), st.integers(min_value=1, max_value=100_000_000)),
     'availability': availability_strategy,
-    'pertamina_updated_at': st.one_of(st.none(), st.text(min_size=1, max_size=30)),
+    'pertamina_updated_at': st.one_of(st.none(), non_blank_text(30)),
 })
 
 province_strategy = st.fixed_dictionaries({
-    'province': st.text(min_size=1, max_size=100),
-    'province_slug': st.text(min_size=1, max_size=100),
-    'pertamina_updated_at': st.one_of(st.none(), st.text(min_size=1, max_size=30)),
-    'synced_at': st.text(min_size=1, max_size=30),
+    'province': non_blank_text(100),
+    'province_slug': non_blank_text(100),
+    'pertamina_updated_at': st.one_of(st.none(), non_blank_text(30)),
+    'synced_at': non_blank_text(30),
     'products': st.lists(product_strategy, min_size=1, max_size=5),
 })
 
 valid_national_strategy = st.fixed_dictionaries({
-    'version': st.text(min_size=1, max_size=20),
-    'synced_at': st.text(min_size=1, max_size=30),
-    'pertamina_updated_at': st.one_of(st.none(), st.text(min_size=1, max_size=30)),
+    'version': non_blank_text(20),
+    'synced_at': non_blank_text(30),
+    'pertamina_updated_at': st.one_of(st.none(), non_blank_text(30)),
     'provinces': st.lists(province_strategy, min_size=1, max_size=5),
 })
 
