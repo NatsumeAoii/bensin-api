@@ -2,7 +2,7 @@
   "province": "Prov. DKI Jakarta",
   "province_slug": "dki-jakarta",
   "pertamina_updated_at": "2026-06-01T15:59:37.000Z",
-  "synced_at": "2026-06-07T05:27:33.902001Z",
+  "synced_at": "2026-06-07T10:09:24.216087Z",
   "products": [
     {
       "product": "DEXLITE",
@@ -35,12 +35,12 @@
       "availability": "available"
     },
     {
-      "product": "PERTAMINA BIOSOLAR NON SUBSIDI",
+      "product": "BIOSOLAR NON SUBSIDI",
       "price_rupiah": null,
       "availability": "unavailable"
     },
     {
-      "product": "PERTAMINA BIOSOLAR SUBSIDI",
+      "product": "BIOSOLAR",
       "price_rupiah": 6800,
       "availability": "available"
     },

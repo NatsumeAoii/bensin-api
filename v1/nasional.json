@@ -1,13 +1,13 @@
 {
   "version": "v1",
-  "synced_at": "2026-06-07T05:27:33.897645Z",
+  "synced_at": "2026-06-07T10:09:24.202070Z",
   "pertamina_updated_at": "2026-06-01T15:59:37.000Z",
   "provinces": [
     {
       "province": "Prov. Aceh",
       "province_slug": "aceh",
       "pertamina_updated_at": "2026-06-01T15:59:37.000Z",
-      "synced_at": "2026-06-07T05:27:33.898650Z",
+      "synced_at": "2026-06-07T10:09:24.212600Z",
       "products": [
         {
           "product": "DEXLITE",
@@ -40,12 +40,12 @@
           "availability": "available"
         },
         {
-          "product": "PERTAMINA BIOSOLAR NON SUBSIDI",
+          "product": "BIOSOLAR NON SUBSIDI",
           "price_rupiah": null,
           "availability": "unavailable"
         },
         {
-          "product": "PERTAMINA BIOSOLAR SUBSIDI",
+          "product": "BIOSOLAR",
           "price_rupiah": 6800,
           "availability": "available"
         },
@@ -60,7 +60,7 @@
       "province": "Free Trade Zone (FTZ) Sabang",
       "province_slug": "free-trade-zone-ftz-sabang",
       "pertamina_updated_at": "2026-06-01T15:59:37.000Z",
-      "synced_at": "2026-06-07T05:27:33.899136Z",
+      "synced_at": "2026-06-07T10:09:24.213094Z",
       "products": [
         {
           "product": "DEXLITE",
@@ -93,12 +93,12 @@
           "availability": "unavailable"
         },
         {
-          "product": "PERTAMINA BIOSOLAR NON SUBSIDI",
+          "product": "BIOSOLAR NON SUBSIDI",
           "price_rupiah": null,
           "availability": "unavailable"
         },
         {
-          "product": "PERTAMINA BIOSOLAR SUBSIDI",
+          "product": "BIOSOLAR",
           "price_rupiah": 6800,
           "availability": "available"
         },
@@ -113,7 +113,7 @@
       "province": "Prov. Sumatera Utara",
       "province_slug": "sumatera-utara",
       "pertamina_updated_at": "2026-06-01T15:59:37.000Z",
-      "synced_at": "2026-06-07T05:27:33.899424Z",
+      "synced_at": "2026-06-07T10:09:24.213400Z",
       "products": [
         {
           "product": "DEXLITE",
@@ -146,12 +146,12 @@
           "availability": "available"
         },
         {
-          "product": "PERTAMINA BIOSOLAR NON SUBSIDI",
+          "product": "BIOSOLAR NON SUBSIDI",
           "price_rupiah": null,
           "availability": "unavailable"
         },
         {
-          "product": "PERTAMINA BIOSOLAR SUBSIDI",
+          "product": "BIOSOLAR",
           "price_rupiah": 6800,
           "availability": "available"
         },
@@ -166,7 +166,7 @@
       "province": "Prov. Sumatera Barat",
       "province_slug": "sumatera-barat",
       "pertamina_updated_at": "2026-06-01T15:59:37.000Z",
-      "synced_at": "2026-06-07T05:27:33.899689Z",
+      "synced_at": "2026-06-07T10:09:24.213688Z",
       "products": [
         {
           "product": "DEXLITE",
@@ -199,12 +199,12 @@
           "availability": "available"
         },
         {
-          "product": "PERTAMINA BIOSOLAR NON SUBSIDI",
+          "product": "BIOSOLAR NON SUBSIDI",
           "price_rupiah": null,
           "availability": "unavailable"
         },
         {
-          "product": "PERTAMINA BIOSOLAR SUBSIDI",
+          "product": "BIOSOLAR",
           "price_rupiah": 6800,
           "availability": "available"
         },
@@ -219,7 +219,7 @@
       "province": "Prov. Riau",
       "province_slug": "riau",
       "pertamina_updated_at": "2026-06-01T15:59:37.000Z",
-      "synced_at": "2026-06-07T05:27:33.899940Z",
+      "synced_at": "2026-06-07T10:09:24.213952Z",
       "products": [
         {
           "product": "DEXLITE",
@@ -252,12 +252,12 @@
           "availability": "available"
         },
         {
-          "product": "PERTAMINA BIOSOLAR NON SUBSIDI",
+          "product": "BIOSOLAR NON SUBSIDI",
           "price_rupiah": null,
           "availability": "unavailable"
         },
         {
-          "product": "PERTAMINA BIOSOLAR SUBSIDI",
+          "product": "BIOSOLAR",
           "price_rupiah": 6800,
           "availability": "available"
         },
@@ -272,7 +272,7 @@
       "province": "Prov. Kepulauan Riau",
       "province_slug": "kepulauan-riau",
       "pertamina_updated_at": "2026-06-01T15:59:37.000Z",
-      "synced_at": "2026-06-07T05:27:33.900224Z",
+      "synced_at": "2026-06-07T10:09:24.214217Z",
       "products": [
         {
           "product": "DEXLITE",
@@ -305,12 +305,12 @@
           "availability": "available"
         },
         {
-          "product": "PERTAMINA BIOSOLAR NON SUBSIDI",
+          "product": "BIOSOLAR NON SUBSIDI",
           "price_rupiah": null,
           "availability": "unavailable"
         },
         {
-          "product": "PERTAMINA BIOSOLAR SUBSIDI",
+          "product": "BIOSOLAR",
           "price_rupiah": 6800,
           "availability": "available"
         },
@@ -325,7 +325,7 @@
       "province": "Free Trade Zone (FTZ) Batam",
       "province_slug": "free-trade-zone-ftz-batam",
       "pertamina_updated_at": "2026-06-01T15:59:37.000Z",
-      "synced_at": "2026-06-07T05:27:33.900487Z",
+      "synced_at": "2026-06-07T10:09:24.214521Z",
       "products": [
         {
           "product": "DEXLITE",
@@ -358,12 +358,12 @@
           "availability": "available"
         },
         {
-          "product": "PERTAMINA BIOSOLAR NON SUBSIDI",
+          "product": "BIOSOLAR NON SUBSIDI",
           "price_rupiah": null,
           "availability": "unavailable"
         },
         {
-          "product": "PERTAMINA BIOSOLAR SUBSIDI",
+          "product": "BIOSOLAR",
           "price_rupiah": 6800,
           "availability": "available"
         },
@@ -378,7 +378,7 @@
       "province": "Prov. Jambi",
       "province_slug": "jambi",
       "pertamina_updated_at": "2026-06-01T15:59:37.000Z",
-      "synced_at": "2026-06-07T05:27:33.900732Z",
+      "synced_at": "2026-06-07T10:09:24.214786Z",
       "products": [
         {
           "product": "DEXLITE",
@@ -411,12 +411,12 @@
           "availability": "available"
         },
         {
-          "product": "PERTAMINA BIOSOLAR NON SUBSIDI",
+          "product": "BIOSOLAR NON SUBSIDI",
           "price_rupiah": null,
           "availability": "unavailable"
         },
         {
-          "product": "PERTAMINA BIOSOLAR SUBSIDI",
+          "product": "BIOSOLAR",
           "price_rupiah": 6800,
           "availability": "available"
         },
@@ -431,7 +431,7 @@
       "province": "Prov. Bengkulu",
       "province_slug": "bengkulu",
       "pertamina_updated_at": "2026-06-01T15:59:37.000Z",
-      "synced_at": "2026-06-07T05:27:33.900991Z",
+      "synced_at": "2026-06-07T10:09:24.215047Z",
       "products": [
         {
           "product": "DEXLITE",
@@ -464,12 +464,12 @@
           "availability": "available"
         },
         {
-          "product": "PERTAMINA BIOSOLAR NON SUBSIDI",
+          "product": "BIOSOLAR NON SUBSIDI",
           "price_rupiah": null,
           "availability": "unavailable"
         },
         {
-          "product": "PERTAMINA BIOSOLAR SUBSIDI",
+          "product": "BIOSOLAR",
           "price_rupiah": 6800,
           "availability": "available"
         },
@@ -484,7 +484,7 @@
       "province": "Prov. Sumatera Selatan",
       "province_slug": "sumatera-selatan",
       "pertamina_updated_at": "2026-06-01T15:59:37.000Z",
-      "synced_at": "2026-06-07T05:27:33.901273Z",
+      "synced_at": "2026-06-07T10:09:24.215292Z",
       "products": [
         {
           "product": "DEXLITE",
@@ -517,12 +517,12 @@
           "availability": "available"
         },
         {
-          "product": "PERTAMINA BIOSOLAR NON SUBSIDI",
+          "product": "BIOSOLAR NON SUBSIDI",
           "price_rupiah": null,
           "availability": "unavailable"
         },
         {
-          "product": "PERTAMINA BIOSOLAR SUBSIDI",
+          "product": "BIOSOLAR",
           "price_rupiah": 6800,
           "availability": "available"
         },
@@ -537,7 +537,7 @@
       "province": "Prov. Bangka-Belitung",
       "province_slug": "bangka-belitung",
       "pertamina_updated_at": "2026-06-01T15:59:37.000Z",
-      "synced_at": "2026-06-07T05:27:33.901521Z",
+      "synced_at": "2026-06-07T10:09:24.215565Z",
       "products": [
         {
           "product": "DEXLITE",
@@ -570,12 +570,12 @@
           "availability": "available"
         },
         {
-          "product": "PERTAMINA BIOSOLAR NON SUBSIDI",
+          "product": "BIOSOLAR NON SUBSIDI",
           "price_rupiah": null,
           "availability": "unavailable"
         },
         {
-          "product": "PERTAMINA BIOSOLAR SUBSIDI",
+          "product": "BIOSOLAR",
           "price_rupiah": 6800,
           "availability": "available"
         },
@@ -590,7 +590,7 @@
       "province": "Prov. Lampung",
       "province_slug": "lampung",
       "pertamina_updated_at": "2026-06-01T15:59:37.000Z",
-      "synced_at": "2026-06-07T05:27:33.901760Z",
+      "synced_at": "2026-06-07T10:09:24.215825Z",
       "products": [
         {
           "product": "DEXLITE",
@@ -623,12 +623,12 @@
           "availability": "available"
         },
         {
-          "product": "PERTAMINA BIOSOLAR NON SUBSIDI",
+          "product": "BIOSOLAR NON SUBSIDI",
           "price_rupiah": null,
           "availability": "unavailable"
         },
         {
-          "product": "PERTAMINA BIOSOLAR SUBSIDI",
+          "product": "BIOSOLAR",
           "price_rupiah": 6800,
           "availability": "available"
         },
@@ -643,7 +643,7 @@
       "province": "Prov. DKI Jakarta",
       "province_slug": "dki-jakarta",
       "pertamina_updated_at": "2026-06-01T15:59:37.000Z",
-      "synced_at": "2026-06-07T05:27:33.902001Z",
+      "synced_at": "2026-06-07T10:09:24.216087Z",
       "products": [
         {
           "product": "DEXLITE",
@@ -676,12 +676,12 @@
           "availability": "available"
         },
         {
-          "product": "PERTAMINA BIOSOLAR NON SUBSIDI",
+          "product": "BIOSOLAR NON SUBSIDI",
           "price_rupiah": null,
           "availability": "unavailable"
         },
         {
-          "product": "PERTAMINA BIOSOLAR SUBSIDI",
+          "product": "BIOSOLAR",
           "price_rupiah": 6800,
           "availability": "available"
         },
@@ -696,7 +696,7 @@
       "province": "Prov. Banten",
       "province_slug": "banten",
       "pertamina_updated_at": "2026-06-01T15:59:37.000Z",
-      "synced_at": "2026-06-07T05:27:33.902272Z",
+      "synced_at": "2026-06-07T10:09:24.216352Z",
       "products": [
         {
           "product": "DEXLITE",
@@ -729,12 +729,12 @@
           "availability": "available"
         },
         {
-          "product": "PERTAMINA BIOSOLAR NON SUBSIDI",
+          "product": "BIOSOLAR NON SUBSIDI",
           "price_rupiah": null,
           "availability": "unavailable"
         },
         {
-          "product": "PERTAMINA BIOSOLAR SUBSIDI",
+          "product": "BIOSOLAR",
           "price_rupiah": 6800,
           "availability": "available"
         },
@@ -749,7 +749,7 @@
       "province": "Prov. Jawa Barat",
       "province_slug": "jawa-barat",
       "pertamina_updated_at": "2026-06-01T15:59:37.000Z",
-      "synced_at": "2026-06-07T05:27:33.902511Z",
+      "synced_at": "2026-06-07T10:09:24.216614Z",
       "products": [
         {
           "product": "DEXLITE",
@@ -782,12 +782,12 @@
           "availability": "available"
         },
         {
-          "product": "PERTAMINA BIOSOLAR NON SUBSIDI",
+          "product": "BIOSOLAR NON SUBSIDI",
           "price_rupiah": null,
           "availability": "unavailable"
         },
         {
-          "product": "PERTAMINA BIOSOLAR SUBSIDI",
+          "product": "BIOSOLAR",
           "price_rupiah": 6800,
           "availability": "available"
         },
@@ -802,7 +802,7 @@
       "province": "Prov. Jawa Tengah",
       "province_slug": "jawa-tengah",
       "pertamina_updated_at": "2026-06-01T15:59:37.000Z",
-      "synced_at": "2026-06-07T05:27:33.902759Z",
+      "synced_at": "2026-06-07T10:09:24.216864Z",
       "products": [
         {
           "product": "DEXLITE",
@@ -835,12 +835,12 @@
           "availability": "available"
         },
         {
-          "product": "PERTAMINA BIOSOLAR NON SUBSIDI",
+          "product": "BIOSOLAR NON SUBSIDI",
           "price_rupiah": null,
           "availability": "unavailable"
         },
         {
-          "product": "PERTAMINA BIOSOLAR SUBSIDI",
+          "product": "BIOSOLAR",
           "price_rupiah": 6800,
           "availability": "available"
         },
@@ -855,7 +855,7 @@
       "province": "Prov. DI Yogyakarta",
       "province_slug": "di-yogyakarta",
       "pertamina_updated_at": "2026-06-01T15:59:37.000Z",
-      "synced_at": "2026-06-07T05:27:33.903006Z",
+      "synced_at": "2026-06-07T10:09:24.217195Z",
       "products": [
         {
           "product": "DEXLITE",
@@ -888,12 +888,12 @@
           "availability": "available"
         },
         {
-          "product": "PERTAMINA BIOSOLAR NON SUBSIDI",
+          "product": "BIOSOLAR NON SUBSIDI",
           "price_rupiah": null,
           "availability": "unavailable"
         },
         {
-          "product": "PERTAMINA BIOSOLAR SUBSIDI",
+          "product": "BIOSOLAR",
           "price_rupiah": 6800,
           "availability": "available"
         },
@@ -908,7 +908,7 @@
       "province": "Prov. Jawa Timur",
       "province_slug": "jawa-timur",
       "pertamina_updated_at": "2026-06-01T15:59:37.000Z",
-      "synced_at": "2026-06-07T05:27:33.903275Z",
+      "synced_at": "2026-06-07T10:09:24.217455Z",
       "products": [
         {
           "product": "DEXLITE",
@@ -941,12 +941,12 @@
           "availability": "available"
         },
         {
-          "product": "PERTAMINA BIOSOLAR NON SUBSIDI",
+          "product": "BIOSOLAR NON SUBSIDI",
           "price_rupiah": null,
           "availability": "unavailable"
         },
         {
-          "product": "PERTAMINA BIOSOLAR SUBSIDI",
+          "product": "BIOSOLAR",
           "price_rupiah": 6800,
           "availability": "available"
         },
@@ -961,7 +961,7 @@
       "province": "Prov. Bali",
       "province_slug": "bali",
       "pertamina_updated_at": "2026-06-01T15:59:37.000Z",
-      "synced_at": "2026-06-07T05:27:33.903532Z",
+      "synced_at": "2026-06-07T10:09:24.217723Z",
       "products": [
         {
           "product": "DEXLITE",
@@ -994,12 +994,12 @@
           "availability": "available"
         },
         {
-          "product": "PERTAMINA BIOSOLAR NON SUBSIDI",
+          "product": "BIOSOLAR NON SUBSIDI",
           "price_rupiah": null,
           "availability": "unavailable"
         },
         {
-          "product": "PERTAMINA BIOSOLAR SUBSIDI",
+          "product": "BIOSOLAR",
           "price_rupiah": 6800,
           "availability": "available"
         },
@@ -1014,7 +1014,7 @@
       "province": "Prov. Nusa Tenggara Barat",
       "province_slug": "nusa-tenggara-barat",
       "pertamina_updated_at": "2026-06-01T15:59:37.000Z",
-      "synced_at": "2026-06-07T05:27:33.903790Z",
+      "synced_at": "2026-06-07T10:09:24.217975Z",
       "products": [
         {
           "product": "DEXLITE",
@@ -1047,12 +1047,12 @@
           "availability": "available"
         },
         {
-          "product": "PERTAMINA BIOSOLAR NON SUBSIDI",
+          "product": "BIOSOLAR NON SUBSIDI",
           "price_rupiah": null,
           "availability": "unavailable"
         },
         {
-          "product": "PERTAMINA BIOSOLAR SUBSIDI",
+          "product": "BIOSOLAR",
           "price_rupiah": 6800,
           "availability": "available"
         },
@@ -1067,7 +1067,7 @@
       "province": "Prov. Nusa Tenggara Timur",
       "province_slug": "nusa-tenggara-timur",
       "pertamina_updated_at": "2026-06-01T15:59:37.000Z",
-      "synced_at": "2026-06-07T05:27:33.904033Z",
+      "synced_at": "2026-06-07T10:09:24.218235Z",
       "products": [
         {
           "product": "DEXLITE",
@@ -1100,12 +1100,12 @@
           "availability": "available"
         },
         {
-          "product": "PERTAMINA BIOSOLAR NON SUBSIDI",
+          "product": "BIOSOLAR NON SUBSIDI",
           "price_rupiah": 22900,
           "availability": "available"
         },
         {
-          "product": "PERTAMINA BIOSOLAR SUBSIDI",
+          "product": "BIOSOLAR",
           "price_rupiah": 6800,
           "availability": "available"
         },
@@ -1120,7 +1120,7 @@
       "province": "Prov. Kalimantan Barat",
       "province_slug": "kalimantan-barat",
       "pertamina_updated_at": "2026-06-01T15:59:37.000Z",
-      "synced_at": "2026-06-07T05:27:33.904301Z",
+      "synced_at": "2026-06-07T10:09:24.218513Z",
       "products": [
         {
           "product": "DEXLITE",
@@ -1153,12 +1153,12 @@
           "availability": "available"
         },
         {
-          "product": "PERTAMINA BIOSOLAR NON SUBSIDI",
+          "product": "BIOSOLAR NON SUBSIDI",
           "price_rupiah": null,
           "availability": "unavailable"
         },
         {
-          "product": "PERTAMINA BIOSOLAR SUBSIDI",
+          "product": "BIOSOLAR",
           "price_rupiah": 6800,
           "availability": "available"
         },
@@ -1173,7 +1173,7 @@
       "province": "Prov. Kalimantan Tengah",
       "province_slug": "kalimantan-tengah",
       "pertamina_updated_at": "2026-06-01T15:59:37.000Z",
-      "synced_at": "2026-06-07T05:27:33.904546Z",
+      "synced_at": "2026-06-07T10:09:24.218744Z",
       "products": [
         {
           "product": "DEXLITE",
@@ -1206,12 +1206,12 @@
           "availability": "available"
         },
         {
-          "product": "PERTAMINA BIOSOLAR NON SUBSIDI",
+          "product": "BIOSOLAR NON SUBSIDI",
           "price_rupiah": null,
           "availability": "unavailable"
         },
         {
-          "product": "PERTAMINA BIOSOLAR SUBSIDI",
+          "product": "BIOSOLAR",
           "price_rupiah": 6800,
           "availability": "available"
         },
@@ -1226,7 +1226,7 @@
       "province": "Prov. Kalimantan Selatan",
       "province_slug": "kalimantan-selatan",
       "pertamina_updated_at": "2026-06-01T15:59:37.000Z",
-      "synced_at": "2026-06-07T05:27:33.904785Z",
+      "synced_at": "2026-06-07T10:09:24.219004Z",
       "products": [
         {
           "product": "DEXLITE",
@@ -1259,12 +1259,12 @@
           "availability": "available"
         },
         {
-          "product": "PERTAMINA BIOSOLAR NON SUBSIDI",
+          "product": "BIOSOLAR NON SUBSIDI",
           "price_rupiah": null,
           "availability": "unavailable"
         },
         {
-          "product": "PERTAMINA BIOSOLAR SUBSIDI",
+          "product": "BIOSOLAR",
           "price_rupiah": 6800,
           "availability": "available"
         },
@@ -1279,7 +1279,7 @@
       "province": "Prov. Kalimantan Timur",
       "province_slug": "kalimantan-timur",
       "pertamina_updated_at": "2026-06-01T15:59:37.000Z",
-      "synced_at": "2026-06-07T05:27:33.905028Z",
+      "synced_at": "2026-06-07T10:09:24.219245Z",
       "products": [
         {
           "product": "DEXLITE",
@@ -1312,12 +1312,12 @@
           "availability": "available"
         },
         {
-          "product": "PERTAMINA BIOSOLAR NON SUBSIDI",
+          "product": "BIOSOLAR NON SUBSIDI",
           "price_rupiah": null,
           "availability": "unavailable"
         },
         {
-          "product": "PERTAMINA BIOSOLAR SUBSIDI",
+          "product": "BIOSOLAR",
           "price_rupiah": 6800,
           "availability": "available"
         },
@@ -1332,7 +1332,7 @@
       "province": "Prov. Kalimantan Utara",
       "province_slug": "kalimantan-utara",
       "pertamina_updated_at": "2026-06-01T15:59:37.000Z",
-      "synced_at": "2026-06-07T05:27:33.905299Z",
+      "synced_at": "2026-06-07T10:09:24.219516Z",
       "products": [
         {
           "product": "DEXLITE",
@@ -1365,12 +1365,12 @@
           "availability": "available"
         },
         {
-          "product": "PERTAMINA BIOSOLAR NON SUBSIDI",
+          "product": "BIOSOLAR NON SUBSIDI",
           "price_rupiah": null,
           "availability": "unavailable"
         },
         {
-          "product": "PERTAMINA BIOSOLAR SUBSIDI",
+          "product": "BIOSOLAR",
           "price_rupiah": 6800,
           "availability": "available"
         },
@@ -1385,7 +1385,7 @@
       "province": "Prov. Sulawesi Utara",
       "province_slug": "sulawesi-utara",
       "pertamina_updated_at": "2026-06-01T15:59:37.000Z",
-      "synced_at": "2026-06-07T05:27:33.905540Z",
+      "synced_at": "2026-06-07T10:09:24.219767Z",
       "products": [
         {
           "product": "DEXLITE",
@@ -1418,12 +1418,12 @@
           "availability": "available"
         },
         {
-          "product": "PERTAMINA BIOSOLAR NON SUBSIDI",
+          "product": "BIOSOLAR NON SUBSIDI",
           "price_rupiah": null,
           "availability": "unavailable"
         },
         {
-          "product": "PERTAMINA BIOSOLAR SUBSIDI",
+          "product": "BIOSOLAR",
           "price_rupiah": 6800,
           "availability": "available"
         },
@@ -1438,7 +1438,7 @@
       "province": "Prov. Gorontalo",
       "province_slug": "gorontalo",
       "pertamina_updated_at": "2026-06-01T15:59:37.000Z",
-      "synced_at": "2026-06-07T05:27:33.905782Z",
+      "synced_at": "2026-06-07T10:09:24.220021Z",
       "products": [
         {
           "product": "DEXLITE",
@@ -1471,12 +1471,12 @@
           "availability": "available"
         },
         {
-          "product": "PERTAMINA BIOSOLAR NON SUBSIDI",
+          "product": "BIOSOLAR NON SUBSIDI",
           "price_rupiah": null,
           "availability": "unavailable"
         },
         {
-          "product": "PERTAMINA BIOSOLAR SUBSIDI",
+          "product": "BIOSOLAR",
           "price_rupiah": 6800,
           "availability": "available"
         },
@@ -1491,7 +1491,7 @@
       "province": "Prov. Sulawesi Tengah",
       "province_slug": "sulawesi-tengah",
       "pertamina_updated_at": "2026-06-01T15:59:37.000Z",
-      "synced_at": "2026-06-07T05:27:33.906048Z",
+      "synced_at": "2026-06-07T10:09:24.220277Z",
       "products": [
         {
           "product": "DEXLITE",
@@ -1524,12 +1524,12 @@
           "availability": "available"
         },
         {
-          "product": "PERTAMINA BIOSOLAR NON SUBSIDI",
+          "product": "BIOSOLAR NON SUBSIDI",
           "price_rupiah": null,
           "availability": "unavailable"
         },
         {
-          "product": "PERTAMINA BIOSOLAR SUBSIDI",
+          "product": "BIOSOLAR",
           "price_rupiah": 6800,
           "availability": "available"
         },
@@ -1544,7 +1544,7 @@
       "province": "Prov. Sulawesi Tenggara",
       "province_slug": "sulawesi-tenggara",
       "pertamina_updated_at": "2026-06-01T15:59:37.000Z",
-      "synced_at": "2026-06-07T05:27:33.906330Z",
+      "synced_at": "2026-06-07T10:09:24.220540Z",
       "products": [
         {
           "product": "DEXLITE",
@@ -1577,12 +1577,12 @@
           "availability": "available"
         },
         {
-          "product": "PERTAMINA BIOSOLAR NON SUBSIDI",
+          "product": "BIOSOLAR NON SUBSIDI",
           "price_rupiah": null,
           "availability": "unavailable"
         },
         {
-          "product": "PERTAMINA BIOSOLAR SUBSIDI",
+          "product": "BIOSOLAR",
           "price_rupiah": 6800,
           "availability": "available"
         },
@@ -1597,7 +1597,7 @@
       "province": "Prov. Sulawesi Selatan",
       "province_slug": "sulawesi-selatan",
       "pertamina_updated_at": "2026-06-01T15:59:37.000Z",
-      "synced_at": "2026-06-07T05:27:33.906579Z",
+      "synced_at": "2026-06-07T10:09:24.220806Z",
       "products": [
         {
           "product": "DEXLITE",
@@ -1630,12 +1630,12 @@
           "availability": "available"
         },
         {
-          "product": "PERTAMINA BIOSOLAR NON SUBSIDI",
+          "product": "BIOSOLAR NON SUBSIDI",
           "price_rupiah": null,
           "availability": "unavailable"
         },
         {
-          "product": "PERTAMINA BIOSOLAR SUBSIDI",
+          "product": "BIOSOLAR",
           "price_rupiah": 6800,
           "availability": "available"
         },
@@ -1650,7 +1650,7 @@
       "province": "Prov. Sulawesi Barat",
       "province_slug": "sulawesi-barat",
       "pertamina_updated_at": "2026-06-01T15:59:37.000Z",
-      "synced_at": "2026-06-07T05:27:33.906815Z",
+      "synced_at": "2026-06-07T10:09:24.221070Z",
       "products": [
         {
           "product": "DEXLITE",
@@ -1683,12 +1683,12 @@
           "availability": "available"
         },
         {
-          "product": "PERTAMINA BIOSOLAR NON SUBSIDI",
+          "product": "BIOSOLAR NON SUBSIDI",
           "price_rupiah": null,
           "availability": "unavailable"
         },
         {
-          "product": "PERTAMINA BIOSOLAR SUBSIDI",
+          "product": "BIOSOLAR",
           "price_rupiah": 6800,
           "availability": "available"
         },
@@ -1703,7 +1703,7 @@
       "province": "Prov. Maluku",
       "province_slug": "maluku",
       "pertamina_updated_at": "2026-06-01T15:59:37.000Z",
-      "synced_at": "2026-06-07T05:27:33.907055Z",
+      "synced_at": "2026-06-07T10:09:24.221374Z",
       "products": [
         {
           "product": "DEXLITE",
@@ -1736,12 +1736,12 @@
           "availability": "unavailable"
         },
         {
-          "product": "PERTAMINA BIOSOLAR NON SUBSIDI",
+          "product": "BIOSOLAR NON SUBSIDI",
           "price_rupiah": null,
           "availability": "unavailable"
         },
         {
-          "product": "PERTAMINA BIOSOLAR SUBSIDI",
+          "product": "BIOSOLAR",
           "price_rupiah": 6800,
           "availability": "available"
         },
@@ -1756,7 +1756,7 @@
       "province": "Prov. Maluku Utara",
       "province_slug": "maluku-utara",
       "pertamina_updated_at": "2026-06-01T15:59:37.000Z",
-      "synced_at": "2026-06-07T05:27:33.907327Z",
+      "synced_at": "2026-06-07T10:09:24.221635Z",
       "products": [
         {
           "product": "DEXLITE",
@@ -1789,12 +1789,12 @@
           "availability": "unavailable"
         },
         {
-          "product": "PERTAMINA BIOSOLAR NON SUBSIDI",
+          "product": "BIOSOLAR NON SUBSIDI",
           "price_rupiah": null,
           "availability": "unavailable"
         },
         {
-          "product": "PERTAMINA BIOSOLAR SUBSIDI",
+          "product": "BIOSOLAR",
           "price_rupiah": 6800,
           "availability": "available"
         },
@@ -1809,7 +1809,7 @@
       "province": "Prov. Papua",
       "province_slug": "papua",
       "pertamina_updated_at": "2026-06-01T15:59:37.000Z",
-      "synced_at": "2026-06-07T05:27:33.907567Z",
+      "synced_at": "2026-06-07T10:09:24.221915Z",
       "products": [
         {
           "product": "DEXLITE",
@@ -1842,12 +1842,12 @@
           "availability": "available"
         },
         {
-          "product": "PERTAMINA BIOSOLAR NON SUBSIDI",
+          "product": "BIOSOLAR NON SUBSIDI",
           "price_rupiah": null,
           "availability": "unavailable"
         },
         {
-          "product": "PERTAMINA BIOSOLAR SUBSIDI",
+          "product": "BIOSOLAR",
           "price_rupiah": 6800,
           "availability": "available"
         },
@@ -1862,7 +1862,7 @@
       "province": "Prov. Papua Barat",
       "province_slug": "papua-barat",
       "pertamina_updated_at": "2026-06-01T15:59:37.000Z",
-      "synced_at": "2026-06-07T05:27:33.907809Z",
+      "synced_at": "2026-06-07T10:09:24.222161Z",
       "products": [
         {
           "product": "DEXLITE",
@@ -1895,12 +1895,12 @@
           "availability": "unavailable"
         },
         {
-          "product": "PERTAMINA BIOSOLAR NON SUBSIDI",
+          "product": "BIOSOLAR NON SUBSIDI",
           "price_rupiah": null,
           "availability": "unavailable"
         },
         {
-          "product": "PERTAMINA BIOSOLAR SUBSIDI",
+          "product": "BIOSOLAR",
           "price_rupiah": 6800,
           "availability": "available"
         },
@@ -1915,7 +1915,7 @@
       "province": "Prov. Papua Selatan",
       "province_slug": "papua-selatan",
       "pertamina_updated_at": "2026-06-01T15:59:37.000Z",
-      "synced_at": "2026-06-07T05:27:33.908052Z",
+      "synced_at": "2026-06-07T10:09:24.222416Z",
       "products": [
         {
           "product": "DEXLITE",
@@ -1948,12 +1948,12 @@
           "availability": "unavailable"
         },
         {
-          "product": "PERTAMINA BIOSOLAR NON SUBSIDI",
+          "product": "BIOSOLAR NON SUBSIDI",
           "price_rupiah": null,
           "availability": "unavailable"
         },
         {
-          "product": "PERTAMINA BIOSOLAR SUBSIDI",
+          "product": "BIOSOLAR",
           "price_rupiah": 6800,
           "availability": "available"
         },
@@ -1968,7 +1968,7 @@
       "province": "Prov. Papua Pegunungan",
       "province_slug": "papua-pegunungan",
       "pertamina_updated_at": "2026-06-01T15:59:37.000Z",
-      "synced_at": "2026-06-07T05:27:33.908330Z",
+      "synced_at": "2026-06-07T10:09:24.222691Z",
       "products": [
         {
           "product": "DEXLITE",
@@ -2001,12 +2001,12 @@
           "availability": "unavailable"
         },
         {
-          "product": "PERTAMINA BIOSOLAR NON SUBSIDI",
+          "product": "BIOSOLAR NON SUBSIDI",
           "price_rupiah": null,
           "availability": "unavailable"
         },
         {
-          "product": "PERTAMINA BIOSOLAR SUBSIDI",
+          "product": "BIOSOLAR",
           "price_rupiah": 6800,
           "availability": "available"
         },
@@ -2021,7 +2021,7 @@
       "province": "Prov. Papua Tengah",
       "province_slug": "papua-tengah",
       "pertamina_updated_at": "2026-06-01T15:59:37.000Z",
-      "synced_at": "2026-06-07T05:27:33.908731Z",
+      "synced_at": "2026-06-07T10:09:24.222930Z",
       "products": [
         {
           "product": "DEXLITE",
@@ -2054,12 +2054,12 @@
           "availability": "unavailable"
         },
         {
-          "product": "PERTAMINA BIOSOLAR NON SUBSIDI",
+          "product": "BIOSOLAR NON SUBSIDI",
           "price_rupiah": null,
           "availability": "unavailable"
         },
         {
-          "product": "PERTAMINA BIOSOLAR SUBSIDI",
+          "product": "BIOSOLAR",
           "price_rupiah": 6800,
           "availability": "available"
         },
@@ -2074,7 +2074,7 @@
       "province": "Prov. Papua Barat Daya",
       "province_slug": "papua-barat-daya",
       "pertamina_updated_at": "2026-06-01T15:59:37.000Z",
-      "synced_at": "2026-06-07T05:27:33.908977Z",
+      "synced_at": "2026-06-07T10:09:24.223192Z",
       "products": [
         {
           "product": "DEXLITE",
@@ -2107,12 +2107,12 @@
           "availability": "unavailable"
         },
         {
-          "product": "PERTAMINA BIOSOLAR NON SUBSIDI",
+          "product": "BIOSOLAR NON SUBSIDI",
           "price_rupiah": null,
           "availability": "unavailable"
         },
         {
-          "product": "PERTAMINA BIOSOLAR SUBSIDI",
+          "product": "BIOSOLAR",
           "price_rupiah": 6800,
           "availability": "available"
         },

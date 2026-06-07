@@ -2,7 +2,7 @@
   "province": "Prov. Maluku Utara",
   "province_slug": "maluku-utara",
   "pertamina_updated_at": "2026-06-01T15:59:37.000Z",
-  "synced_at": "2026-06-07T05:27:33.907327Z",
+  "synced_at": "2026-06-07T10:09:24.221635Z",
   "products": [
     {
       "product": "DEXLITE",
@@ -35,12 +35,12 @@
       "availability": "unavailable"
     },
     {
-      "product": "PERTAMINA BIOSOLAR NON SUBSIDI",
+      "product": "BIOSOLAR NON SUBSIDI",
       "price_rupiah": null,
       "availability": "unavailable"
     },
     {
-      "product": "PERTAMINA BIOSOLAR SUBSIDI",
+      "product": "BIOSOLAR",
       "price_rupiah": 6800,
       "availability": "available"
     },

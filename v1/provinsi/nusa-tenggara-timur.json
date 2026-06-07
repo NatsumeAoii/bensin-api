@@ -2,7 +2,7 @@
   "province": "Prov. Nusa Tenggara Timur",
   "province_slug": "nusa-tenggara-timur",
   "pertamina_updated_at": "2026-06-01T15:59:37.000Z",
-  "synced_at": "2026-06-07T05:27:33.904033Z",
+  "synced_at": "2026-06-07T10:09:24.218235Z",
   "products": [
     {
       "product": "DEXLITE",
@@ -35,12 +35,12 @@
       "availability": "available"
     },
     {
-      "product": "PERTAMINA BIOSOLAR NON SUBSIDI",
+      "product": "BIOSOLAR NON SUBSIDI",
       "price_rupiah": 22900,
       "availability": "available"
     },
     {
-      "product": "PERTAMINA BIOSOLAR SUBSIDI",
+      "product": "BIOSOLAR",
       "price_rupiah": 6800,
       "availability": "available"
     },
