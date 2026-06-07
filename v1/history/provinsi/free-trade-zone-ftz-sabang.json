@@ -1,0 +1,36 @@
+{
+  "province": "Free Trade Zone (FTZ) Sabang",
+  "province_slug": "free-trade-zone-ftz-sabang",
+  "products": {
+    "DEXLITE": [
+      {
+        "date": "2026-06-07",
+        "price_rupiah": 21550
+      }
+    ],
+    "PERTALITE": [
+      {
+        "date": "2026-06-07",
+        "price_rupiah": 10000
+      }
+    ],
+    "PERTAMAX": [
+      {
+        "date": "2026-06-07",
+        "price_rupiah": 11550
+      }
+    ],
+    "PERTAMAX PERTASHOP": [
+      {
+        "date": "2026-06-07",
+        "price_rupiah": 11450
+      }
+    ],
+    "BIOSOLAR": [
+      {
+        "date": "2026-06-07",
+        "price_rupiah": 6800
+      }
+    ]
+  }
+}

@@ -1,4 +1,9 @@
-import type { IndexResponse, NationalResponse, ProvinceResponse } from "../types/api";
+import type {
+  HistoryResponse,
+  IndexResponse,
+  NationalResponse,
+  ProvinceResponse,
+} from "../types/api";
 
 const BASE_URL = "https://nasgunawann.github.io/bensin-api";
 const TIMEOUT_MS = 10_000;
@@ -94,4 +99,6 @@ export const apiClient = {
   getProvince: (slug: string) =>
     fetchJson<ProvinceResponse>(`/v1/provinsi/${slug}.json`),
   getNational: () => fetchJson<NationalResponse>("/v1/nasional.json"),
+  getHistory: (slug: string) =>
+    fetchJson<HistoryResponse>(`/v1/history/provinsi/${slug}.json`),
 };

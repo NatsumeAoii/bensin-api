@@ -334,6 +334,15 @@ def main() -> None:
     print(' - v1/nasional.json')
     print(' - v1/provinsi/*.json')
 
+    # Append-only price history (change-based). Fault-isolated: a failure here
+    # must never affect the primary v1/ snapshot output generated above.
+    try:
+        from pipeline.history import update_history
+        count = update_history(nasional_list)
+        print(f' - v1/history/provinsi/*.json ({count} provinces)')
+    except Exception as exc:  # noqa: BLE001 - boundary: history is non-critical
+        print('Warning: history update failed, v1 output is unaffected —', exc)
+
 
 if __name__ == '__main__':
     main()

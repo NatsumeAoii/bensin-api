@@ -47,3 +47,14 @@ export interface NationalResponse {
   pertamina_updated_at: string;
   provinces: ProvinceResponse[];
 }
+
+export interface HistoryPoint {
+  date: string;
+  price_rupiah: number;
+}
+
+export interface HistoryResponse {
+  province: string;
+  province_slug: string;
+  products: Record<string, HistoryPoint[]>;
+}

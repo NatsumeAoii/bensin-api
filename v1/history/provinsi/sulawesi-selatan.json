@@ -1,0 +1,48 @@
+{
+  "province": "Prov. Sulawesi Selatan",
+  "province_slug": "sulawesi-selatan",
+  "products": {
+    "DEXLITE": [
+      {
+        "date": "2026-06-07",
+        "price_rupiah": 23500
+      }
+    ],
+    "PERTALITE": [
+      {
+        "date": "2026-06-07",
+        "price_rupiah": 10000
+      }
+    ],
+    "PERTAMAX": [
+      {
+        "date": "2026-06-07",
+        "price_rupiah": 12600
+      }
+    ],
+    "PERTAMAX PERTASHOP": [
+      {
+        "date": "2026-06-07",
+        "price_rupiah": 12500
+      }
+    ],
+    "PERTAMAX TURBO": [
+      {
+        "date": "2026-06-07",
+        "price_rupiah": 21200
+      }
+    ],
+    "BIOSOLAR": [
+      {
+        "date": "2026-06-07",
+        "price_rupiah": 6800
+      }
+    ],
+    "PERTAMINA DEX": [
+      {
+        "date": "2026-06-07",
+        "price_rupiah": 25350
+      }
+    ]
+  }
+}

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef, useCallback, lazy, Suspense } from "react";
 import { Link, useParams } from "react-router";
 import { ArrowLeft, MapPin, Clock } from "lucide-react";
 import { useFuelStore } from "@/stores/fuel-store";
@@ -14,6 +14,14 @@ import { StaleDataBanner } from "@/components/StaleDataBanner";
 import { StaleTimeBanner } from "@/components/StaleTimeBanner";
 import { ShareButton } from "@/components/ShareButton";
 import { RefreshButton } from "@/components/RefreshButton";
+
+// Lazy-loaded so the SVG chart code stays out of the initial bundle and only
+// loads when a user actually opens a province detail page.
+const PriceHistoryChart = lazy(() =>
+  import("@/components/PriceHistoryChart").then((m) => ({
+    default: m.PriceHistoryChart,
+  }))
+);
 
 /**
  * Province Detail Page — displays fuel prices for a selected province.
@@ -210,6 +218,16 @@ export default function ProvinceDetailPage() {
 
         <div className="mt-6">
           <PriceGrid products={data.products} />
+        </div>
+
+        <div className="mt-6">
+          <Suspense
+            fallback={
+              <div className="h-[280px] w-full rounded-2xl shimmer" aria-busy="true" />
+            }
+          >
+            <PriceHistoryChart slug={slug as string} />
+          </Suspense>
         </div>
 
         <div ref={announceRef} aria-live="polite" className="sr-only" />

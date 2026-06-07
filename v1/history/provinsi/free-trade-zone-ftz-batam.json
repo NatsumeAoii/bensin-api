@@ -1,0 +1,48 @@
+{
+  "province": "Free Trade Zone (FTZ) Batam",
+  "province_slug": "free-trade-zone-ftz-batam",
+  "products": {
+    "DEXLITE": [
+      {
+        "date": "2026-06-07",
+        "price_rupiah": 21850
+      }
+    ],
+    "PERTALITE": [
+      {
+        "date": "2026-06-07",
+        "price_rupiah": 10000
+      }
+    ],
+    "PERTAMAX": [
+      {
+        "date": "2026-06-07",
+        "price_rupiah": 11750
+      }
+    ],
+    "PERTAMAX PERTASHOP": [
+      {
+        "date": "2026-06-07",
+        "price_rupiah": 11650
+      }
+    ],
+    "PERTAMAX TURBO": [
+      {
+        "date": "2026-06-07",
+        "price_rupiah": 19700
+      }
+    ],
+    "BIOSOLAR": [
+      {
+        "date": "2026-06-07",
+        "price_rupiah": 6800
+      }
+    ],
+    "PERTAMINA DEX": [
+      {
+        "date": "2026-06-07",
+        "price_rupiah": 23550
+      }
+    ]
+  }
+}

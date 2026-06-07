@@ -49,3 +49,20 @@ class IndexModel(BaseModel):
     provinsi: dict[str, IndexProvinceEntry]
     endpoints: dict
     notes: Optional[str] = None
+
+
+class HistoryPointModel(BaseModel):
+    """A single recorded price-change event for one product."""
+    date: constr(min_length=1, strip_whitespace=True)
+    price_rupiah: int
+
+
+class HistoryModel(BaseModel):
+    """Per-province price history: each product maps to its change events.
+
+    Only price *changes* are stored (change-based/event storage), so the list
+    for a product holds one point per actual price revision, not one per sync.
+    """
+    province: constr(min_length=1, strip_whitespace=True)
+    province_slug: constr(min_length=1, strip_whitespace=True)
+    products: dict[str, List[HistoryPointModel]]

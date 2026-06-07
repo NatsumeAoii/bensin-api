@@ -1,0 +1,36 @@
+{
+  "province": "Prov. Papua Pegunungan",
+  "province_slug": "papua-pegunungan",
+  "products": {
+    "DEXLITE": [
+      {
+        "date": "2026-06-07",
+        "price_rupiah": 23500
+      }
+    ],
+    "PERTALITE": [
+      {
+        "date": "2026-06-07",
+        "price_rupiah": 10000
+      }
+    ],
+    "PERTAMAX": [
+      {
+        "date": "2026-06-07",
+        "price_rupiah": 12600
+      }
+    ],
+    "PERTAMAX PERTASHOP": [
+      {
+        "date": "2026-06-07",
+        "price_rupiah": 12500
+      }
+    ],
+    "BIOSOLAR": [
+      {
+        "date": "2026-06-07",
+        "price_rupiah": 6800
+      }
+    ]
+  }
+}

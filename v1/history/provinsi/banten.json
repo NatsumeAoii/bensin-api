@@ -1,0 +1,54 @@
+{
+  "province": "Prov. Banten",
+  "province_slug": "banten",
+  "products": {
+    "DEXLITE": [
+      {
+        "date": "2026-06-07",
+        "price_rupiah": 23000
+      }
+    ],
+    "PERTALITE": [
+      {
+        "date": "2026-06-07",
+        "price_rupiah": 10000
+      }
+    ],
+    "PERTAMAX": [
+      {
+        "date": "2026-06-07",
+        "price_rupiah": 12300
+      }
+    ],
+    "PERTAMAX GREEN 95": [
+      {
+        "date": "2026-06-07",
+        "price_rupiah": 12900
+      }
+    ],
+    "PERTAMAX PERTASHOP": [
+      {
+        "date": "2026-06-07",
+        "price_rupiah": 12200
+      }
+    ],
+    "PERTAMAX TURBO": [
+      {
+        "date": "2026-06-07",
+        "price_rupiah": 20750
+      }
+    ],
+    "BIOSOLAR": [
+      {
+        "date": "2026-06-07",
+        "price_rupiah": 6800
+      }
+    ],
+    "PERTAMINA DEX": [
+      {
+        "date": "2026-06-07",
+        "price_rupiah": 24800
+      }
+    ]
+  }
+}
