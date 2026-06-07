@@ -116,7 +116,7 @@ export default function ProvinceListPage() {
               <div className="flex items-center gap-2 rounded-xl bg-white/70 px-4 py-2.5 shadow-sm backdrop-blur-sm dark:bg-stone-800/70">
                 <TrendingUp size={16} className="text-emerald-500" aria-hidden="true" />
                 <span className="text-sm font-semibold text-stone-900 dark:text-stone-100">
-                  Diperbarui {formatSyncTime(index.pertamina_updated_at)}
+                  Diperbarui {formatSyncTime(index.synced_at)}
                 </span>
               </div>
               <RefreshButton onRefresh={handleRefresh} loading={indexLoading} />

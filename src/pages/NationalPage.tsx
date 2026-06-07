@@ -140,7 +140,7 @@ export default function NationalPage() {
       {/* Hero header */}
       <NationalHeader
         provinceCount={national.provinces.length}
-        updatedAt={national.pertamina_updated_at}
+        syncedAt={national.synced_at}
         onRefresh={handleRefresh}
         loading={nationalLoading}
       />
@@ -270,12 +270,12 @@ export default function NationalPage() {
 
 interface NationalHeaderProps {
   provinceCount?: number;
-  updatedAt?: string;
+  syncedAt?: string;
   onRefresh?: () => void;
   loading?: boolean;
 }
 
-function NationalHeader({ provinceCount, updatedAt, onRefresh, loading = false }: NationalHeaderProps) {
+function NationalHeader({ provinceCount, syncedAt, onRefresh, loading = false }: NationalHeaderProps) {
   return (
     <header className="rounded-2xl bg-gradient-hero-light p-6 dark:bg-gradient-hero bg-mesh">
       <div className="flex items-center justify-between">
@@ -287,7 +287,7 @@ function NationalHeader({ provinceCount, updatedAt, onRefresh, loading = false }
             <h1 className="text-xl font-extrabold tracking-tight text-stone-900 sm:text-2xl dark:text-white">
               Perbandingan Nasional
             </h1>
-            {provinceCount !== undefined && updatedAt && (
+            {provinceCount !== undefined && syncedAt && (
               <div className="mt-0.5 flex flex-wrap items-center gap-3 text-xs text-stone-500 dark:text-stone-400">
                 <span className="inline-flex items-center gap-1">
                   <MapPin size={12} aria-hidden="true" />
@@ -295,7 +295,7 @@ function NationalHeader({ provinceCount, updatedAt, onRefresh, loading = false }
                 </span>
                 <span className="inline-flex items-center gap-1">
                   <Clock size={12} aria-hidden="true" />
-                  Diperbarui {formatSyncTime(updatedAt)}
+                  Diperbarui {formatSyncTime(syncedAt)}
                 </span>
               </div>
             )}
