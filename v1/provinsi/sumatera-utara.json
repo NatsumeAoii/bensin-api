@@ -2,7 +2,7 @@
   "province": "Prov. Sumatera Utara",
   "province_slug": "sumatera-utara",
   "pertamina_updated_at": "2026-06-01T15:59:37.000Z",
-  "synced_at": "2026-06-07T05:27:33.899424Z",
+  "synced_at": "2026-06-07T09:58:56.037870Z",
   "products": [
     {
       "product": "DEXLITE",
@@ -35,12 +35,12 @@
       "availability": "available"
     },
     {
-      "product": "PERTAMINA BIOSOLAR NON SUBSIDI",
+      "product": "BIOSOLAR NON SUBSIDI",
       "price_rupiah": null,
       "availability": "unavailable"
     },
     {
-      "product": "PERTAMINA BIOSOLAR SUBSIDI",
+      "product": "BIOSOLAR",
       "price_rupiah": 6800,
       "availability": "available"
     },
