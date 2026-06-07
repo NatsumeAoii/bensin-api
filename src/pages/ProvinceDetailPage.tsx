@@ -204,7 +204,7 @@ export default function ProvinceDetailPage() {
 
         {!hasStaleData && (
           <div className="mt-4">
-            <StaleTimeBanner updatedAt={data.pertamina_updated_at} />
+            <StaleTimeBanner syncedAt={data.synced_at} />
           </div>
         )}
 

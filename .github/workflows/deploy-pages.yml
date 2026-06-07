@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - main
+  workflow_run:
+    workflows: ["Sync Pertamina Prices"]
+    types:
+      - completed
   workflow_dispatch: {}
 
 permissions:
@@ -17,6 +21,9 @@ concurrency:
 
 jobs:
   build:
+    # For workflow_run (after sync): only deploy if the sync succeeded.
+    # For push / manual dispatch: always run.
+    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

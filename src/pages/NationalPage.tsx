@@ -147,7 +147,7 @@ export default function NationalPage() {
 
       {/* Stale time banner */}
       <div className="mt-4">
-        <StaleTimeBanner updatedAt={national.pertamina_updated_at} />
+        <StaleTimeBanner syncedAt={national.synced_at} />
       </div>
 
       {/* Product selector pills */}

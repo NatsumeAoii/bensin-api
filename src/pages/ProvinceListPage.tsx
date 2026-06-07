@@ -139,7 +139,7 @@ export default function ProvinceListPage() {
         {/* Stale time banner */}
         {index && (
           <div className="mb-5">
-            <StaleTimeBanner updatedAt={index.pertamina_updated_at} />
+            <StaleTimeBanner syncedAt={index.synced_at} />
           </div>
         )}
 
