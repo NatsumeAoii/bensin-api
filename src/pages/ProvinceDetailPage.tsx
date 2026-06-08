@@ -4,14 +4,16 @@ import { ArrowLeft, MapPin, Clock } from "lucide-react";
 import { useFuelStore } from "@/stores/fuel-store";
 import { formatSyncTime } from "@/utils/date";
 import { isValidSlug } from "@/utils/slug";
-import { useDocumentTitle } from "@/utils/use-document-title";
+import { useDocumentTitle, useCanonicalUrl } from "@/utils/use-document-title";
 import { useVisibilityRefresh } from "@/utils/use-visibility-refresh";
+import { useDataChangeAnnouncer } from "@/utils/use-data-change-announcer";
 import { PriceGrid } from "@/components/PriceGrid";
 import { SkeletonLoader } from "@/components/SkeletonLoader";
 import { ErrorState } from "@/components/ErrorState";
 import { EmptyState } from "@/components/EmptyState";
 import { StaleDataBanner } from "@/components/StaleDataBanner";
 import { StaleTimeBanner } from "@/components/StaleTimeBanner";
+import { ProvinceNotFound } from "@/components/ProvinceNotFound";
 import { ShareButton } from "@/components/ShareButton";
 import { RefreshButton } from "@/components/RefreshButton";
 
@@ -38,12 +40,11 @@ export default function ProvinceDetailPage() {
     retry,
   } = useFuelStore();
 
-  const previousDataRef = useRef<string | null>(null);
   const announceRef = useRef<HTMLDivElement>(null);
 
-  const loading = slug ? provinceLoading[slug] ?? false : false;
-  const error = slug ? provinceError[slug] ?? null : null;
-  const data = slug ? provinces[slug] ?? null : null;
+  const loading = slug ? (provinceLoading[slug] ?? false) : false;
+  const error = slug ? (provinceError[slug] ?? null) : null;
+  const data = slug ? (provinces[slug] ?? null) : null;
   const requestKey = slug ? `province:${slug}` : "";
   const currentRetryCount = retryCount[requestKey] ?? 0;
   const retryDisabled = currentRetryCount >= 3;
@@ -51,6 +52,7 @@ export default function ProvinceDetailPage() {
   const slugValid = isValidSlug(slug);
 
   useDocumentTitle(data ? data.province : null);
+  useCanonicalUrl(slugValid && slug ? `/provinsi/${slug}` : null);
 
   const handleVisibilityRefresh = useCallback(() => {
     if (slugValid && slug) {
@@ -66,94 +68,40 @@ export default function ProvinceDetailPage() {
     }
   }, [slug, slugValid, fetchProvince]);
 
-  useEffect(() => {
-    if (!data) return;
-
-    const dataFingerprint = `${data.province}-${data.synced_at}-${data.products.length}`;
-
-    if (previousDataRef.current !== null && previousDataRef.current !== dataFingerprint) {
-      if (announceRef.current) {
-        announceRef.current.textContent = `Data harga ${data.province} telah diperbarui`;
-      }
-    }
-
-    previousDataRef.current = dataFingerprint;
-  }, [data]);
+  useDataChangeAnnouncer(
+    data ? `${data.province}-${data.synced_at}-${data.products.length}` : null,
+    announceRef,
+    data ? `Data harga ${data.province} telah diperbarui` : ""
+  );
 
   // Invalid or missing slug — render 404 immediately without network request
   if (!slugValid) {
-    return (
-      <main>
-        <div className="flex flex-col items-center justify-center gap-5 rounded-3xl border border-dashed border-stone-300 bg-stone-50/50 p-12 text-center dark:border-stone-700 dark:bg-stone-900/50">
-          <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-stone-100 dark:bg-stone-800">
-            <MapPin className="h-8 w-8 text-stone-400 dark:text-stone-500" aria-hidden="true" />
-          </div>
-          <div className="space-y-2">
-            <h1 className="text-xl font-bold text-stone-900 dark:text-stone-100">
-              Provinsi tidak ditemukan
-            </h1>
-            <p className="text-sm text-stone-600 dark:text-stone-400">
-              Data untuk provinsi ini tidak tersedia.
-            </p>
-          </div>
-          <Link
-            to="/"
-            className="inline-flex min-h-[44px] items-center gap-2 rounded-xl bg-gradient-to-r from-orange-500 to-red-500 px-6 py-3 text-sm font-semibold text-white shadow-md shadow-orange-500/20 transition-all hover:shadow-lg hover:shadow-orange-500/30 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500"
-          >
-            <ArrowLeft size={16} aria-hidden="true" />
-            Kembali ke daftar provinsi
-          </Link>
-        </div>
-      </main>
-    );
+    return <ProvinceNotFound />;
   }
 
   // 404 error
   if (!loading && error && error.status === 404) {
-    return (
-      <main>
-        <div className="flex flex-col items-center justify-center gap-5 rounded-3xl border border-dashed border-stone-300 bg-stone-50/50 p-12 text-center dark:border-stone-700 dark:bg-stone-900/50">
-          <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-stone-100 dark:bg-stone-800">
-            <MapPin className="h-8 w-8 text-stone-400 dark:text-stone-500" aria-hidden="true" />
-          </div>
-          <div className="space-y-2">
-            <h1 className="text-xl font-bold text-stone-900 dark:text-stone-100">
-              Provinsi tidak ditemukan
-            </h1>
-            <p className="text-sm text-stone-600 dark:text-stone-400">
-              Data untuk provinsi ini tidak tersedia.
-            </p>
-          </div>
-          <Link
-            to="/"
-            className="inline-flex min-h-[44px] items-center gap-2 rounded-xl bg-gradient-to-r from-orange-500 to-red-500 px-6 py-3 text-sm font-semibold text-white shadow-md shadow-orange-500/20 transition-all hover:shadow-lg hover:shadow-orange-500/30 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500"
-          >
-            <ArrowLeft size={16} aria-hidden="true" />
-            Kembali ke daftar provinsi
-          </Link>
-        </div>
-      </main>
-    );
+    return <ProvinceNotFound />;
   }
 
   // Loading state
   if (loading && !data) {
     return (
-      <main>
+      <div>
         <div className="mb-6">
           <div className="h-6 w-20 rounded-md shimmer" />
           <div className="mt-4 h-8 w-48 rounded-lg shimmer" />
           <div className="mt-2 h-4 w-32 rounded-md shimmer" />
         </div>
         <SkeletonLoader count={9} />
-      </main>
+      </div>
     );
   }
 
   // Error state
   if (error && !data) {
     return (
-      <main>
+      <div>
         <BackLink />
         <div className="mt-6">
           <ErrorState
@@ -162,21 +110,21 @@ export default function ProvinceDetailPage() {
             disabled={retryDisabled}
           />
         </div>
-      </main>
+      </div>
     );
   }
 
   // Empty products
   if (data && data.products.length === 0) {
     return (
-      <main>
+      <div>
         <BackLink provinceName={data.province} />
         <ProvinceHeader name={data.province} syncedAt={data.synced_at} />
         <div className="mt-6">
           <EmptyState message="Tidak ada data harga untuk provinsi ini" />
         </div>
         <div ref={announceRef} aria-live="polite" className="sr-only" />
-      </main>
+      </div>
     );
   }
 
@@ -191,9 +139,13 @@ export default function ProvinceDetailPage() {
     }
 
     return (
-      <main>
+      <div>
         <BackLink provinceName={data.province} />
-        <ProvinceHeader name={data.province} syncedAt={data.synced_at} productCount={data.products.length} />
+        <ProvinceHeader
+          name={data.province}
+          syncedAt={data.synced_at}
+          productCount={data.products.length}
+        />
 
         {/* Action bar: Share + Refresh */}
         <div className="mt-4 flex items-center gap-2">
@@ -206,7 +158,10 @@ export default function ProvinceDetailPage() {
 
         {hasStaleData && (
           <div className="mt-4">
-            <StaleDataBanner visible={hasStaleData} />
+            <StaleDataBanner
+              visible={hasStaleData}
+              onRetry={retryDisabled ? undefined : () => retry(requestKey)}
+            />
           </div>
         )}
 
@@ -223,7 +178,10 @@ export default function ProvinceDetailPage() {
         <div className="mt-6">
           <Suspense
             fallback={
-              <div className="h-[280px] w-full rounded-2xl shimmer" aria-busy="true" />
+              <div
+                className="h-[280px] w-full rounded-2xl shimmer"
+                aria-busy="true"
+              />
             }
           >
             <PriceHistoryChart slug={slug as string} />
@@ -231,7 +189,7 @@ export default function ProvinceDetailPage() {
         </div>
 
         <div ref={announceRef} aria-live="polite" className="sr-only" />
-      </main>
+      </div>
     );
   }
 
@@ -250,7 +208,12 @@ function BackLink({ provinceName }: { provinceName?: string }) {
       </Link>
       {provinceName && (
         <>
-          <span className="text-stone-300 dark:text-stone-600" aria-hidden="true">/</span>
+          <span
+            className="text-stone-300 dark:text-stone-600"
+            aria-hidden="true"
+          >
+            /
+          </span>
           <span className="font-semibold text-stone-700 dark:text-stone-300">
             {provinceName}
           </span>

@@ -9,8 +9,9 @@ import { EmptyState } from "@/components/EmptyState";
 import { RefreshButton } from "@/components/RefreshButton";
 import { StaleTimeBanner } from "@/components/StaleTimeBanner";
 import { formatSyncTime } from "@/utils/date";
-import { useDocumentTitle } from "@/utils/use-document-title";
+import { useDocumentTitle, useCanonicalUrl } from "@/utils/use-document-title";
 import { useVisibilityRefresh } from "@/utils/use-visibility-refresh";
+import { useDataChangeAnnouncer } from "@/utils/use-data-change-announcer";
 import type { IndexProvinceEntry } from "@/types/api";
 
 const MAX_RETRY = 3;
@@ -31,9 +32,9 @@ export default function ProvinceListPage() {
   const retry = useFuelStore((state) => state.retry);
 
   useDocumentTitle("Daftar Provinsi");
+  useCanonicalUrl("/");
 
   const announceRef = useRef<HTMLDivElement>(null);
-  const previousCountRef = useRef<number | null>(null);
 
   const handleVisibilityRefresh = useCallback(() => {
     fetchIndex(true);
@@ -57,15 +58,11 @@ export default function ProvinceListPage() {
 
   const filteredProvinces = filterProvinces(sortedProvinces, searchQuery);
 
-  // Announce data changes via DOM manipulation — avoids setState in effect
-  useEffect(() => {
-    if (provinces.length > 0) {
-      if (previousCountRef.current !== null && previousCountRef.current !== provinces.length && announceRef.current) {
-        announceRef.current.textContent = `Menampilkan ${provinces.length} provinsi`;
-      }
-      previousCountRef.current = provinces.length;
-    }
-  }, [provinces.length]);
+  useDataChangeAnnouncer(
+    index ? `${provinces.length}-${index.synced_at}` : null,
+    announceRef,
+    `Menampilkan ${provinces.length} provinsi`
+  );
 
   const retryDisabled = (retryCount["index"] ?? 0) >= MAX_RETRY;
 
@@ -86,7 +83,7 @@ export default function ProvinceListPage() {
   }
 
   return (
-    <main>
+    <div>
       {/* Hero section */}
       <section className="relative overflow-hidden rounded-3xl bg-gradient-hero-light p-6 sm:p-10 dark:bg-gradient-hero bg-mesh">
         <div className="relative z-10">
@@ -108,13 +105,21 @@ export default function ProvinceListPage() {
           {!indexLoading && !indexError && provinces.length > 0 && index && (
             <div className="mt-6 flex flex-wrap items-center gap-4 sm:gap-6">
               <div className="flex items-center gap-2 rounded-xl bg-white/70 px-4 py-2.5 shadow-sm backdrop-blur-sm dark:bg-stone-800/70">
-                <MapPin size={16} className="text-orange-500" aria-hidden="true" />
+                <MapPin
+                  size={16}
+                  className="text-orange-500"
+                  aria-hidden="true"
+                />
                 <span className="text-sm font-semibold text-stone-900 dark:text-stone-100">
                   {provinces.length} Provinsi
                 </span>
               </div>
               <div className="flex items-center gap-2 rounded-xl bg-white/70 px-4 py-2.5 shadow-sm backdrop-blur-sm dark:bg-stone-800/70">
-                <TrendingUp size={16} className="text-emerald-500" aria-hidden="true" />
+                <TrendingUp
+                  size={16}
+                  className="text-emerald-500"
+                  aria-hidden="true"
+                />
                 <span className="text-sm font-semibold text-stone-900 dark:text-stone-100">
                   Diperbarui {formatSyncTime(index.synced_at)}
                 </span>
@@ -134,7 +139,12 @@ export default function ProvinceListPage() {
       {/* Search + Content */}
       <section className="mt-6">
         {/* Aria-live region */}
-        <div ref={announceRef} aria-live="polite" aria-atomic="true" className="sr-only" />
+        <div
+          ref={announceRef}
+          aria-live="polite"
+          aria-atomic="true"
+          className="sr-only"
+        />
 
         {/* Stale time banner */}
         {index && (
@@ -215,7 +225,7 @@ export default function ProvinceListPage() {
           </>
         )}
       </section>
-    </main>
+    </div>
   );
 }
 

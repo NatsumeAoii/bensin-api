@@ -5,6 +5,51 @@ All notable changes to this project should be documented in this file.
 This project follows the Keep a Changelog structure. No git tags were found in
 the repository; the `1.0.0` label is taken from `package.json`.
 
+## [1.0.2]
+
+### Added
+
+- Runtime validation of all fetched API responses against Zod schemas in
+  `src/api/client.ts` (`VALIDATION_ERROR` / `INVALID_INPUT` error codes).
+- `VITE_API_BASE_URL` environment override for the frontend API base URL, with
+  `.env.example` and a Vite-injected production Content-Security-Policy.
+- Frontend CI workflow (`.github/workflows/ci.yml`) running lint, typecheck,
+  Prettier check, tests, and build, plus a pipeline pytest job.
+- `.github/dependabot.yml` for npm, pip, and GitHub Actions updates.
+- Prettier configuration and `format` / `format:check` / `test:coverage`
+  scripts; Vitest coverage thresholds.
+- Shared `pipeline/sanity_check.py` module imported by both tests and the sync
+  workflow; new tests for the fetch/retry path, upstream payload validation,
+  province-timestamp derivation, and `filterByRange`.
+- Skip-to-content link, search clear button, chart keyboard focus ring and
+  touch support, and "Termurah/Termahal" text markers on the national ranking.
+
+### Changed
+
+- Refactored the Zustand fuel store to share one fetch/retry helper and to
+  hydrate province detail from already-loaded national data.
+- Split `PriceHistoryChart` rendering into `PriceHistoryChart.canvas.tsx` and
+  memoized its geometry; cached the chart date formatter.
+- Migrated Pydantic schemas to the v2 `Annotated[... StringConstraints]` idiom
+  and refactored `fetch_normalize.main()` into focused functions.
+- Single `<main>` landmark owned by the layout; pages render plain containers.
+- Bundle-size check now also budgets CSS and reports total payload.
+
+### Fixed
+
+- Theme store no longer persists the OS-derived preference on first load, so
+  later OS dark-mode changes keep being honored.
+- Province-level `pertamina_updated_at` now uses the latest product date
+  instead of depending on upstream ordering.
+- Corrected documentation drift: the sync workflow pushes directly to `main`
+  (not via PR), runs every 6 hours (not hourly), the deploy workflow is
+  documented, and committed `v1/` product names are confirmed canonical.
+
+### Removed
+
+- Deleted the orphan `web/node_modules/` directory and the unused `happy-dom`
+  dependency; moved `lightningcss` to devDependencies.
+
 ## [1.0.1]
 
 ### Added

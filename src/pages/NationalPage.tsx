@@ -1,19 +1,27 @@
 import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import { Link } from "react-router";
-import { BarChart3, Clock, MapPin, TrendingUp, TrendingDown } from "lucide-react";
+import {
+  BarChart3,
+  Clock,
+  MapPin,
+  TrendingUp,
+  TrendingDown,
+} from "lucide-react";
 import { useFuelStore } from "@/stores/fuel-store";
 import { sortByPrice } from "@/utils/sort";
 import { extractDistinctProducts, getProductColor } from "@/utils/products";
 import { formatPrice } from "@/utils/format";
 import { formatSyncTime } from "@/utils/date";
+import { filterByName } from "@/utils/search";
 import { SearchFilter } from "@/components/SearchFilter";
 import { SkeletonLoader } from "@/components/SkeletonLoader";
 import { ErrorState } from "@/components/ErrorState";
 import { EmptyState } from "@/components/EmptyState";
 import { RefreshButton } from "@/components/RefreshButton";
 import { StaleTimeBanner } from "@/components/StaleTimeBanner";
-import { useDocumentTitle } from "@/utils/use-document-title";
+import { useDocumentTitle, useCanonicalUrl } from "@/utils/use-document-title";
 import { useVisibilityRefresh } from "@/utils/use-visibility-refresh";
+import { useDataChangeAnnouncer } from "@/utils/use-data-change-announcer";
 
 /**
  * National Page — displays fuel price comparison across all provinces.
@@ -31,10 +39,10 @@ export default function NationalPage() {
 
   const [selectedProduct, setSelectedProduct] = useState<string>("");
   const [searchQuery, setSearchQuery] = useState("");
-  const previousDataRef = useRef<string | null>(null);
   const announceRef = useRef<HTMLDivElement>(null);
 
   useDocumentTitle("Perbandingan Nasional");
+  useCanonicalUrl("/nasional");
 
   const handleVisibilityRefresh = useCallback(() => {
     fetchNational(true);
@@ -52,71 +60,66 @@ export default function NationalPage() {
   }, [national]);
 
   // Derive the effective selected product — no effect needed
-  const effectiveProduct = selectedProduct || (productNames.length > 0 ? productNames[0] : "");
+  const effectiveProduct =
+    selectedProduct || (productNames.length > 0 ? productNames[0] : "");
 
   const sortedProvinces = useMemo(() => {
     if (!national || !effectiveProduct) return [];
     return sortByPrice(national.provinces, effectiveProduct);
   }, [national, effectiveProduct]);
 
-  const filteredProvinces = useMemo(() => {
-    if (!searchQuery) return sortedProvinces;
-    const normalized = searchQuery.slice(0, 100).toLowerCase();
-    return sortedProvinces.filter((province) =>
-      province.province.toLowerCase().includes(normalized)
-    );
-  }, [sortedProvinces, searchQuery]);
+  const filteredProvinces = useMemo(
+    () => filterByName(sortedProvinces, (p) => p.province, searchQuery),
+    [sortedProvinces, searchQuery]
+  );
 
-  // Calculate price stats and price map for context — single pass
-  const priceMap = useMemo(() => {
+  // Single pass over the filtered list builds the per-province price lookup
+  // and the lowest/highest extremes used for ranking highlights.
+  const { priceMap, lowestPrice, highestPrice } = useMemo(() => {
     const map = new Map<string, number | null>();
-    for (const p of filteredProvinces) {
-      const found = p.products.find((prod) => prod.product === effectiveProduct);
-      map.set(p.province_slug, found?.price_rupiah ?? null);
-    }
-    return map;
-  }, [filteredProvinces, effectiveProduct]);
-
-  const { lowestPrice, highestPrice } = useMemo(() => {
     let lowest: number | null = null;
     let highest: number | null = null;
-    for (const price of priceMap.values()) {
+    for (const province of filteredProvinces) {
+      const found = province.products.find(
+        (prod) => prod.product === effectiveProduct
+      );
+      const price = found?.price_rupiah ?? null;
+      map.set(province.province_slug, price);
       if (price !== null) {
         if (lowest === null || price < lowest) lowest = price;
         if (highest === null || price > highest) highest = price;
       }
     }
-    return { lowestPrice: lowest, highestPrice: highest };
-  }, [priceMap]);
+    return { priceMap: map, lowestPrice: lowest, highestPrice: highest };
+  }, [filteredProvinces, effectiveProduct]);
 
-  useEffect(() => {
-    if (!national) return;
-    const dataFingerprint = `${national.provinces.length}-${national.pertamina_updated_at}`;
-    if (previousDataRef.current !== null && previousDataRef.current !== dataFingerprint) {
-      if (announceRef.current) {
-        announceRef.current.textContent = `Data diperbarui. ${national.provinces.length} provinsi tersedia.`;
-      }
-    }
-    previousDataRef.current = dataFingerprint;
-  }, [national]);
+  useDataChangeAnnouncer(
+    national
+      ? `${national.provinces.length}-${national.pertamina_updated_at}`
+      : null,
+    announceRef,
+    national
+      ? `Data diperbarui. ${national.provinces.length} provinsi tersedia.`
+      : ""
+  );
 
   // Loading state
   if (nationalLoading && !national) {
     return (
-      <main>
+      <div>
         <div className="mb-6 rounded-2xl bg-gradient-hero-light p-6 dark:bg-gradient-hero bg-mesh">
           <div className="h-8 w-48 rounded-lg shimmer" />
           <div className="mt-2 h-4 w-32 rounded-md shimmer" />
         </div>
         <SkeletonLoader count={9} />
-      </main>
+      </div>
     );
   }
 
   // Error state
   if (nationalError && !national) {
     return (
-      <main>
+      <div>
         <NationalHeader />
         <div className="mt-6">
           <ErrorState
@@ -125,7 +128,7 @@ export default function NationalPage() {
             disabled={(retryCount["national"] ?? 0) >= 3}
           />
         </div>
-      </main>
+      </div>
     );
   }
 
@@ -136,7 +139,7 @@ export default function NationalPage() {
   }
 
   return (
-    <main>
+    <div>
       {/* Hero header */}
       <NationalHeader
         provinceCount={national.provinces.length}
@@ -152,7 +155,11 @@ export default function NationalPage() {
 
       {/* Product selector pills */}
       <nav aria-label="Pilih produk BBM" className="mt-6">
-        <div className="flex flex-wrap gap-2" role="group" aria-label="Produk BBM">
+        <div
+          className="flex flex-wrap gap-2"
+          role="group"
+          aria-label="Produk BBM"
+        >
           {productNames.map((name) => {
             const isActive = effectiveProduct === name;
             const color = getProductColor(name);
@@ -169,7 +176,10 @@ export default function NationalPage() {
                 }`}
                 style={
                   isActive
-                    ? { background: `linear-gradient(135deg, ${color.from}, ${color.to})`, boxShadow: `0 4px 12px ${color.from}33` }
+                    ? {
+                        background: `linear-gradient(135deg, ${color.from}, ${color.to})`,
+                        boxShadow: `0 4px 12px ${color.from}33`,
+                      }
                     : undefined
                 }
               >
@@ -184,13 +194,21 @@ export default function NationalPage() {
       {lowestPrice !== null && highestPrice !== null && (
         <div className="mt-5 flex flex-wrap items-center gap-3">
           <div className="flex items-center gap-2 rounded-xl bg-emerald-50 px-3.5 py-2 dark:bg-emerald-950/30">
-            <TrendingDown size={14} className="text-emerald-600 dark:text-emerald-400" aria-hidden="true" />
+            <TrendingDown
+              size={14}
+              className="text-emerald-600 dark:text-emerald-400"
+              aria-hidden="true"
+            />
             <span className="text-xs font-semibold text-emerald-700 dark:text-emerald-300">
               Termurah: {formatPrice(lowestPrice)}
             </span>
           </div>
           <div className="flex items-center gap-2 rounded-xl bg-red-50 px-3.5 py-2 dark:bg-red-950/30">
-            <TrendingUp size={14} className="text-red-600 dark:text-red-400" aria-hidden="true" />
+            <TrendingUp
+              size={14}
+              className="text-red-600 dark:text-red-400"
+              aria-hidden="true"
+            />
             <span className="text-xs font-semibold text-red-700 dark:text-red-300">
               Termahal: {formatPrice(highestPrice)}
             </span>
@@ -209,14 +227,30 @@ export default function NationalPage() {
       </div>
 
       {/* Aria-live region */}
-      <div ref={announceRef} aria-live="polite" aria-atomic="true" className="sr-only" />
+      <div
+        ref={announceRef}
+        aria-live="polite"
+        aria-atomic="true"
+        className="sr-only"
+      />
 
       {/* Province ranking list */}
-      <section className="mt-5" aria-label="Daftar harga per provinsi">
+      <section
+        className="mt-5"
+        aria-label={`Daftar harga ${effectiveProduct} per provinsi`}
+      >
+        {effectiveProduct && (
+          <h2 className="mb-3 text-sm font-bold text-stone-700 dark:text-stone-300">
+            Harga {effectiveProduct} per provinsi
+          </h2>
+        )}
         {filteredProvinces.length === 0 ? (
           <EmptyState
             message="Tidak ada provinsi yang cocok dengan pencarian"
-            action={{ label: "Hapus filter", onClick: () => setSearchQuery("") }}
+            action={{
+              label: "Hapus filter",
+              onClick: () => setSearchQuery(""),
+            }}
           />
         ) : (
           <div className="overflow-hidden rounded-2xl border border-stone-200/80 bg-white dark:border-stone-700/60 dark:bg-stone-900">
@@ -227,9 +261,7 @@ export default function NationalPage() {
                 const isHighest = price === highestPrice && price !== null;
 
                 return (
-                  <li
-                    key={province.province_slug}
-                  >
+                  <li key={province.province_slug}>
                     <Link
                       to={`/provinsi/${province.province_slug}`}
                       className="touch-active flex items-center justify-between gap-3 px-4 py-3.5 transition-colors hover:bg-orange-50/50 dark:hover:bg-orange-950/20"
@@ -243,18 +275,32 @@ export default function NationalPage() {
                           {province.province}
                         </span>
                       </div>
-                      <span
-                        className={`text-sm font-bold ${
-                          price === null
-                            ? "text-stone-400 dark:text-stone-600"
-                            : isLowest
-                              ? "text-emerald-600 dark:text-emerald-400"
-                              : isHighest
-                                ? "text-red-600 dark:text-red-400"
-                                : "text-stone-900 dark:text-stone-100"
-                        }`}
-                      >
-                        {formatPrice(price)}
+                      <span className="flex items-center gap-2">
+                        {/* Text marker so cheapest/priciest is not conveyed by
+                            color alone (accessibility). */}
+                        {isLowest && (
+                          <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300">
+                            Termurah
+                          </span>
+                        )}
+                        {isHighest && (
+                          <span className="rounded-full bg-red-100 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-red-700 dark:bg-red-950/50 dark:text-red-300">
+                            Termahal
+                          </span>
+                        )}
+                        <span
+                          className={`text-sm font-bold ${
+                            price === null
+                              ? "text-stone-400 dark:text-stone-600"
+                              : isLowest
+                                ? "text-emerald-600 dark:text-emerald-400"
+                                : isHighest
+                                  ? "text-red-600 dark:text-red-400"
+                                  : "text-stone-900 dark:text-stone-100"
+                          }`}
+                        >
+                          {formatPrice(price)}
+                        </span>
                       </span>
                     </Link>
                   </li>
@@ -264,7 +310,7 @@ export default function NationalPage() {
           </div>
         )}
       </section>
-    </main>
+    </div>
   );
 }
 
@@ -275,7 +321,12 @@ interface NationalHeaderProps {
   loading?: boolean;
 }
 
-function NationalHeader({ provinceCount, syncedAt, onRefresh, loading = false }: NationalHeaderProps) {
+function NationalHeader({
+  provinceCount,
+  syncedAt,
+  onRefresh,
+  loading = false,
+}: NationalHeaderProps) {
   return (
     <header className="rounded-2xl bg-gradient-hero-light p-6 dark:bg-gradient-hero bg-mesh">
       <div className="flex items-center justify-between">
@@ -301,9 +352,7 @@ function NationalHeader({ provinceCount, syncedAt, onRefresh, loading = false }:
             )}
           </div>
         </div>
-        {onRefresh && (
-          <RefreshButton onRefresh={onRefresh} loading={loading} />
-        )}
+        {onRefresh && <RefreshButton onRefresh={onRefresh} loading={loading} />}
       </div>
     </header>
   );

@@ -19,14 +19,14 @@ npm run dev
 Open the Vite dev server URL shown in your terminal. The default Vite port is
 `http://localhost:5173`.
 
-The frontend API client currently uses this fixed base URL:
+The frontend API client uses this base URL by default:
 
 ```text
 https://nasgunawann.github.io/bensin-api
 ```
 
-There is no observed environment variable or config file for switching the
-frontend to local `v1/` data.
+It can be overridden with the `VITE_API_BASE_URL` environment variable (see
+`.env.example`) to point the dashboard at locally generated `v1/` data.
 
 ## Requirements
 
@@ -103,11 +103,11 @@ Production base URL:
 https://nasgunawann.github.io/bensin-api
 ```
 
-| Endpoint | Purpose |
-| --- | --- |
-| `/v1/index.json` | Lightweight index of provinces, paths, product counts, and file sizes. |
-| `/v1/nasional.json` | Full national payload containing all provinces. |
-| `/v1/provinsi/{slug}.json` | Fuel prices for one province slug. |
+| Endpoint                   | Purpose                                                                |
+| -------------------------- | ---------------------------------------------------------------------- |
+| `/v1/index.json`           | Lightweight index of provinces, paths, product counts, and file sizes. |
+| `/v1/nasional.json`        | Full national payload containing all provinces.                        |
+| `/v1/provinsi/{slug}.json` | Fuel prices for one province slug.                                     |
 
 Example:
 
@@ -131,58 +131,55 @@ Observed current generated data:
 - `v1/provinsi/` contains 40 province JSON files.
 - Each current province file contains 9 products.
 - `v1/nasional.json` contains the same 40 provinces in one file.
-- Current generated snapshots have `synced_at` values from
-  `2026-06-05T12:14:30Z` and `pertamina_updated_at`
-  `2026-06-01T15:59:37.000Z`.
-
-Important drift to know: `pipeline/config.py` maps
-`PERTAMINA BIOSOLAR SUBSIDI` to `BIOSOLAR` and
-`PERTAMINA BIOSOLAR NON SUBSIDI` to `BIOSOLAR NON SUBSIDI`, but the committed
-`v1/` snapshots still contain the longer upstream product names. Running the
-current generator against `price.json` will produce the canonical names.
+- Product names in the committed snapshots are canonical (matching
+  `PRODUCT_CANONICAL_MAP`), e.g. `BIOSOLAR` and `BIOSOLAR NON SUBSIDI`.
 
 Product availability values are defined by both the Python schema and the
 TypeScript API types:
 
-| Value | Meaning |
-| --- | --- |
-| `available` | `price_rupiah` contains an integer price. |
+| Value         | Meaning                                                            |
+| ------------- | ------------------------------------------------------------------ |
+| `available`   | `price_rupiah` contains an integer price.                          |
 | `unavailable` | The upstream value is empty, null, zero, or otherwise unavailable. |
-| `unknown` | The parser cannot determine availability from the upstream value. |
+| `unknown`     | The parser cannot determine availability from the upstream value.  |
 
 ## Configuration
 
-No `.env` file, `VITE_*` variable, or runtime configuration loader is present in
-the frontend code.
+No `.env` file is required. The frontend reads one optional environment
+variable, `VITE_API_BASE_URL` (see `.env.example`); when unset it defaults to
+the production GitHub Pages base URL.
 
-Observed fixed configuration values:
+Observed configuration values:
 
-| Location | Value |
-| --- | --- |
-| `src/api/client.ts` | Frontend fetch base URL is `https://nasgunawann.github.io/bensin-api`. |
-| `src/api/client.ts` | Frontend fetch timeout is 10 seconds. |
-| `pipeline/config.py` | Upstream URL is `https://api.web.mypertamina.id/price`. |
-| `pipeline/fetch_normalize.py` | Upstream fetch timeout is 15 seconds with 3 attempts. |
-| `scripts/check-bundle-size.js` | JS chunk limit is 200 KB gzipped. |
-| `vite.config.ts`, `vitest.config.ts`, `tsconfig.app.json` | `@/` resolves to `src/`. |
+| Location                                                  | Value                                                                                                        |
+| --------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| `src/api/client.ts`                                       | Fetch base URL, overridable via `VITE_API_BASE_URL`; defaults to `https://nasgunawann.github.io/bensin-api`. |
+| `src/api/client.ts`                                       | Fetch timeout is 10 seconds; responses are validated against Zod schemas.                                    |
+| `pipeline/config.py`                                      | Upstream URL is `https://api.web.mypertamina.id/price`.                                                      |
+| `pipeline/fetch_normalize.py`                             | Upstream fetch timeout is 15 seconds with 3 attempts.                                                        |
+| `scripts/check-bundle-size.js`                            | JS chunk limit is 200 KB gzipped; CSS limit is 75 KB gzipped.                                                |
+| `vite.config.ts`, `vitest.config.ts`, `tsconfig.app.json` | `@/` resolves to `src/`.                                                                                     |
 
 ## Scripts
 
-| Command | What it does |
-| --- | --- |
-| `npm run dev` | Starts the Vite dev server. |
-| `npm run build` | Runs TypeScript typecheck, Vite build, and bundle-size check. |
-| `npm run preview` | Serves the production build locally. |
-| `npm run typecheck` | Runs `tsc --noEmit`. |
-| `npm run lint` | Runs ESLint. |
-| `npm run test` | Runs Vitest once. |
-| `npm run test:watch` | Runs Vitest in watch mode. |
-| `npm run test:all` | Runs Vitest and then `python -m pytest pipeline/tests/`. |
-| `npm run clean` | Removes `dist/`. |
-| `npm run ci` | Runs lint, typecheck, Vitest, and build. |
-| `npm run pipeline` | Runs the Python generator against local `price.json`. |
-| `npm run pipeline:fetch` | Fetches upstream data, then runs the generator. |
-| `npm run pipeline:test` | Runs pipeline pytest tests. |
+| Command                  | What it does                                                  |
+| ------------------------ | ------------------------------------------------------------- |
+| `npm run dev`            | Starts the Vite dev server.                                   |
+| `npm run build`          | Runs TypeScript typecheck, Vite build, and bundle-size check. |
+| `npm run preview`        | Serves the production build locally.                          |
+| `npm run typecheck`      | Runs `tsc --noEmit`.                                          |
+| `npm run lint`           | Runs ESLint.                                                  |
+| `npm run test`           | Runs Vitest once.                                             |
+| `npm run test:watch`     | Runs Vitest in watch mode.                                    |
+| `npm run test:coverage`  | Runs Vitest with V8 coverage and thresholds.                  |
+| `npm run test:all`       | Runs Vitest and then `python -m pytest pipeline/tests/`.      |
+| `npm run format`         | Formats `src/` with Prettier.                                 |
+| `npm run format:check`   | Checks `src/` formatting without writing.                     |
+| `npm run clean`          | Removes `dist/`.                                              |
+| `npm run ci`             | Runs lint, typecheck, Vitest, and build.                      |
+| `npm run pipeline`       | Runs the Python generator against local `price.json`.         |
+| `npm run pipeline:fetch` | Fetches upstream data, then runs the generator.               |
+| `npm run pipeline:test`  | Runs pipeline pytest tests.                                   |
 
 ## Testing
 
@@ -207,41 +204,46 @@ npm run test:all
 
 Verified in this checkout:
 
-- `npm run lint` passed.
-- `npm run typecheck` passed.
-- `npm run test` passed with 33 files and 174 tests.
-- `npm run build` passed and all JS chunks were below the 200 KB gzip budget.
-- `python -m pytest pipeline/tests/` passed once with 17 tests, then a repeat
-  full run on local Python `3.14.4` hit a Hypothesis `DeadlineExceeded` timing
-  flake in `test_property5_valid_nasional_roundtrip`; rerunning that isolated
-  test passed.
+- `npm run lint`, `npm run typecheck`, and `npm run format:check` passed.
+- `npm run test` passed with 37 files and 210 tests.
+- `npm run build` passed; all JS chunks were below the 200 KB gzip budget and
+  CSS below the 75 KB budget.
+- `python -m pytest pipeline/tests/` passed with 49 tests.
 
 ## CI And Deployment
 
-The visible GitHub Actions workflow is `.github/workflows/sync.yml`.
+Two GitHub Actions workflows are present:
 
-It runs hourly and on manual dispatch. The job:
+`.github/workflows/sync.yml` regenerates the data. It runs every 6 hours
+(cron `0 */6 * * *`) and on manual dispatch. The job:
 
 1. Checks out the repository.
-2. Sets up Python `3.12`.
+2. Sets up Python `3.12` with pip caching.
 3. Installs `requirements.txt`.
-4. Runs `python pipeline/fetch_normalize.py --fetch`.
+4. Runs `python pipeline/fetch_normalize.py --fetch` (validates the upstream
+   payload before overwriting `price.json`).
 5. Runs `python -m pytest pipeline/tests/`.
-6. Runs data sanity checks:
+6. Runs the shared data sanity check via `python -m pipeline.sanity_check`:
    - `v1/index.json` must contain at least 30 provinces.
    - At least 50% of product entries must have non-null `price_rupiah`.
    - `v1/nasional.json` must be between 10 KB and 10 MB.
-7. Creates a pull request with `peter-evans/create-pull-request@v6`.
-8. Auto-merges the generated PR with `gh pr merge`.
+7. Commits and pushes updated snapshots directly to `main` with `[skip ci]`.
 
-No frontend GitHub Actions workflow was found in this checkout, although
-`package.json` provides local frontend verification commands.
+`.github/workflows/ci.yml` enforces code quality on push and pull request: a
+frontend job (`npm ci`, lint, typecheck, format check, test, build) and a
+pipeline job (pytest).
+
+`.github/workflows/deploy-pages.yml` builds the dashboard and deploys it to
+GitHub Pages on push to `main`, after a successful sync run, or on manual
+dispatch.
 
 ## Project Structure
 
 ```text
 bensin-api/
-  .github/workflows/sync.yml       Hourly Python data sync workflow
+  .github/workflows/sync.yml       Data sync workflow (every 6 hours)
+  .github/workflows/ci.yml         Frontend + pipeline CI on push/PR
+  .github/workflows/deploy-pages.yml  GitHub Pages deploy
   .kiro/specs/                     Requirements/design/task notes present locally
   .vscode/extensions.json          VS Code extension recommendations
   pipeline/                        Python data generator and schemas
@@ -267,7 +269,7 @@ bensin-api/
 ```
 
 Generated or installed directories present in this workspace include
-`node_modules/`, `web/node_modules/`, `dist/`, `.pytest_cache/`, `.hypothesis/`,
+`node_modules/`, `dist/`, `coverage/`, `.pytest_cache/`, `.hypothesis/`,
 and Python `__pycache__/` directories. They are not maintained source files.
 
 ## Contributing
@@ -307,17 +309,18 @@ the fixed base URL in `src/api/client.ts`.
 
 <details><summary><strong>How do I make the frontend use local `v1/` JSON files?</strong></summary>
 
-There is no observed configuration switch for that. The current code hard-codes
-`https://nasgunawann.github.io/bensin-api`. Testing local JSON would require a
-code change to `BASE_URL` in `src/api/client.ts` or adding a supported
-configuration path.
+Set `VITE_API_BASE_URL` in a `.env.local` file (see `.env.example`) to a host
+serving your local `v1/` data, e.g. `http://localhost:3000`, then run a static
+server at the repo root. The client reads this var and falls back to the
+production GitHub Pages URL when it is unset.
 
 </details>
 
 <details><summary><strong>Are there environment variables I must set?</strong></summary>
 
-No required environment variables were found in the code, package scripts,
-pipeline, or workflow. The workflow uses GitHub's built-in `GITHUB_TOKEN`.
+None are required. The frontend reads one optional variable,
+`VITE_API_BASE_URL` (see `.env.example`). The sync workflow uses GitHub's
+built-in `GITHUB_TOKEN`.
 
 </details>
 
@@ -325,16 +328,15 @@ pipeline, or workflow. The workflow uses GitHub's built-in `GITHUB_TOKEN`.
 
 The pipeline writes `v1/index.json`, `v1/nasional.json`, and
 `v1/provinsi/*.json`. With `--fetch`, it also writes `raw/raw-*.json` and
-overwrites `price.json`. `dist/` is generated by `npm run build`.
+overwrites `price.json`. `dist/` and `coverage/` are generated by build/test.
 
 </details>
 
-<details><summary><strong>Why do current `v1/` product names differ from `PRODUCT_CANONICAL_MAP`?</strong></summary>
+<details><summary><strong>Are the committed `v1/` product names canonical?</strong></summary>
 
-The committed snapshots appear older than the current canonicalization logic.
-The current pipeline maps upstream BIOSOLAR names to shorter canonical values,
-but the committed `v1/` files still contain `PERTAMINA BIOSOLAR SUBSIDI` and
-`PERTAMINA BIOSOLAR NON SUBSIDI`.
+Yes. The committed snapshots use the canonical names from
+`PRODUCT_CANONICAL_MAP` (e.g. `BIOSOLAR`, `BIOSOLAR NON SUBSIDI`). Regenerating
+from the committed `price.json` changes only the `synced_at` timestamps.
 
 </details>
 

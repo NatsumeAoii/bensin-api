@@ -2,10 +2,7 @@ import { describe, it, expect } from "vitest";
 import { sortByPrice } from "@/utils/sort";
 import type { ProvinceResponse, Product } from "@/types/api";
 
-function makeProvince(
-  name: string,
-  products: Product[]
-): ProvinceResponse {
+function makeProvince(name: string, products: Product[]): ProvinceResponse {
   return {
     province: name,
     province_slug: name.toLowerCase().replace(/\s+/g, "-"),
@@ -15,10 +12,7 @@ function makeProvince(
   };
 }
 
-function makeProduct(
-  name: string,
-  price: number | null
-): Product {
+function makeProduct(name: string, price: number | null): Product {
   return {
     product: name,
     price_rupiah: price,

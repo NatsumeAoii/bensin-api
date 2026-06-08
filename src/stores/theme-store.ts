@@ -75,9 +75,15 @@ export const useThemeStore = create<ThemeState>((set) => ({
 
   initTheme: () => {
     const stored = getStoredTheme();
+    // Only persist when the user has previously made an explicit choice. When
+    // falling back to the OS preference, do NOT write to localStorage —
+    // otherwise the first visit "locks in" the current OS value and later OS
+    // dark-mode changes would stop being honored.
     const theme = stored ?? getOsPreference();
     applyTheme(theme);
-    persistTheme(theme);
+    if (stored !== null) {
+      persistTheme(stored);
+    }
     set({ theme });
   },
 }));

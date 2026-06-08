@@ -21,9 +21,9 @@ describe("Property 3: Error State Invariant — Message and Retry Always Paired"
   const timeoutErr = fc.constant(
     new ApiError("Koneksi terlalu lama", "TIMEOUT")
   );
-  const httpErr = fc.integer({ min: 400, max: 599 }).map(
-    (status) => new ApiError(`HTTP ${status}`, "HTTP_ERROR", status)
-  );
+  const httpErr = fc
+    .integer({ min: 400, max: 599 })
+    .map((status) => new ApiError(`HTTP ${status}`, "HTTP_ERROR", status));
   const parseErr = fc.constant(
     new ApiError("Gagal memuat data", "PARSE_ERROR")
   );

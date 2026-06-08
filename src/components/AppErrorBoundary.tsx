@@ -56,7 +56,8 @@ export class AppErrorBoundary extends Component<
               Aplikasi mengalami masalah
             </p>
             <p className="text-sm text-stone-600 dark:text-stone-400">
-              Terjadi kesalahan tak terduga. Muat ulang halaman untuk melanjutkan.
+              Terjadi kesalahan tak terduga. Muat ulang halaman untuk
+              melanjutkan.
             </p>
           </div>
           <button

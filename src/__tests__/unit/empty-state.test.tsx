@@ -26,7 +26,9 @@ describe("EmptyState", () => {
       />
     );
 
-    expect(screen.getByRole("button", { name: "Hapus filter" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Hapus filter" })
+    ).toBeInTheDocument();
   });
 
   it("calls action onClick when action button is clicked", () => {

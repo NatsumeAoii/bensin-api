@@ -38,6 +38,9 @@ interface FuelState {
   retry: (key: string) => Promise<void>;
 }
 
+type StoreSet = (partial: Partial<FuelState>) => void;
+type StoreGet = () => FuelState;
+
 /**
  * Parses a request key to determine which fetch to re-invoke.
  * Keys follow the format: "index", "province:{slug}", or "national".
@@ -55,14 +58,67 @@ function parseRequestKey(key: string): {
 }
 
 /**
- * Schedules a retry count reset after RETRY_RESET_MS when the max is hit.
+ * Schedules a retry count reset after RETRY_RESET_MS when the max is hit, so a
+ * user stranded by transient failures can try again once the window elapses.
  */
-function scheduleRetryReset(key: string, get: () => FuelState, set: (partial: Partial<FuelState>) => void): void {
+function scheduleRetryReset(key: string, get: StoreGet, set: StoreSet): void {
   clearTimeout(retryResetTimers[key]);
   retryResetTimers[key] = setTimeout(() => {
     const state = get();
     set({ retryCount: { ...state.retryCount, [key]: 0 } });
   }, RETRY_RESET_MS);
+}
+
+/** Normalizes any thrown value into an ApiError. */
+function toApiError(error: unknown): ApiError {
+  return error instanceof ApiError
+    ? error
+    : new ApiError("Gagal memuat data", "NETWORK_ERROR");
+}
+
+/**
+ * Shared fetch orchestration: cache short-circuit, retry-limit gate, loading
+ * flag management, success/failure state application, and retry-reset
+ * scheduling. Extracting this keeps the three resource fetchers identical in
+ * behavior and removes ~3x duplicated control flow.
+ *
+ * @param key          Retry-tracking key ("index", "national", "province:slug").
+ * @param hasCache     Whether cached data exists (skips fetch unless bypassed).
+ * @param bypassCache  Force a network fetch even when cached.
+ * @param fetcher      Performs the network request.
+ * @param onStart      Sets the loading flag(s) and clears prior error.
+ * @param onSuccess    Applies fetched data and clears loading/error.
+ * @param onError      Applies the error and clears loading.
+ */
+async function runFetch<T>(
+  key: string,
+  hasCache: boolean,
+  bypassCache: boolean,
+  get: StoreGet,
+  set: StoreSet,
+  fetcher: () => Promise<T>,
+  onStart: () => void,
+  onSuccess: (data: T) => void,
+  onError: (error: ApiError) => void
+): Promise<void> {
+  if (!bypassCache && hasCache) return;
+  if ((get().retryCount[key] ?? 0) >= MAX_RETRY_COUNT) return;
+
+  onStart();
+
+  try {
+    const data = await fetcher();
+    onSuccess(data);
+    set({ retryCount: { ...get().retryCount, [key]: 0 } });
+  } catch (error) {
+    const apiError = toApiError(error);
+    const newRetryCount = (get().retryCount[key] ?? 0) + 1;
+    onError(apiError);
+    set({ retryCount: { ...get().retryCount, [key]: newRetryCount } });
+    if (newRetryCount >= MAX_RETRY_COUNT) {
+      scheduleRetryReset(key, get, set);
+    }
+  }
 }
 
 export const useFuelStore = create<FuelState>((set, get) => ({
@@ -81,146 +137,76 @@ export const useFuelStore = create<FuelState>((set, get) => ({
 
   retryCount: {},
 
-  fetchIndex: async (bypassCache = false) => {
-    const state = get();
+  fetchIndex: (bypassCache = false) =>
+    runFetch(
+      "index",
+      get().index !== null,
+      bypassCache,
+      get,
+      set,
+      () => apiClient.getIndex(),
+      () => set({ indexLoading: true, indexError: null }),
+      (data) => set({ index: data, indexLoading: false, indexError: null }),
+      (error) => set({ indexLoading: false, indexError: error })
+    ),
 
-    // Return cached data if available and not bypassing
-    if (!bypassCache && state.index) return;
-
-    const key = "index";
-
-    // Check retry limit
-    if ((state.retryCount[key] ?? 0) >= MAX_RETRY_COUNT) return;
-
-    set({ indexLoading: true, indexError: null });
-
-    try {
-      const data = await apiClient.getIndex();
-
-      set({
-        index: data,
-        indexLoading: false,
-        indexError: null,
-        retryCount: { ...get().retryCount, [key]: 0 },
-      });
-    } catch (error) {
-      const apiError =
-        error instanceof ApiError
-          ? error
-          : new ApiError("Gagal memuat data", "NETWORK_ERROR");
-
-      const currentRetryCount = get().retryCount[key] ?? 0;
-      const newRetryCount = currentRetryCount + 1;
-
-      set({
-        indexLoading: false,
-        indexError: apiError,
-        retryCount: { ...get().retryCount, [key]: newRetryCount },
-      });
-
-      if (newRetryCount >= MAX_RETRY_COUNT) {
-        scheduleRetryReset(key, get, set);
-      }
-    }
-  },
-
-  fetchProvince: async (slug: string, bypassCache = false) => {
-    const state = get();
+  fetchProvince: (slug: string, bypassCache = false) => {
     const key = `province:${slug}`;
 
-    // Return cached data if available and not bypassing
-    if (!bypassCache && state.provinces[slug]) return;
-
-    // Check retry limit
-    if ((state.retryCount[key] ?? 0) >= MAX_RETRY_COUNT) return;
-
-    set({
-      provinceLoading: { ...get().provinceLoading, [slug]: true },
-      provinceError: { ...get().provinceError, [slug]: null },
-    });
-
-    try {
-      const data = await apiClient.getProvince(slug);
-
-      set({
-        provinces: { ...get().provinces, [slug]: data },
-        provinceLoading: { ...get().provinceLoading, [slug]: false },
-        provinceError: { ...get().provinceError, [slug]: null },
-        retryCount: { ...get().retryCount, [key]: 0 },
-      });
-    } catch (error) {
-      const apiError =
-        error instanceof ApiError
-          ? error
-          : new ApiError("Gagal memuat data", "NETWORK_ERROR");
-
-      const currentRetryCount = get().retryCount[key] ?? 0;
-      const newRetryCount = currentRetryCount + 1;
-      const existingData = get().provinces[slug];
-
-      set({
-        provinceLoading: { ...get().provinceLoading, [slug]: false },
-        provinceError: { ...get().provinceError, [slug]: apiError },
-        retryCount: { ...get().retryCount, [key]: newRetryCount },
-        // Preserve stale data if it exists
-        ...(existingData
-          ? { provinces: { ...get().provinces, [slug]: existingData } }
-          : {}),
-      });
-
-      if (newRetryCount >= MAX_RETRY_COUNT) {
-        scheduleRetryReset(key, get, set);
+    // Hydrate from already-fetched national data to skip a redundant request.
+    if (!bypassCache && !get().provinces[slug]) {
+      const fromNational = get().national?.provinces.find(
+        (p) => p.province_slug === slug
+      );
+      if (fromNational) {
+        set({ provinces: { ...get().provinces, [slug]: fromNational } });
+        return Promise.resolve();
       }
     }
+
+    return runFetch(
+      key,
+      get().provinces[slug] !== undefined,
+      bypassCache,
+      get,
+      set,
+      () => apiClient.getProvince(slug),
+      () =>
+        set({
+          provinceLoading: { ...get().provinceLoading, [slug]: true },
+          provinceError: { ...get().provinceError, [slug]: null },
+        }),
+      (data) =>
+        set({
+          provinces: { ...get().provinces, [slug]: data },
+          provinceLoading: { ...get().provinceLoading, [slug]: false },
+          provinceError: { ...get().provinceError, [slug]: null },
+        }),
+      (error) =>
+        // Stale data, if any, is already in `provinces[slug]` — leave it.
+        set({
+          provinceLoading: { ...get().provinceLoading, [slug]: false },
+          provinceError: { ...get().provinceError, [slug]: error },
+        })
+    );
   },
 
-  fetchNational: async (bypassCache = false) => {
-    const state = get();
-    const key = "national";
-
-    // Return cached data if available and not bypassing
-    if (!bypassCache && state.national) return;
-
-    // Check retry limit
-    if ((state.retryCount[key] ?? 0) >= MAX_RETRY_COUNT) return;
-
-    set({ nationalLoading: true, nationalError: null });
-
-    try {
-      const data = await apiClient.getNational();
-
-      set({
-        national: data,
-        nationalLoading: false,
-        nationalError: null,
-        retryCount: { ...get().retryCount, [key]: 0 },
-      });
-    } catch (error) {
-      const apiError =
-        error instanceof ApiError
-          ? error
-          : new ApiError("Gagal memuat data", "NETWORK_ERROR");
-
-      const currentRetryCount = get().retryCount[key] ?? 0;
-      const newRetryCount = currentRetryCount + 1;
-
-      set({
-        nationalLoading: false,
-        nationalError: apiError,
-        retryCount: { ...get().retryCount, [key]: newRetryCount },
-      });
-
-      if (newRetryCount >= MAX_RETRY_COUNT) {
-        scheduleRetryReset(key, get, set);
-      }
-    }
-  },
+  fetchNational: (bypassCache = false) =>
+    runFetch(
+      "national",
+      get().national !== null,
+      bypassCache,
+      get,
+      set,
+      () => apiClient.getNational(),
+      () => set({ nationalLoading: true, nationalError: null }),
+      (data) =>
+        set({ national: data, nationalLoading: false, nationalError: null }),
+      (error) => set({ nationalLoading: false, nationalError: error })
+    ),
 
   retry: async (key: string) => {
-    const state = get();
-
-    // Check if retry limit reached
-    if ((state.retryCount[key] ?? 0) >= MAX_RETRY_COUNT) return;
+    if ((get().retryCount[key] ?? 0) >= MAX_RETRY_COUNT) return;
 
     const { type, slug } = parseRequestKey(key);
 

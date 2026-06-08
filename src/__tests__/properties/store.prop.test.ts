@@ -21,10 +21,7 @@ describe("Feature: fuel-price-dashboard, Property 2: Store Data Round-Trip", () 
 
   const productArb: fc.Arbitrary<Product> = fc.record({
     product: fc.string({ minLength: 1, maxLength: 50 }),
-    price_rupiah: fc.oneof(
-      fc.nat({ max: 1_000_000_000 }),
-      fc.constant(null)
-    ),
+    price_rupiah: fc.oneof(fc.nat({ max: 1_000_000_000 }), fc.constant(null)),
     availability: availabilityArb,
   });
 
@@ -32,10 +29,16 @@ describe("Feature: fuel-price-dashboard, Property 2: Store Data Round-Trip", () 
     province: fc.string({ minLength: 1, maxLength: 100 }),
     province_slug: fc.stringMatching(/^[a-z][a-z0-9-]{0,50}$/),
     pertamina_updated_at: fc
-      .integer({ min: new Date("2020-01-01").getTime(), max: new Date("2030-12-31").getTime() })
+      .integer({
+        min: new Date("2020-01-01").getTime(),
+        max: new Date("2030-12-31").getTime(),
+      })
       .map((ts) => new Date(ts).toISOString()),
     synced_at: fc
-      .integer({ min: new Date("2020-01-01").getTime(), max: new Date("2030-12-31").getTime() })
+      .integer({
+        min: new Date("2020-01-01").getTime(),
+        max: new Date("2030-12-31").getTime(),
+      })
       .map((ts) => new Date(ts).toISOString()),
     products: fc.array(productArb, { minLength: 0, maxLength: 20 }),
   });

@@ -8,7 +8,9 @@ describe("ErrorState", () => {
     render(<ErrorState message="Gagal memuat data" onRetry={onRetry} />);
 
     expect(screen.getByText("Gagal memuat data")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Coba Lagi" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Coba Lagi" })
+    ).toBeInTheDocument();
   });
 
   it("calls onRetry when retry button is clicked", () => {
@@ -50,10 +52,16 @@ describe("ErrorState", () => {
   it("shows 'Coba Lagi' button text when not disabled", () => {
     const onRetry = vi.fn();
     render(
-      <ErrorState message="Gagal memuat data" onRetry={onRetry} disabled={false} />
+      <ErrorState
+        message="Gagal memuat data"
+        onRetry={onRetry}
+        disabled={false}
+      />
     );
 
-    expect(screen.getByRole("button", { name: "Coba Lagi" })).not.toBeDisabled();
+    expect(
+      screen.getByRole("button", { name: "Coba Lagi" })
+    ).not.toBeDisabled();
   });
 
   it("retry button has minimum 44x44px tap target", () => {

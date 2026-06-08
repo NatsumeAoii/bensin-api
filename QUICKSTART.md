@@ -85,9 +85,9 @@ Expected outputs:
 With `--fetch`, the script also writes `raw/raw-*.json` and overwrites
 `price.json`.
 
-## Known Quick-Start Limits
+## Notes
 
-- No `.env` setup is documented because no environment variables were found.
-- The frontend does not have an observed local API base URL switch.
-- The visible GitHub Actions workflow validates the Python sync path, not the
-  frontend npm checks.
+- `.env` setup is optional. Set `VITE_API_BASE_URL` (see `.env.example`) to
+  point the dashboard at locally generated `v1/` data.
+- CI runs both frontend checks (`ci.yml`) and the scheduled data sync
+  (`sync.yml`); the dashboard deploys via `deploy-pages.yml`.

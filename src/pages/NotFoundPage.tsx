@@ -10,11 +10,14 @@ export default function NotFoundPage() {
   useDocumentTitle("Halaman Tidak Ditemukan");
 
   return (
-    <main className="flex items-center justify-center py-16">
+    <div className="flex items-center justify-center py-16">
       <div className="flex flex-col items-center gap-6 rounded-3xl border border-dashed border-stone-300 bg-stone-50/50 p-12 text-center dark:border-stone-700 dark:bg-stone-900/50">
         {/* Icon */}
         <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-orange-100 to-red-100 dark:from-orange-950/50 dark:to-red-950/50">
-          <MapPin className="h-10 w-10 text-orange-500 dark:text-orange-400" aria-hidden="true" />
+          <MapPin
+            className="h-10 w-10 text-orange-500 dark:text-orange-400"
+            aria-hidden="true"
+          />
         </div>
 
         {/* Message */}
@@ -39,6 +42,6 @@ export default function NotFoundPage() {
           Kembali ke Beranda
         </Link>
       </div>
-    </main>
+    </div>
   );
 }

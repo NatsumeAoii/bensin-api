@@ -21,9 +21,15 @@ const availabilityLabels: Record<Availability, string> = {
 };
 
 const productArbitrary: fc.Arbitrary<Product> = fc.record({
-  product: fc.string({ minLength: 1, maxLength: 50 }).filter((s) => s.trim().length > 0),
+  product: fc
+    .string({ minLength: 1, maxLength: 50 })
+    .filter((s) => s.trim().length > 0),
   price_rupiah: fc.oneof(fc.nat({ max: 1_000_000_000 }), fc.constant(null)),
-  availability: fc.constantFrom<Availability>("available", "unavailable", "unknown"),
+  availability: fc.constantFrom<Availability>(
+    "available",
+    "unavailable",
+    "unknown"
+  ),
 });
 
 describe("Feature: fuel-price-dashboard, Property 13: PriceCard Aria-Label Completeness", () => {

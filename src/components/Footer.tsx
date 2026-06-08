@@ -19,8 +19,8 @@ export function Footer() {
               </span>
             </div>
             <p className="max-w-xs text-xs leading-relaxed text-stone-500 dark:text-stone-400">
-              Data harga BBM bersumber dari MyPertamina dan diperbarui secara otomatis setiap jam.
-              Proyek open-source untuk kepentingan publik.
+              Data harga BBM bersumber dari MyPertamina dan diperbarui secara
+              otomatis setiap jam. Proyek open-source untuk kepentingan publik.
             </p>
           </div>
 

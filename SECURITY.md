@@ -2,10 +2,10 @@
 
 ## Supported Versions
 
-| Version | Supported |
-| --- | --- |
-| Latest `main` branch | Yes |
-| Older commits or forks | No |
+| Version                | Supported |
+| ---------------------- | --------- |
+| Latest `main` branch   | Yes       |
+| Older commits or forks | No        |
 
 This repository is a single-branch static site and data pipeline. No separate
 release branches or supported legacy versions were found.
@@ -56,7 +56,8 @@ made through a GitHub Security Advisory when appropriate.
 - Python pipeline code in `pipeline/`.
 - Generated public JSON under `v1/`.
 - Frontend code under `src/`.
-- GitHub Actions workflow under `.github/workflows/sync.yml`.
+- GitHub Actions workflows under `.github/workflows/` (`sync.yml`, `ci.yml`,
+  `deploy-pages.yml`).
 - Direct npm and Python dependencies declared in `package.json` and
   `requirements.txt`.
 
@@ -73,21 +74,25 @@ made through a GitHub Security Advisory when appropriate.
   cookies, server sessions, or user-data collection.
 - Theme preference is stored in `localStorage` under the key `theme`.
 - The frontend fetches public JSON from
-  `https://nasgunawann.github.io/bensin-api` with a 10-second timeout.
+  `https://nasgunawann.github.io/bensin-api` (or `VITE_API_BASE_URL` when set)
+  with a 10-second timeout, and validates every response against a Zod schema
+  before use.
 - The pipeline can fetch from `https://api.web.mypertamina.id/price`; fetched
   payloads are written to `price.json`, `raw/`, and generated `v1/` files.
 - Pipeline output is validated with Pydantic before writes in
   `pipeline/fetch_normalize.py`.
-- The scheduled workflow uses `GITHUB_TOKEN` with `contents: write` and
-  `pull-requests: write`.
+- The scheduled sync workflow uses `GITHUB_TOKEN` with `contents: write` and
+  pushes regenerated snapshots directly to `main`. The Pages deploy workflow
+  uses `pages: write` and `id-token: write`.
 - No hardcoded application secrets were found in project source.
 
 ## Hardening Checklist
 
-- Keep npm and Python dependencies patched.
+- Keep npm and Python dependencies patched (Dependabot is configured in
+  `.github/dependabot.yml` for npm, pip, and GitHub Actions).
 - Review generated `v1/` diffs before trusting changed data.
-- Treat `raw/` payloads as untrusted upstream input.
-- Keep GitHub Actions permissions scoped to the minimum needed for PR creation
-  and merge.
-- Add frontend CI if dashboard code should be enforced before merge; the
-  visible workflow only runs the pipeline path.
+- Treat `raw/` payloads as untrusted upstream input; the generator validates
+  fetched payloads before overwriting `price.json`.
+- Keep GitHub Actions permissions scoped to the minimum needed.
+- Frontend code is enforced before merge by `ci.yml` (lint, typecheck, format
+  check, test, build).

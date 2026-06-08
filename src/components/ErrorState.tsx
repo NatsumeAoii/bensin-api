@@ -10,7 +10,11 @@ interface ErrorStateProps {
  * Displays an error message paired with a retry button.
  * Uses aria-live="assertive" to announce errors to screen readers immediately.
  */
-export function ErrorState({ message, onRetry, disabled = false }: ErrorStateProps) {
+export function ErrorState({
+  message,
+  onRetry,
+  disabled = false,
+}: ErrorStateProps) {
   return (
     <div
       role="alert"

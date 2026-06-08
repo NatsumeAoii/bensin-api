@@ -11,6 +11,14 @@ import { Footer } from "@/components/Footer";
 export function Layout() {
   return (
     <div className="flex min-h-screen flex-col overflow-x-hidden bg-stone-50 text-stone-900 dark:bg-stone-950 dark:text-stone-100">
+      {/* Skip to main content — first focusable element for keyboard/SR users */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[500] focus:rounded-xl focus:bg-white focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-orange-700 focus:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500 dark:focus:bg-stone-800 dark:focus:text-orange-400"
+      >
+        Lewati ke konten utama
+      </a>
+
       {/* Header */}
       <header className="sticky top-0 z-100 border-b border-stone-200/60 bg-white/80 backdrop-blur-xl dark:border-stone-800/60 dark:bg-stone-950/80">
         <nav
@@ -34,7 +42,12 @@ export function Layout() {
 
             <ul className="hidden items-center gap-1 sm:flex" role="list">
               <li>
-                <NavLink to="/" end className={desktopNavClass} aria-label="Daftar Provinsi">
+                <NavLink
+                  to="/"
+                  end
+                  className={desktopNavClass}
+                  aria-label="Daftar Provinsi"
+                >
                   {({ isActive }) => (
                     <span
                       className="inline-flex items-center gap-2"
@@ -47,7 +60,11 @@ export function Layout() {
                 </NavLink>
               </li>
               <li>
-                <NavLink to="/nasional" className={desktopNavClass} aria-label="Perbandingan Nasional">
+                <NavLink
+                  to="/nasional"
+                  className={desktopNavClass}
+                  aria-label="Perbandingan Nasional"
+                >
                   {({ isActive }) => (
                     <span
                       className="inline-flex items-center gap-2"
@@ -68,7 +85,7 @@ export function Layout() {
       </header>
 
       {/* Main content */}
-      <main className="flex-1">
+      <main id="main-content" tabIndex={-1} className="flex-1 outline-none">
         <div className="mx-auto max-w-6xl px-4 py-6 text-sm sm:px-6 sm:py-8 sm:text-base animate-fade-in">
           <Outlet />
         </div>
@@ -83,7 +100,12 @@ export function Layout() {
         className="fixed inset-x-0 bottom-0 z-100 border-t border-stone-200/80 bg-white/90 backdrop-blur-xl sm:hidden dark:border-stone-800/80 dark:bg-stone-950/90"
       >
         <div className="mx-auto flex max-w-md items-center justify-around px-4 py-2">
-          <NavLink to="/" end className={mobileNavClass} aria-label="Daftar Provinsi">
+          <NavLink
+            to="/"
+            end
+            className={mobileNavClass}
+            aria-label="Daftar Provinsi"
+          >
             {({ isActive }) => (
               <span
                 className="flex flex-col items-center gap-0.5"
@@ -94,7 +116,11 @@ export function Layout() {
               </span>
             )}
           </NavLink>
-          <NavLink to="/nasional" className={mobileNavClass} aria-label="Perbandingan Nasional">
+          <NavLink
+            to="/nasional"
+            className={mobileNavClass}
+            aria-label="Perbandingan Nasional"
+          >
             {({ isActive }) => (
               <span
                 className="flex flex-col items-center gap-0.5"
@@ -120,7 +146,8 @@ export function Layout() {
 function desktopNavClass({ isActive }: { isActive: boolean }): string {
   const base =
     "inline-flex min-h-[44px] items-center gap-2 rounded-lg px-3.5 py-2 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500";
-  const active = "bg-orange-50 text-orange-700 dark:bg-orange-950/30 dark:text-orange-400";
+  const active =
+    "bg-orange-50 text-orange-700 dark:bg-orange-950/30 dark:text-orange-400";
   const inactive =
     "text-stone-600 hover:bg-stone-100 hover:text-stone-900 dark:text-stone-400 dark:hover:bg-stone-800 dark:hover:text-white";
   return `${base} ${isActive ? active : inactive}`;

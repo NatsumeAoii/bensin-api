@@ -40,11 +40,41 @@ describe("API Client", () => {
   });
 
   describe("fetchJson via apiClient methods", () => {
+    const validIndex = {
+      api_name: "Indonesia Fuel Price API",
+      version: "v1",
+      author: "Nasrullah Gunawan",
+      github_repository: "https://github.com/nasgunawann/bensin-api",
+      synced_at: "2026-06-07T10:52:30.988674Z",
+      pertamina_updated_at: "2026-06-01T15:59:37.000Z",
+      provinsi_count: 0,
+      provinsi: {},
+      endpoints: { all_provinces: "/v1/nasional.json" },
+    };
+
+    const validProvince = {
+      province: "Prov. DKI Jakarta",
+      province_slug: "dki-jakarta",
+      pertamina_updated_at: "2026-06-01T15:59:37.000Z",
+      synced_at: "2026-06-07T10:52:30.997106Z",
+      products: [
+        { product: "PERTAMAX", price_rupiah: 12600, availability: "available" },
+      ],
+    };
+
+    const validNational = {
+      version: "v1",
+      synced_at: "2026-06-07T10:52:30.988674Z",
+      pertamina_updated_at: "2026-06-01T15:59:37.000Z",
+      provinces: [validProvince],
+    };
+
     it("getIndex fetches from correct URL", async () => {
-      const mockData = { api_name: "bensin-api", provinsi: {} };
-      const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue(
-        new Response(JSON.stringify(mockData), { status: 200 })
-      );
+      const fetchSpy = vi
+        .spyOn(globalThis, "fetch")
+        .mockResolvedValue(
+          new Response(JSON.stringify(validIndex), { status: 200 })
+        );
 
       const result = await apiClient.getIndex();
 
@@ -52,14 +82,15 @@ describe("API Client", () => {
         "https://nasgunawann.github.io/bensin-api/v1/index.json",
         expect.objectContaining({ signal: expect.any(AbortSignal) })
       );
-      expect(result).toEqual(mockData);
+      expect(result).toEqual(validIndex);
     });
 
     it("getProvince fetches from correct URL with slug", async () => {
-      const mockData = { province: "DKI Jakarta", products: [] };
-      const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue(
-        new Response(JSON.stringify(mockData), { status: 200 })
-      );
+      const fetchSpy = vi
+        .spyOn(globalThis, "fetch")
+        .mockResolvedValue(
+          new Response(JSON.stringify(validProvince), { status: 200 })
+        );
 
       const result = await apiClient.getProvince("dki-jakarta");
 
@@ -67,14 +98,15 @@ describe("API Client", () => {
         "https://nasgunawann.github.io/bensin-api/v1/provinsi/dki-jakarta.json",
         expect.objectContaining({ signal: expect.any(AbortSignal) })
       );
-      expect(result).toEqual(mockData);
+      expect(result).toEqual(validProvince);
     });
 
     it("getNational fetches from correct URL", async () => {
-      const mockData = { version: "1.0", provinces: [] };
-      const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue(
-        new Response(JSON.stringify(mockData), { status: 200 })
-      );
+      const fetchSpy = vi
+        .spyOn(globalThis, "fetch")
+        .mockResolvedValue(
+          new Response(JSON.stringify(validNational), { status: 200 })
+        );
 
       const result = await apiClient.getNational();
 
@@ -82,7 +114,31 @@ describe("API Client", () => {
         "https://nasgunawann.github.io/bensin-api/v1/nasional.json",
         expect.objectContaining({ signal: expect.any(AbortSignal) })
       );
-      expect(result).toEqual(mockData);
+      expect(result).toEqual(validNational);
+    });
+
+    it("throws VALIDATION_ERROR when payload shape is invalid", async () => {
+      vi.spyOn(globalThis, "fetch").mockResolvedValue(
+        new Response(JSON.stringify({ api_name: "bensin-api", provinsi: {} }), {
+          status: 200,
+        })
+      );
+
+      await expect(apiClient.getIndex()).rejects.toMatchObject({
+        code: "VALIDATION_ERROR",
+        message: "Format data tidak valid",
+      });
+    });
+
+    it("throws INVALID_INPUT for a malformed slug without fetching", async () => {
+      const fetchSpy = vi.spyOn(globalThis, "fetch");
+
+      await expect(
+        apiClient.getProvince("../etc/passwd")
+      ).rejects.toMatchObject({
+        code: "INVALID_INPUT",
+      });
+      expect(fetchSpy).not.toHaveBeenCalled();
     });
 
     it("throws HTTP_ERROR for non-200 response", async () => {
@@ -90,12 +146,16 @@ describe("API Client", () => {
         new Response("Not Found", { status: 404 })
       );
 
-      await expect(apiClient.getProvince("invalid-slug")).rejects.toThrow(ApiError);
-      await expect(apiClient.getProvince("invalid-slug")).rejects.toMatchObject({
-        code: "HTTP_ERROR",
-        status: 404,
-        message: "HTTP 404",
-      });
+      await expect(apiClient.getProvince("invalid-slug")).rejects.toThrow(
+        ApiError
+      );
+      await expect(apiClient.getProvince("invalid-slug")).rejects.toMatchObject(
+        {
+          code: "HTTP_ERROR",
+          status: 404,
+          message: "HTTP 404",
+        }
+      );
     });
 
     it("throws PARSE_ERROR when response is not valid JSON", async () => {
@@ -139,7 +199,7 @@ describe("API Client", () => {
     it("clears timeout after successful response", async () => {
       const clearTimeoutSpy = vi.spyOn(globalThis, "clearTimeout");
       vi.spyOn(globalThis, "fetch").mockResolvedValue(
-        new Response(JSON.stringify({ data: "test" }), { status: 200 })
+        new Response(JSON.stringify(validIndex), { status: 200 })
       );
 
       await apiClient.getIndex();

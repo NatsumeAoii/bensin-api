@@ -5,6 +5,7 @@ import { ErrorState } from "@/components/ErrorState";
 import { SkeletonLoader } from "@/components/SkeletonLoader";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import { Layout } from "@/components/Layout";
+import { retryDynamicImport } from "@/utils/retry-import";
 
 const routerBasename =
   import.meta.env.BASE_URL === "/"
@@ -15,16 +16,10 @@ const routerBasename =
  * Retryable lazy import — wraps a dynamic import with retry logic
  * so that chunk load failures (CDN blip, flaky network) can be recovered.
  */
-function lazyWithRetry(importFn: () => Promise<{ default: React.ComponentType }>) {
-  return React.lazy(() =>
-    importFn().catch(() => {
-      return new Promise<{ default: React.ComponentType }>((resolve, reject) => {
-        setTimeout(() => {
-          importFn().then(resolve).catch(reject);
-        }, 1000);
-      });
-    })
-  );
+function lazyWithRetry(
+  importFn: () => Promise<{ default: React.ComponentType }>
+) {
+  return React.lazy(() => retryDynamicImport(importFn));
 }
 
 const ProvinceListPage = lazyWithRetry(
@@ -33,12 +28,8 @@ const ProvinceListPage = lazyWithRetry(
 const ProvinceDetailPage = lazyWithRetry(
   () => import("@/pages/ProvinceDetailPage")
 );
-const NationalPage = lazyWithRetry(
-  () => import("@/pages/NationalPage")
-);
-const NotFoundPage = lazyWithRetry(
-  () => import("@/pages/NotFoundPage")
-);
+const NationalPage = lazyWithRetry(() => import("@/pages/NationalPage"));
+const NotFoundPage = lazyWithRetry(() => import("@/pages/NotFoundPage"));
 
 /**
  * Suspense fallback — shows skeleton loader while route chunk is downloading.
@@ -62,7 +53,10 @@ interface ChunkErrorBoundaryState {
   hasError: boolean;
 }
 
-class ChunkErrorBoundary extends Component<ChunkErrorBoundaryProps, ChunkErrorBoundaryState> {
+class ChunkErrorBoundary extends Component<
+  ChunkErrorBoundaryProps,
+  ChunkErrorBoundaryState
+> {
   state: ChunkErrorBoundaryState = { hasError: false };
 
   static getDerivedStateFromError(): ChunkErrorBoundaryState {
@@ -76,10 +70,7 @@ class ChunkErrorBoundary extends Component<ChunkErrorBoundaryProps, ChunkErrorBo
   render() {
     if (this.state.hasError) {
       return (
-        <ErrorState
-          message="Gagal memuat halaman"
-          onRetry={this.handleRetry}
-        />
+        <ErrorState message="Gagal memuat halaman" onRetry={this.handleRetry} />
       );
     }
     return this.props.children;
@@ -92,9 +83,7 @@ class ChunkErrorBoundary extends Component<ChunkErrorBoundaryProps, ChunkErrorBo
 function LazyRoute({ element }: { element: ReactNode }) {
   return (
     <ChunkErrorBoundary>
-      <Suspense fallback={<RouteFallback />}>
-        {element}
-      </Suspense>
+      <Suspense fallback={<RouteFallback />}>{element}</Suspense>
     </ChunkErrorBoundary>
   );
 }

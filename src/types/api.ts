@@ -22,7 +22,7 @@ export interface IndexResponse {
   pertamina_updated_at: string;
   provinsi_count: number;
   provinsi: Record<string, IndexProvinceEntry>;
-  endpoints: { all_provinces: string };
+  endpoints: Record<string, string>;
 }
 
 export type Availability = "available" | "unavailable" | "unknown";

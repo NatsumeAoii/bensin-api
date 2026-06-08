@@ -2,14 +2,23 @@
 
 ## `npm run dev` starts, but data is not local
 
-The frontend API client is hard-coded to:
+By default the frontend API client fetches from:
 
 ```text
 https://nasgunawann.github.io/bensin-api
 ```
 
-Generating local `v1/` files does not make the current frontend read them. No
-environment-variable override was found.
+To read locally generated `v1/` files, set `VITE_API_BASE_URL` in a `.env.local`
+file (see `.env.example`) to a host serving the repo root, then start a static
+server there. For example:
+
+```text
+VITE_API_BASE_URL=http://localhost:3000
+```
+
+```bash
+npx serve .   # or: python -m http.server 3000
+```
 
 ## `npm run build` fails on bundle size
 
@@ -53,20 +62,12 @@ Install pipeline dependencies first:
 pip install -r requirements.txt
 ```
 
-## Regenerating `v1/` changes product names
+## Regenerating `v1/` changes timestamps
 
-The current committed `v1/` snapshots still contain:
-
-- `PERTAMINA BIOSOLAR SUBSIDI`
-- `PERTAMINA BIOSOLAR NON SUBSIDI`
-
-The current pipeline maps those to:
-
-- `BIOSOLAR`
-- `BIOSOLAR NON SUBSIDI`
-
-If you regenerate `v1/`, expect a diff in product names as well as `synced_at`
-timestamps.
+The committed `v1/` snapshots already use the canonical product names from
+`PRODUCT_CANONICAL_MAP` (e.g. `BIOSOLAR`, `BIOSOLAR NON SUBSIDI`). Regenerating
+from the committed `price.json` changes only the `synced_at` timestamps, so
+review the diff and discard a timestamp-only churn if you did not intend it.
 
 ## `npm run test:all` fails after frontend tests pass
 
@@ -96,15 +97,16 @@ Use the visible refresh action after the connection recovers.
 
 ## The scheduled sync workflow publishes bad data
 
-The workflow has three inline sanity checks before it opens and auto-merges a
-pull request:
+The workflow runs `python -m pipeline.sanity_check` before committing, which
+enforces:
 
 - At least 30 province entries in `v1/index.json`.
 - At least 50% of product prices are non-null.
 - `v1/nasional.json` size is between 10 KB and 10 MB.
 
-If a bad snapshot passes these checks, add a more specific pipeline test or
-sanity-check rule.
+It then pushes the updated snapshots directly to `main`. If a bad snapshot
+passes these checks, add a more specific pipeline test or extend
+`pipeline/sanity_check.py`.
 
 ## `@/` imports do not resolve
 

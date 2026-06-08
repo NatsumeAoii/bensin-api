@@ -15,9 +15,8 @@ import { ApiError } from "@/api/client";
  */
 
 vi.mock("@/api/client", async () => {
-  const actual = await vi.importActual<typeof import("@/api/client")>(
-    "@/api/client"
-  );
+  const actual =
+    await vi.importActual<typeof import("@/api/client")>("@/api/client");
   return {
     ...actual,
     apiClient: {
@@ -131,98 +130,88 @@ describe("Property 12: Retry Maximum Invariant", () => {
 
   it("a successful fetch always resets failure count to 0 regardless of prior failures", async () => {
     await fc.assert(
-      fc.asyncProperty(
-        fc.nat({ max: 2 }),
-        async (failuresBefore) => {
-          // Reset store and mocks
-          useFuelStore.setState({
-            index: null,
-            indexLoading: false,
-            indexError: null,
-            provinces: {},
-            provinceLoading: {},
-            provinceError: {},
-            national: null,
-            nationalLoading: false,
-            nationalError: null,
-            retryCount: {},
-          });
-          vi.mocked(apiClient.getIndex).mockReset();
+      fc.asyncProperty(fc.nat({ max: 2 }), async (failuresBefore) => {
+        // Reset store and mocks
+        useFuelStore.setState({
+          index: null,
+          indexLoading: false,
+          indexError: null,
+          provinces: {},
+          provinceLoading: {},
+          provinceError: {},
+          national: null,
+          nationalLoading: false,
+          nationalError: null,
+          retryCount: {},
+        });
+        vi.mocked(apiClient.getIndex).mockReset();
 
-          const key = "index";
+        const key = "index";
 
-          // Simulate `failuresBefore` consecutive failures
-          for (let i = 0; i < failuresBefore; i++) {
-            vi.mocked(apiClient.getIndex).mockRejectedValueOnce(
-              new ApiError("Gagal memuat data", "NETWORK_ERROR")
-            );
-            useFuelStore.setState({ index: null });
-            await useFuelStore.getState().fetchIndex();
-          }
-
-          expect(useFuelStore.getState().retryCount[key] ?? 0).toBe(
-            failuresBefore
-          );
-
-          // Now a successful fetch should reset the count
-          vi.mocked(apiClient.getIndex).mockResolvedValueOnce(
-            mockIndexResponse
+        // Simulate `failuresBefore` consecutive failures
+        for (let i = 0; i < failuresBefore; i++) {
+          vi.mocked(apiClient.getIndex).mockRejectedValueOnce(
+            new ApiError("Gagal memuat data", "NETWORK_ERROR")
           );
           useFuelStore.setState({ index: null });
           await useFuelStore.getState().fetchIndex();
-
-          expect(useFuelStore.getState().retryCount[key]).toBe(0);
         }
-      ),
+
+        expect(useFuelStore.getState().retryCount[key] ?? 0).toBe(
+          failuresBefore
+        );
+
+        // Now a successful fetch should reset the count
+        vi.mocked(apiClient.getIndex).mockResolvedValueOnce(mockIndexResponse);
+        useFuelStore.setState({ index: null });
+        await useFuelStore.getState().fetchIndex();
+
+        expect(useFuelStore.getState().retryCount[key]).toBe(0);
+      }),
       { numRuns: 100 }
     );
   });
 
   it("after exactly 3 consecutive failures, the retry action is disabled", async () => {
     await fc.assert(
-      fc.asyncProperty(
-        fc.constant(null),
-        async () => {
-          // Reset store and mocks
-          useFuelStore.setState({
-            index: null,
-            indexLoading: false,
-            indexError: null,
-            provinces: {},
-            provinceLoading: {},
-            provinceError: {},
-            national: null,
-            nationalLoading: false,
-            nationalError: null,
-            retryCount: {},
-          });
-          vi.mocked(apiClient.getIndex).mockReset();
+      fc.asyncProperty(fc.constant(null), async () => {
+        // Reset store and mocks
+        useFuelStore.setState({
+          index: null,
+          indexLoading: false,
+          indexError: null,
+          provinces: {},
+          provinceLoading: {},
+          provinceError: {},
+          national: null,
+          nationalLoading: false,
+          nationalError: null,
+          retryCount: {},
+        });
+        vi.mocked(apiClient.getIndex).mockReset();
 
-          const key = "index";
+        const key = "index";
 
-          // Cause exactly 3 failures
-          for (let i = 0; i < 3; i++) {
-            vi.mocked(apiClient.getIndex).mockRejectedValueOnce(
-              new ApiError("Gagal memuat data", "NETWORK_ERROR")
-            );
-            useFuelStore.setState({ index: null });
-            await useFuelStore.getState().fetchIndex();
-          }
-
-          expect(useFuelStore.getState().retryCount[key]).toBe(3);
-
-          // Now retry should be blocked — apiClient should NOT be called
-          vi.mocked(apiClient.getIndex).mockResolvedValueOnce(
-            mockIndexResponse
+        // Cause exactly 3 failures
+        for (let i = 0; i < 3; i++) {
+          vi.mocked(apiClient.getIndex).mockRejectedValueOnce(
+            new ApiError("Gagal memuat data", "NETWORK_ERROR")
           );
-          const callsBefore = vi.mocked(apiClient.getIndex).mock.calls.length;
-
-          await useFuelStore.getState().retry(key);
-
-          const callsAfter = vi.mocked(apiClient.getIndex).mock.calls.length;
-          expect(callsAfter).toBe(callsBefore);
+          useFuelStore.setState({ index: null });
+          await useFuelStore.getState().fetchIndex();
         }
-      ),
+
+        expect(useFuelStore.getState().retryCount[key]).toBe(3);
+
+        // Now retry should be blocked — apiClient should NOT be called
+        vi.mocked(apiClient.getIndex).mockResolvedValueOnce(mockIndexResponse);
+        const callsBefore = vi.mocked(apiClient.getIndex).mock.calls.length;
+
+        await useFuelStore.getState().retry(key);
+
+        const callsAfter = vi.mocked(apiClient.getIndex).mock.calls.length;
+        expect(callsAfter).toBe(callsBefore);
+      }),
       { numRuns: 100 }
     );
   });

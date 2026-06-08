@@ -2,8 +2,14 @@ import { readdir, readFile } from "node:fs/promises";
 import { gzipSync } from "node:zlib";
 import { join } from "node:path";
 
-const MAX_GZIP_SIZE_KB = 200;
+const MAX_JS_GZIP_KB = 200;
+const MAX_CSS_GZIP_KB = 75;
 const DIST_ASSETS_DIR = join(import.meta.dirname, "..", "dist", "assets");
+
+async function gzipKb(filePath) {
+  const content = await readFile(filePath);
+  return gzipSync(content).length / 1024;
+}
 
 async function checkBundleSize() {
   let files;
@@ -15,6 +21,7 @@ async function checkBundleSize() {
   }
 
   const jsFiles = files.filter((file) => file.endsWith(".js"));
+  const cssFiles = files.filter((file) => file.endsWith(".css"));
 
   if (jsFiles.length === 0) {
     console.error("❌ No JS files found in dist/assets/");
@@ -22,31 +29,38 @@ async function checkBundleSize() {
   }
 
   let hasFailure = false;
+  let totalKb = 0;
 
   for (const file of jsFiles) {
-    const filePath = join(DIST_ASSETS_DIR, file);
-    const content = await readFile(filePath);
-    const gzipped = gzipSync(content);
-    const sizeKB = gzipped.length / 1024;
-
-    const status = sizeKB > MAX_GZIP_SIZE_KB ? "❌ FAIL" : "✅ OK";
+    const sizeKB = await gzipKb(join(DIST_ASSETS_DIR, file));
+    totalKb += sizeKB;
+    const ok = sizeKB <= MAX_JS_GZIP_KB;
+    if (!ok) hasFailure = true;
     console.log(
-      `${status}  ${file}: ${sizeKB.toFixed(2)} KB gzipped (limit: ${MAX_GZIP_SIZE_KB} KB)`
+      `${ok ? "✅ OK" : "❌ FAIL"}  ${file}: ${sizeKB.toFixed(2)} KB gzipped (limit: ${MAX_JS_GZIP_KB} KB)`
     );
-
-    if (sizeKB > MAX_GZIP_SIZE_KB) {
-      hasFailure = true;
-    }
   }
+
+  for (const file of cssFiles) {
+    const sizeKB = await gzipKb(join(DIST_ASSETS_DIR, file));
+    totalKb += sizeKB;
+    const ok = sizeKB <= MAX_CSS_GZIP_KB;
+    if (!ok) hasFailure = true;
+    console.log(
+      `${ok ? "✅ OK" : "❌ FAIL"}  ${file}: ${sizeKB.toFixed(2)} KB gzipped (limit: ${MAX_CSS_GZIP_KB} KB)`
+    );
+  }
+
+  console.log(`\nTotal asset payload: ${totalKb.toFixed(2)} KB gzipped`);
 
   if (hasFailure) {
     console.error(
-      `\n❌ Bundle size check failed. Main JS chunk must be < ${MAX_GZIP_SIZE_KB} KB gzipped.`
+      `\n❌ Bundle size check failed. JS chunks must be < ${MAX_JS_GZIP_KB} KB and CSS < ${MAX_CSS_GZIP_KB} KB gzipped.`
     );
     process.exit(1);
   }
 
-  console.log("\n✅ All JS chunks are within the size budget.");
+  console.log("\n✅ All assets are within the size budget.");
 }
 
 checkBundleSize();

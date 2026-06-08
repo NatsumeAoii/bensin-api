@@ -34,7 +34,9 @@ describe("StaleTimeBanner", () => {
   });
 
   it("renders the warning exactly at the 13-hour boundary", () => {
-    const exactlyThirteenHoursAgo = new Date("2026-06-04T23:00:00Z").toISOString();
+    const exactlyThirteenHoursAgo = new Date(
+      "2026-06-04T23:00:00Z"
+    ).toISOString();
     render(<StaleTimeBanner syncedAt={exactlyThirteenHoursAgo} now={now} />);
 
     // Boundary is inclusive: at exactly 13h the data is considered stale

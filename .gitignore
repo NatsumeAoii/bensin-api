@@ -39,6 +39,7 @@ var/
 .cache
 .pytest_cache/
 htmlcov/
+coverage/
 
 # Hypothesis test cache
 .hypothesis/

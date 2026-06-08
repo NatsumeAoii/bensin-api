@@ -9,7 +9,12 @@ interface PriceCardProps {
 
 const availabilityConfig: Record<
   Availability,
-  { label: string; icon: typeof CheckCircle2; colorClass: string; bgClass: string }
+  {
+    label: string;
+    icon: typeof CheckCircle2;
+    colorClass: string;
+    bgClass: string;
+  }
 > = {
   available: {
     label: "Tersedia",
@@ -48,7 +53,9 @@ export function PriceCard({ product }: PriceCardProps) {
       {/* Subtle accent bar at top */}
       <div
         className="absolute inset-x-0 top-0 h-1 opacity-80"
-        style={{ background: `linear-gradient(90deg, ${productColor.from}, ${productColor.to})` }}
+        style={{
+          background: `linear-gradient(90deg, ${productColor.from}, ${productColor.to})`,
+        }}
         aria-hidden="true"
       />
 
@@ -57,7 +64,9 @@ export function PriceCard({ product }: PriceCardProps) {
         <div className="flex items-center gap-2.5">
           <div
             className="flex h-9 w-9 items-center justify-center rounded-lg"
-            style={{ background: `linear-gradient(135deg, ${productColor.from}20, ${productColor.to}20)` }}
+            style={{
+              background: `linear-gradient(135deg, ${productColor.from}20, ${productColor.to}20)`,
+            }}
           >
             <Droplets
               size={18}
@@ -77,7 +86,9 @@ export function PriceCard({ product }: PriceCardProps) {
       </p>
 
       {/* Availability badge */}
-      <div className={`mt-3 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 ${config.bgClass}`}>
+      <div
+        className={`mt-3 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 ${config.bgClass}`}
+      >
         <Icon size={14} aria-hidden="true" className={config.colorClass} />
         <span className={`text-xs font-medium ${config.colorClass}`}>
           {config.label}

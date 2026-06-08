@@ -44,9 +44,8 @@ The generated static API is committed under `v1/`.
 - `v1/provinsi/*.json` contains one province per file.
 
 Current observed snapshots contain 40 province files and 9 products per
-province. The current committed snapshots and current pipeline canonicalization
-are not fully aligned for BIOSOLAR product names; see `README.md` Q&A and
-`TROUBLESHOOTING.md`.
+province. The committed snapshots use the canonical product names from
+`PRODUCT_CANONICAL_MAP` (e.g. `BIOSOLAR`, `BIOSOLAR NON SUBSIDI`).
 
 ## Frontend Application
 
@@ -57,8 +56,9 @@ The frontend lives in `src/` and is built by Vite.
 - `src/App.tsx` initializes the theme store and renders `RouterProvider`.
 - `src/router.tsx` defines lazy-loaded routes with retry and chunk-error
   handling.
-- `src/api/client.ts` fetches the static API with a 10-second timeout and typed
-  `ApiError` classifications.
+- `src/api/client.ts` fetches the static API (base URL overridable via
+  `VITE_API_BASE_URL`) with a 10-second timeout, validates responses against
+  Zod schemas, and raises typed `ApiError` classifications.
 - `src/stores/fuel-store.ts` caches index, province, and national data in
   Zustand and tracks failed attempts per request key.
 - `src/stores/theme-store.ts` stores light/dark theme preference in
@@ -66,12 +66,12 @@ The frontend lives in `src/` and is built by Vite.
 
 Observed routes:
 
-| Route | Component | Purpose |
-| --- | --- | --- |
-| `/` | `ProvinceListPage` | Searchable province list. |
-| `/provinsi/:slug` | `ProvinceDetailPage` | Province-specific price cards. |
-| `/nasional` | `NationalPage` | National comparison by product. |
-| `*` | `NotFoundPage` | 404 fallback. |
+| Route             | Component            | Purpose                         |
+| ----------------- | -------------------- | ------------------------------- |
+| `/`               | `ProvinceListPage`   | Searchable province list.       |
+| `/provinsi/:slug` | `ProvinceDetailPage` | Province-specific price cards.  |
+| `/nasional`       | `NationalPage`       | National comparison by product. |
+| `*`               | `NotFoundPage`       | 404 fallback.                   |
 
 ## UI And State Patterns
 
@@ -110,14 +110,18 @@ Testing:
 - `fast-check` property tests under `src/__tests__/properties/`.
 - pytest and Hypothesis for pipeline tests.
 
-## CI Workflow
+## CI Workflows
 
-The observed workflow is `.github/workflows/sync.yml`.
+Three workflows live under `.github/workflows/`:
 
-It is a scheduled data-sync workflow, not a full frontend CI workflow. It runs
-hourly and on manual dispatch, fetches upstream data, regenerates `v1/`, runs
-pipeline tests, performs data sanity checks, opens a pull request, and
-auto-merges that pull request.
+- `sync.yml` — scheduled every 6 hours (and manual dispatch). Fetches upstream
+  data, regenerates `v1/`, runs pipeline tests, runs `python -m
+pipeline.sanity_check`, then commits and pushes the snapshots directly to
+  `main`. A `concurrency` group prevents overlapping runs from racing.
+- `ci.yml` — runs on push and pull request. A frontend job (`npm ci`, lint,
+  typecheck, format check, test, build) and a pipeline job (pytest).
+- `deploy-pages.yml` — builds the dashboard with `npm ci` and deploys to GitHub
+  Pages on push to `main`, after a successful sync, or on manual dispatch.
 
 ## Security Boundaries
 
@@ -125,16 +129,16 @@ auto-merges that pull request.
 - The frontend has no authentication, cookies, or server-side execution.
 - The theme preference is stored in `localStorage`.
 - The pipeline calls an external upstream service and writes files locally.
-- The GitHub workflow uses `GITHUB_TOKEN` with `contents: write` and
-  `pull-requests: write`.
+- The sync workflow uses `GITHUB_TOKEN` with `contents: write` and pushes to
+  `main`. The Pages deploy workflow uses `pages: write` and `id-token: write`.
 
 ## Generated And Installed Artifacts
 
 These directories are present in this workspace but are not maintained source:
 
 - `node_modules/`
-- `web/node_modules/`
 - `dist/`
+- `coverage/`
 - `.pytest_cache/`
 - `.hypothesis/`
 - Python `__pycache__/`

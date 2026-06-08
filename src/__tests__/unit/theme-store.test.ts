@@ -91,6 +91,22 @@ describe("Theme Store", () => {
 
       expect(useThemeStore.getState().theme).toBe("light");
     });
+
+    it("does not persist when falling back to OS preference", () => {
+      // No stored value — init resolves via OS preference and must NOT write,
+      // so later OS dark-mode changes keep being honored on subsequent visits.
+      useThemeStore.getState().initTheme();
+
+      expect(localStorage.getItem("theme")).toBeNull();
+    });
+
+    it("persists the stored value when one already exists", () => {
+      localStorage.setItem("theme", "dark");
+
+      useThemeStore.getState().initTheme();
+
+      expect(localStorage.getItem("theme")).toBe("dark");
+    });
   });
 
   describe("setTheme", () => {

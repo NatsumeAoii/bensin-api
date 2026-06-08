@@ -9,9 +9,8 @@ import type {
 
 // Mock the API client
 vi.mock("@/api/client", async () => {
-  const actual = await vi.importActual<typeof import("@/api/client")>(
-    "@/api/client"
-  );
+  const actual =
+    await vi.importActual<typeof import("@/api/client")>("@/api/client");
   return {
     ...actual,
     apiClient: {
@@ -190,6 +189,29 @@ describe("Fuel Store", () => {
       expect(state.provinceLoading["bali"]).toBe(false);
       expect(state.retryCount["province:bali"]).toBe(1);
     });
+
+    it("hydrates province from cached national data without a network call", async () => {
+      useFuelStore.setState({ national: mockNational });
+
+      await useFuelStore.getState().fetchProvince("jawa-barat");
+
+      const state = useFuelStore.getState();
+      expect(state.provinces["jawa-barat"]).toEqual(mockProvince);
+      expect(apiClient.getProvince).not.toHaveBeenCalled();
+    });
+
+    it("fetches from network when national lacks the requested province", async () => {
+      useFuelStore.setState({ national: mockNational });
+      vi.mocked(apiClient.getProvince).mockResolvedValueOnce({
+        ...mockProvince,
+        province: "Bali",
+        province_slug: "bali",
+      });
+
+      await useFuelStore.getState().fetchProvince("bali");
+
+      expect(apiClient.getProvince).toHaveBeenCalledWith("bali");
+    });
   });
 
   describe("fetchNational", () => {
@@ -313,6 +335,36 @@ describe("Fuel Store", () => {
       expect(state.indexError?.message).toBeTruthy();
       // Retry is still possible (count < max)
       expect(state.retryCount["index"]).toBeLessThan(3);
+    });
+  });
+
+  describe("retry-count reset timer", () => {
+    it("re-enables fetching after the reset window once the max is hit", async () => {
+      vi.useFakeTimers();
+      try {
+        const error = new ApiError("Gagal memuat data", "NETWORK_ERROR");
+        vi.mocked(apiClient.getIndex).mockRejectedValue(error);
+
+        // Exhaust the retry budget.
+        await useFuelStore.getState().fetchIndex();
+        await useFuelStore.getState().fetchIndex();
+        await useFuelStore.getState().fetchIndex();
+        expect(useFuelStore.getState().retryCount["index"]).toBe(3);
+
+        // While exhausted, fetches are blocked.
+        await useFuelStore.getState().fetchIndex();
+        expect(apiClient.getIndex).toHaveBeenCalledTimes(3);
+
+        // After the reset window, the count clears and fetching resumes.
+        await vi.advanceTimersByTimeAsync(30_000);
+        expect(useFuelStore.getState().retryCount["index"]).toBe(0);
+
+        vi.mocked(apiClient.getIndex).mockResolvedValueOnce(mockIndex);
+        await useFuelStore.getState().fetchIndex();
+        expect(useFuelStore.getState().index).toEqual(mockIndex);
+      } finally {
+        vi.useRealTimers();
+      }
     });
   });
 });

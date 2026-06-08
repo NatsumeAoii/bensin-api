@@ -82,7 +82,9 @@ describe("PriceHistoryChart", () => {
     await waitFor(() => {
       expect(screen.getByText("Riwayat Harga")).toBeInTheDocument();
     });
-    expect(screen.getByRole("img", { name: /Grafik riwayat harga/ })).toBeInTheDocument();
+    expect(
+      screen.getByRole("img", { name: /Grafik riwayat harga/ })
+    ).toBeInTheDocument();
   });
 
   it("shows the empty state when no products exist", async () => {
@@ -95,7 +97,9 @@ describe("PriceHistoryChart", () => {
     render(<PriceHistoryChart slug="aceh" />);
 
     await waitFor(() => {
-      expect(screen.getByText(/Riwayat harga belum tersedia/)).toBeInTheDocument();
+      expect(
+        screen.getByText(/Riwayat harga belum tersedia/)
+      ).toBeInTheDocument();
     });
   });
 
@@ -107,7 +111,9 @@ describe("PriceHistoryChart", () => {
     render(<PriceHistoryChart slug="aceh" />);
 
     await waitFor(() => {
-      expect(screen.getByText(/Riwayat harga belum tersedia/)).toBeInTheDocument();
+      expect(
+        screen.getByText(/Riwayat harga belum tersedia/)
+      ).toBeInTheDocument();
     });
   });
 
@@ -119,7 +125,9 @@ describe("PriceHistoryChart", () => {
     render(<PriceHistoryChart slug="aceh" />);
 
     await waitFor(() => {
-      expect(screen.getByRole("button", { name: /Coba lagi/ })).toBeInTheDocument();
+      expect(
+        screen.getByRole("button", { name: /Coba lagi/ })
+      ).toBeInTheDocument();
     });
   });
 });

@@ -20,7 +20,9 @@ describe("RefreshButton", () => {
 
   it("is disabled while loading", () => {
     render(<RefreshButton onRefresh={vi.fn()} loading={true} />);
-    expect(screen.getByRole("button", { name: "Perbarui data" })).toBeDisabled();
+    expect(
+      screen.getByRole("button", { name: "Perbarui data" })
+    ).toBeDisabled();
   });
 
   it("does not call onRefresh when disabled and clicked", () => {

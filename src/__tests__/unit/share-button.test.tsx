@@ -92,4 +92,17 @@ describe("ShareButton", () => {
     // On abort, it should NOT fall through to clipboard
     expect(writeText).not.toHaveBeenCalled();
   });
+
+  it("surfaces an error state when clipboard write fails", async () => {
+    const writeText = vi.fn().mockRejectedValue(new Error("denied"));
+    cleanups.push(defineNavigatorProp("clipboard", { writeText }));
+    cleanups.push(defineNavigatorProp("maxTouchPoints", 0));
+    cleanups.push(defineNavigatorProp("share", undefined));
+
+    render(<ShareButton title="Harga BBM Aceh" text="Lihat harga" />);
+    fireEvent.click(screen.getByRole("button"));
+
+    // The action is not silent — a failure message is shown.
+    expect(await screen.findByText("Gagal menyalin")).toBeInTheDocument();
+  });
 });

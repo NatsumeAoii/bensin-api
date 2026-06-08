@@ -25,7 +25,7 @@ export function filterByRange(
     if (t >= cutoff) {
       within.push(p);
     } else {
-      carry = p; // last point before the window
+      carry = p; // last valid point before the window
     }
   }
   if (carry && (within.length === 0 || within[0].date !== carry.date)) {

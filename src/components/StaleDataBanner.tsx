@@ -1,24 +1,24 @@
 import { AlertTriangle } from "lucide-react";
+import { WarningBanner } from "@/components/WarningBanner";
 
 interface StaleDataBannerProps {
   visible: boolean;
+  /** Optional retry handler — when provided, an inline retry button is shown. */
+  onRetry?: () => void;
 }
 
-export function StaleDataBanner({ visible }: StaleDataBannerProps) {
+/**
+ * Shown when a refresh failed but stale data is still on screen. Offers an
+ * inline retry so the user has a recovery action, not just a warning.
+ */
+export function StaleDataBanner({ visible, onRetry }: StaleDataBannerProps) {
   if (!visible) return null;
 
   return (
-    <div
-      role="status"
-      aria-live="polite"
-      className="flex items-center gap-3 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 dark:border-amber-800/50 dark:bg-amber-950/30"
-    >
-      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-amber-100 dark:bg-amber-900/50">
-        <AlertTriangle size={16} aria-hidden="true" className="text-amber-600 dark:text-amber-400" />
-      </div>
-      <p className="text-sm font-medium text-amber-800 dark:text-amber-200">
-        Data mungkin sudah tidak terbaru. Periksa koneksi internet Anda.
-      </p>
-    </div>
+    <WarningBanner
+      icon={AlertTriangle}
+      message="Data mungkin sudah tidak terbaru. Periksa koneksi internet Anda."
+      action={onRetry ? { label: "Coba lagi", onClick: onRetry } : undefined}
+    />
   );
 }

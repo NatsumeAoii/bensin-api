@@ -18,9 +18,9 @@ import type { IndexProvinceEntry } from "@/types/api";
 
 const provinceEntry: fc.Arbitrary<IndexProvinceEntry> = fc.record({
   name: fc.string({ minLength: 1, maxLength: 80 }),
-  slug: fc.string({ minLength: 1, maxLength: 60 }).map((s) =>
-    s.toLowerCase().replace(/[^a-z0-9-]/g, "-")
-  ),
+  slug: fc
+    .string({ minLength: 1, maxLength: 60 })
+    .map((s) => s.toLowerCase().replace(/[^a-z0-9-]/g, "-")),
   path: fc.string({ minLength: 1, maxLength: 100 }),
   pertamina_updated_at: fc.constant("2024-01-01T00:00:00Z"),
   synced_at: fc.constant("2024-01-01T00:00:00Z"),

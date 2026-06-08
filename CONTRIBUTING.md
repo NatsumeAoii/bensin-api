@@ -7,7 +7,7 @@ Terima kasih atas minat Anda untuk berkontribusi! Panduan ini menjelaskan bagaim
 ## Prasyarat
 
 - **Node.js** ≥ 20.0.0 + npm
-- **Python** ≥ 3.10 (untuk pipeline)
+- **Python** 3.12 (versi yang dipakai CI; 3.10+ umumnya berfungsi)
 - Git
 
 ## Setup Lingkungan Pengembangan
@@ -36,6 +36,7 @@ pip install -r requirements.txt
    ```
 3. **Develop** — lakukan perubahan Anda
 4. **Validasi** sebelum commit:
+
    ```bash
    # Frontend: lint + typecheck + test + build
    npm run ci
@@ -43,6 +44,7 @@ pip install -r requirements.txt
    # Pipeline (jika diubah):
    python -m pytest pipeline/tests/
    ```
+
 5. **Commit** dengan pesan yang jelas:
    ```
    feat: tambah filter berdasarkan jenis BBM
@@ -54,15 +56,15 @@ pip install -r requirements.txt
 
 Format: `<type>: <description>`
 
-| Type | Penggunaan |
-|---|---|
-| `feat` | Fitur baru |
-| `fix` | Perbaikan bug |
-| `docs` | Dokumentasi |
+| Type       | Penggunaan                           |
+| ---------- | ------------------------------------ |
+| `feat`     | Fitur baru                           |
+| `fix`      | Perbaikan bug                        |
+| `docs`     | Dokumentasi                          |
 | `refactor` | Refactoring tanpa perubahan behavior |
-| `test` | Menambah atau memperbaiki test |
-| `chore` | Build, CI, dependencies |
-| `style` | Formatting, tanpa perubahan logika |
+| `test`     | Menambah atau memperbaiki test       |
+| `chore`    | Build, CI, dependencies              |
+| `style`    | Formatting, tanpa perubahan logika   |
 
 ## Panduan Kode
 
@@ -96,6 +98,7 @@ Format: `<type>: <description>`
 ## Pelaporan Bug
 
 Buka [Issue](https://github.com/nasgunawann/bensin-api/issues) dengan informasi:
+
 - Langkah reproduksi
 - Perilaku yang diharapkan vs aktual
 - Browser/OS/versi Node.js (jika relevan)
