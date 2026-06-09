@@ -18,12 +18,20 @@
       {
         "date": "2026-06-07",
         "price_rupiah": 12900
+      },
+      {
+        "date": "2026-06-09",
+        "price_rupiah": 17000
       }
     ],
     "PERTAMAX PERTASHOP": [
       {
         "date": "2026-06-07",
         "price_rupiah": 12800
+      },
+      {
+        "date": "2026-06-09",
+        "price_rupiah": 16900
       }
     ],
     "PERTAMAX TURBO": [

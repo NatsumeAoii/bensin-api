@@ -18,18 +18,30 @@
       {
         "date": "2026-06-07",
         "price_rupiah": 12300
+      },
+      {
+        "date": "2026-06-09",
+        "price_rupiah": 16250
       }
     ],
     "PERTAMAX GREEN 95": [
       {
         "date": "2026-06-07",
         "price_rupiah": 12900
+      },
+      {
+        "date": "2026-06-09",
+        "price_rupiah": 17000
       }
     ],
     "PERTAMAX PERTASHOP": [
       {
         "date": "2026-06-07",
         "price_rupiah": 12200
+      },
+      {
+        "date": "2026-06-09",
+        "price_rupiah": 16150
       }
     ],
     "PERTAMAX TURBO": [
