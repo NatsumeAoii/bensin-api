@@ -6,6 +6,10 @@
       {
         "date": "2026-06-07",
         "price_rupiah": 24000
+      },
+      {
+        "date": "2026-06-30",
+        "price_rupiah": 20550
       }
     ],
     "PERTALITE": [
@@ -38,6 +42,10 @@
       {
         "date": "2026-06-07",
         "price_rupiah": 21650
+      },
+      {
+        "date": "2026-06-30",
+        "price_rupiah": 20150
       }
     ],
     "BIOSOLAR": [
@@ -50,6 +58,10 @@
       {
         "date": "2026-06-07",
         "price_rupiah": 25900
+      },
+      {
+        "date": "2026-06-30",
+        "price_rupiah": 22100
       }
     ]
   }
