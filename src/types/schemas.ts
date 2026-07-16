@@ -12,6 +12,7 @@
  */
 import { z } from "zod";
 import type {
+  HistoryIndexResponse,
   HistoryResponse,
   IndexResponse,
   NationalResponse,
@@ -82,3 +83,17 @@ export const historyResponseSchema: z.ZodType<HistoryResponse> = z.object({
     )
   ),
 });
+
+export const historyIndexResponseSchema: z.ZodType<HistoryIndexResponse> =
+  z.object({
+    count: z.number(),
+    synced_at: z.string(),
+    provinsi: z.array(
+      z.object({
+        slug: z.string(),
+        name: z.string(),
+        path: z.string(),
+        point_count: z.number(),
+      })
+    ),
+  });

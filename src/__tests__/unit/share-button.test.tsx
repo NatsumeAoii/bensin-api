@@ -1,6 +1,7 @@
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { screen, fireEvent, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi, afterEach } from "vitest";
 import { ShareButton } from "@/components/ShareButton";
+import { renderWithI18n } from "@/__tests__/test-utils";
 
 /**
  * Helper to (re)define a navigator property for a single test.
@@ -32,7 +33,7 @@ describe("ShareButton", () => {
   });
 
   it("renders with a 'Bagikan' label", () => {
-    render(<ShareButton title="Harga BBM Aceh" text="Lihat harga" />);
+    renderWithI18n(<ShareButton title="Harga BBM Aceh" text="Lihat harga" />);
     expect(screen.getByText("Bagikan")).toBeInTheDocument();
   });
 
@@ -43,7 +44,7 @@ describe("ShareButton", () => {
     cleanups.push(defineNavigatorProp("maxTouchPoints", 0));
     cleanups.push(defineNavigatorProp("share", undefined));
 
-    render(<ShareButton title="Harga BBM Aceh" text="Lihat harga" />);
+    renderWithI18n(<ShareButton title="Harga BBM Aceh" text="Lihat harga" />);
     fireEvent.click(screen.getByRole("button"));
 
     await waitFor(() => {
@@ -59,7 +60,7 @@ describe("ShareButton", () => {
     cleanups.push(defineNavigatorProp("share", share));
     cleanups.push(defineNavigatorProp("maxTouchPoints", 5));
 
-    render(<ShareButton title="Harga BBM Aceh" text="Lihat harga" />);
+    renderWithI18n(<ShareButton title="Harga BBM Aceh" text="Lihat harga" />);
     fireEvent.click(screen.getByRole("button"));
 
     await waitFor(() => {
@@ -83,7 +84,7 @@ describe("ShareButton", () => {
     cleanups.push(defineNavigatorProp("maxTouchPoints", 5));
     cleanups.push(defineNavigatorProp("clipboard", { writeText }));
 
-    render(<ShareButton title="Harga BBM Aceh" text="Lihat harga" />);
+    renderWithI18n(<ShareButton title="Harga BBM Aceh" text="Lihat harga" />);
     fireEvent.click(screen.getByRole("button"));
 
     await waitFor(() => {
@@ -99,7 +100,7 @@ describe("ShareButton", () => {
     cleanups.push(defineNavigatorProp("maxTouchPoints", 0));
     cleanups.push(defineNavigatorProp("share", undefined));
 
-    render(<ShareButton title="Harga BBM Aceh" text="Lihat harga" />);
+    renderWithI18n(<ShareButton title="Harga BBM Aceh" text="Lihat harga" />);
     fireEvent.click(screen.getByRole("button"));
 
     // The action is not silent — a failure message is shown.

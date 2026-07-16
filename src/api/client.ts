@@ -1,11 +1,13 @@
 import type { ZodType } from "zod";
 import type {
+  HistoryIndexResponse,
   HistoryResponse,
   IndexResponse,
   NationalResponse,
   ProvinceResponse,
 } from "../types/api";
 import {
+  historyIndexResponseSchema,
   historyResponseSchema,
   indexResponseSchema,
   nationalResponseSchema,
@@ -14,13 +16,11 @@ import {
 import { isValidSlug } from "../utils/slug";
 
 /**
- * Base URL for the static JSON API. Defaults to the production GitHub Pages
- * deployment but can be overridden via the `VITE_API_BASE_URL` env var so the
- * dashboard can be pointed at locally generated `v1/` data during development.
+ * Base URL for the static JSON API. By default, requests stay on the same
+ * origin and under Vite's configured base path, so forked GitHub Pages
+ * deployments read their own generated `v1/` files. `VITE_API_BASE_URL` can
+ * still point the dashboard at another static API host when needed.
  */
-const BASE_URL =
-  import.meta.env.VITE_API_BASE_URL ??
-  "https://nasgunawann.github.io/bensin-api";
 const TIMEOUT_MS = 10_000;
 
 type ApiErrorCode =
@@ -33,6 +33,12 @@ type ApiErrorCode =
 
 interface FetchOptions {
   signal?: AbortSignal;
+}
+
+function getApiBaseUrl(): string {
+  const configuredBaseUrl = import.meta.env.VITE_API_BASE_URL?.trim();
+  const baseUrl = configuredBaseUrl || import.meta.env.BASE_URL || "";
+  return baseUrl.replace(/\/+$/, "");
 }
 
 /**
@@ -85,7 +91,7 @@ async function fetchJson<T>(
   }
 
   try {
-    const response = await fetch(`${BASE_URL}${path}`, {
+    const response = await fetch(`${getApiBaseUrl()}${path}`, {
       signal: controller.signal,
     });
 
@@ -164,4 +170,11 @@ export const apiClient = {
       (s) => `/v1/history/provinsi/${s}.json`,
       historyResponseSchema
     ),
+  getHistoryIndex: () =>
+    fetchJson<HistoryIndexResponse>(
+      "/v1/history/index.json",
+      historyIndexResponseSchema
+    ),
+  getAllHistory: (slugs: string[]) =>
+    Promise.allSettled(slugs.map((s) => apiClient.getHistory(s))),
 };

@@ -1,5 +1,7 @@
 import { Component, type ReactNode } from "react";
 import { AlertTriangle, RefreshCw } from "lucide-react";
+import { useLocaleStore } from "@/stores/locale-store";
+import { resolveTranslation, type Locale } from "@/i18n/translations";
 
 interface AppErrorBoundaryProps {
   children: ReactNode;
@@ -39,6 +41,10 @@ export class AppErrorBoundary extends Component<
       return this.props.children;
     }
 
+    const locale: Locale = useLocaleStore.getState().locale;
+    const t = (key: Parameters<typeof resolveTranslation>[1]) =>
+      resolveTranslation(locale, key);
+
     return (
       <div className="flex min-h-screen items-center justify-center bg-stone-50 px-4 dark:bg-stone-950">
         <div
@@ -53,11 +59,10 @@ export class AppErrorBoundary extends Component<
           </div>
           <div className="space-y-1.5">
             <p className="text-base font-semibold text-stone-800 dark:text-stone-200">
-              Aplikasi mengalami masalah
+              {t("error.appProblem")}
             </p>
             <p className="text-sm text-stone-600 dark:text-stone-400">
-              Terjadi kesalahan tak terduga. Muat ulang halaman untuk
-              melanjutkan.
+              {t("error.unexpected")}
             </p>
           </div>
           <button
@@ -66,7 +71,7 @@ export class AppErrorBoundary extends Component<
             className="inline-flex min-h-[44px] min-w-[44px] items-center gap-2 rounded-xl bg-gradient-to-r from-orange-500 to-red-500 px-6 py-3 text-sm font-semibold text-white shadow-md shadow-orange-500/20 transition-all hover:shadow-lg hover:shadow-orange-500/30 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500"
           >
             <RefreshCw size={16} aria-hidden="true" />
-            Muat Ulang
+            {t("error.reload")}
           </button>
         </div>
       </div>

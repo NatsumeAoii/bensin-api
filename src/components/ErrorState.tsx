@@ -1,4 +1,5 @@
 import { AlertTriangle, RefreshCw } from "lucide-react";
+import { useTranslation } from "@/i18n";
 
 interface ErrorStateProps {
   message: string;
@@ -15,6 +16,8 @@ export function ErrorState({
   onRetry,
   disabled = false,
 }: ErrorStateProps) {
+  const { t } = useTranslation();
+
   return (
     <div
       role="alert"
@@ -29,7 +32,7 @@ export function ErrorState({
       </div>
       <div className="space-y-1.5">
         <p className="text-base font-semibold text-stone-800 dark:text-stone-200">
-          Terjadi Kesalahan
+          {t("error.title")}
         </p>
         <p className="text-sm text-stone-600 dark:text-stone-400">{message}</p>
       </div>
@@ -40,7 +43,7 @@ export function ErrorState({
         className="inline-flex min-h-[44px] min-w-[44px] items-center gap-2 rounded-xl bg-gradient-to-r from-orange-500 to-red-500 px-6 py-3 text-sm font-semibold text-white shadow-md shadow-orange-500/20 transition-all hover:shadow-lg hover:shadow-orange-500/30 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500 disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none"
       >
         <RefreshCw size={16} aria-hidden="true" />
-        {disabled ? "Coba lagi nanti" : "Coba Lagi"}
+        {disabled ? t("error.retryLater") : t("error.retry")}
       </button>
     </div>
   );

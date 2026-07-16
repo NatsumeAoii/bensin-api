@@ -1,6 +1,7 @@
 import { defineConfig, type Plugin } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
+import { cpSync, existsSync, rmSync } from "fs";
 import { resolve } from "path";
 
 /**
@@ -33,9 +34,25 @@ function cspPlugin(): Plugin {
   };
 }
 
+function staticApiPlugin(): Plugin {
+  return {
+    name: "copy-static-api",
+    apply: "build",
+    closeBundle() {
+      const source = resolve(__dirname, "v1");
+      const target = resolve(__dirname, "dist", "v1");
+
+      if (!existsSync(source)) return;
+
+      rmSync(target, { recursive: true, force: true });
+      cpSync(source, target, { recursive: true });
+    },
+  };
+}
+
 export default defineConfig(({ command }) => ({
   base: command === "build" ? "/bensin-api/" : "/",
-  plugins: [react(), tailwindcss(), cspPlugin()],
+  plugins: [react(), tailwindcss(), cspPlugin(), staticApiPlugin()],
   css: {
     transformer: "lightningcss",
   },

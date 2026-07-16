@@ -1,12 +1,14 @@
 import { Sun, Moon } from "lucide-react";
 import { useThemeStore } from "@/stores/theme-store";
+import { useTranslation } from "@/i18n";
 
 export function ThemeToggle() {
   const theme = useThemeStore((state) => state.theme);
   const toggleTheme = useThemeStore((state) => state.toggleTheme);
+  const { t } = useTranslation();
 
   const isLight = theme === "light";
-  const ariaLabel = isLight ? "Ganti ke mode gelap" : "Ganti ke mode terang";
+  const ariaLabel = isLight ? t("theme.switchToDark") : t("theme.switchToLight");
   const Icon = isLight ? Sun : Moon;
 
   return (

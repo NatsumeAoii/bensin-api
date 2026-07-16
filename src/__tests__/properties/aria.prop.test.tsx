@@ -1,9 +1,10 @@
 import { describe, it, expect } from "vitest";
 import * as fc from "fast-check";
-import { render, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import { PriceCard } from "@/components/PriceCard";
 import { formatPrice } from "@/utils/format";
 import type { Product, Availability } from "@/types/api";
+import { renderWithI18n } from "@/__tests__/test-utils";
 
 /**
  * Property 13: PriceCard Aria-Label Completeness
@@ -36,7 +37,7 @@ describe("Feature: fuel-price-dashboard, Property 13: PriceCard Aria-Label Compl
   it("PriceCard aria-label contains product name, formatted price, and availability status for any Product", () => {
     fc.assert(
       fc.property(productArbitrary, (product) => {
-        const { unmount } = render(<PriceCard product={product} />);
+        const { unmount } = renderWithI18n(<PriceCard product={product} />);
 
         const article = screen.getByRole("article");
         const ariaLabel = article.getAttribute("aria-label");

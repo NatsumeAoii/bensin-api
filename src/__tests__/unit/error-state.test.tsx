@@ -1,11 +1,12 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 import { ErrorState } from "@/components/ErrorState";
+import { renderWithI18n } from "@/__tests__/test-utils";
 
 describe("ErrorState", () => {
   it("renders error message and retry button as a pair", () => {
     const onRetry = vi.fn();
-    render(<ErrorState message="Gagal memuat data" onRetry={onRetry} />);
+    renderWithI18n(<ErrorState message="Gagal memuat data" onRetry={onRetry} />);
 
     expect(screen.getByText("Gagal memuat data")).toBeInTheDocument();
     expect(
@@ -15,7 +16,7 @@ describe("ErrorState", () => {
 
   it("calls onRetry when retry button is clicked", () => {
     const onRetry = vi.fn();
-    render(<ErrorState message="Gagal memuat data" onRetry={onRetry} />);
+    renderWithI18n(<ErrorState message="Gagal memuat data" onRetry={onRetry} />);
 
     fireEvent.click(screen.getByRole("button", { name: "Coba Lagi" }));
     expect(onRetry).toHaveBeenCalledTimes(1);
@@ -23,7 +24,7 @@ describe("ErrorState", () => {
 
   it("shows 'Coba lagi nanti' and disables button when disabled is true", () => {
     const onRetry = vi.fn();
-    render(
+    renderWithI18n(
       <ErrorState message="Gagal memuat data" onRetry={onRetry} disabled />
     );
 
@@ -33,7 +34,7 @@ describe("ErrorState", () => {
 
   it("does not call onRetry when button is disabled and clicked", () => {
     const onRetry = vi.fn();
-    render(
+    renderWithI18n(
       <ErrorState message="Gagal memuat data" onRetry={onRetry} disabled />
     );
 
@@ -43,7 +44,7 @@ describe("ErrorState", () => {
 
   it("uses aria-live='assertive' for screen reader announcement", () => {
     const onRetry = vi.fn();
-    render(<ErrorState message="Koneksi terlalu lama" onRetry={onRetry} />);
+    renderWithI18n(<ErrorState message="Koneksi terlalu lama" onRetry={onRetry} />);
 
     const alert = screen.getByRole("alert");
     expect(alert).toHaveAttribute("aria-live", "assertive");
@@ -51,7 +52,7 @@ describe("ErrorState", () => {
 
   it("shows 'Coba Lagi' button text when not disabled", () => {
     const onRetry = vi.fn();
-    render(
+    renderWithI18n(
       <ErrorState
         message="Gagal memuat data"
         onRetry={onRetry}
@@ -66,7 +67,7 @@ describe("ErrorState", () => {
 
   it("retry button has minimum 44x44px tap target", () => {
     const onRetry = vi.fn();
-    render(<ErrorState message="Gagal memuat data" onRetry={onRetry} />);
+    renderWithI18n(<ErrorState message="Gagal memuat data" onRetry={onRetry} />);
 
     const button = screen.getByRole("button", { name: "Coba Lagi" });
     expect(button.className).toContain("min-h-[44px]");

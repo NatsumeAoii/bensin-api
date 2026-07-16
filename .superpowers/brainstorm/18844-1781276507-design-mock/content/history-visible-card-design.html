@@ -1,0 +1,472 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>History Card Design Mock</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --page: #f7f7f4;
+      --panel: #ffffff;
+      --ink: #1c1917;
+      --muted: #6f6a63;
+      --line: #e6e1da;
+      --orange: #f97316;
+      --orange-soft: #fff3e8;
+      --green: #15803d;
+      --green-soft: #ecfdf3;
+      --blue: #0369a1;
+      --blue-soft: #eef8ff;
+      --violet: #6d28d9;
+      --violet-soft: #f4f0ff;
+      --shadow: 0 18px 42px rgba(28, 25, 23, .10);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--page);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.35;
+    }
+    .page {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 28px;
+    }
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+    .crumb { color: var(--muted); font-size: 13px; font-weight: 650; }
+    .actions { display: flex; gap: 8px; }
+    .icon-button {
+      min-width: 44px;
+      min-height: 44px;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--ink);
+      border-radius: 10px;
+      font-weight: 800;
+      cursor: default;
+    }
+    .province-hero {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 22px;
+      border: 1px solid #f2d8bf;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #fff8f0 0%, #fff 55%, #f7fbff 100%);
+      box-shadow: var(--shadow);
+      margin-bottom: 18px;
+    }
+    .province-hero h1 { margin: 0; font-size: 28px; letter-spacing: 0; }
+    .hero-meta { margin-top: 6px; color: var(--muted); font-size: 13px; display: flex; flex-wrap: wrap; gap: 10px; }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: var(--orange-soft);
+      color: #9a3412;
+      border: 1px solid #fed7aa;
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+    .section {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #fff;
+      box-shadow: 0 10px 28px rgba(28, 25, 23, .06);
+      overflow: hidden;
+    }
+    .section-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 20px 22px 16px;
+      border-bottom: 1px solid var(--line);
+      background: #fffdfa;
+    }
+    .eyebrow {
+      color: var(--orange);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .section-head h2 { margin: 0; font-size: 20px; letter-spacing: 0; }
+    .section-head p { margin: 5px 0 0; color: var(--muted); font-size: 13px; max-width: 680px; }
+    .range-tabs { display: flex; flex-wrap: wrap; gap: 6px; justify-content: flex-end; }
+    .range-tabs span {
+      min-height: 34px;
+      display: inline-flex;
+      align-items: center;
+      border-radius: 9px;
+      border: 1px solid var(--line);
+      padding: 6px 10px;
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--muted);
+      background: #fff;
+    }
+    .range-tabs .active { background: #1c1917; color: #fff; border-color: #1c1917; }
+    .history-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      padding: 18px;
+    }
+    .history-card {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--panel);
+      overflow: hidden;
+      min-width: 0;
+    }
+    .history-card.orange { border-color: #fed7aa; }
+    .history-card.green { border-color: #bbf7d0; }
+    .history-card.blue { border-color: #bae6fd; }
+    .history-card.violet { border-color: #ddd6fe; }
+    .card-accent { height: 4px; background: var(--orange); }
+    .green .card-accent { background: var(--green); }
+    .blue .card-accent { background: var(--blue); }
+    .violet .card-accent { background: var(--violet); }
+    .card-body { padding: 14px; }
+    .card-title-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+    .product-name { font-size: 14px; font-weight: 900; overflow-wrap: anywhere; }
+    .period-count { margin-top: 2px; color: var(--muted); font-size: 11px; font-weight: 650; }
+    .current-price { text-align: right; flex: 0 0 auto; }
+    .current-price span { display: block; color: var(--muted); font-size: 10px; font-weight: 750; }
+    .current-price strong { display: block; font-size: 17px; letter-spacing: 0; }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .stat {
+      border-radius: 10px;
+      padding: 8px;
+      border: 1px solid var(--line);
+      background: #fafaf9;
+      min-width: 0;
+    }
+    .orange .stat { background: var(--orange-soft); border-color: #fed7aa; }
+    .green .stat { background: var(--green-soft); border-color: #bbf7d0; }
+    .blue .stat { background: var(--blue-soft); border-color: #bae6fd; }
+    .violet .stat { background: var(--violet-soft); border-color: #ddd6fe; }
+    .stat span { display: block; color: var(--muted); font-size: 10px; font-weight: 800; }
+    .stat strong { display: block; margin-top: 1px; font-size: 13px; overflow-wrap: anywhere; }
+    .chart-box {
+      height: 88px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #fff;
+      margin-bottom: 12px;
+      overflow: hidden;
+    }
+    .chart-box svg { display: block; width: 100%; height: 100%; }
+    .old-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 900;
+      margin-bottom: 8px;
+    }
+    .source-chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 22px;
+      border-radius: 999px;
+      padding: 3px 8px;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 800;
+      background: #fff;
+    }
+    .period-list { display: grid; gap: 7px; }
+    .period {
+      position: relative;
+      border-radius: 10px;
+      background: #fafaf9;
+      border: 1px solid var(--line);
+      padding: 8px 9px 8px 11px;
+      overflow: hidden;
+    }
+    .period::before {
+      content: "";
+      position: absolute;
+      inset-block: 0;
+      inset-inline-start: 0;
+      width: 3px;
+      background: var(--orange);
+    }
+    .green .period::before { background: var(--green); }
+    .blue .period::before { background: var(--blue); }
+    .violet .period::before { background: var(--violet); }
+    .period-main {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 10px;
+      font-size: 11px;
+      font-weight: 750;
+    }
+    .period-main span { color: #44403c; min-width: 0; }
+    .period-main strong { font-size: 12px; white-space: nowrap; }
+    .period-source {
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 650;
+      overflow-wrap: anywhere;
+    }
+    .view-all {
+      margin-top: 10px;
+      min-height: 40px;
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #fff;
+      color: var(--ink);
+      font-size: 12px;
+      font-weight: 900;
+    }
+    .notes {
+      display: grid;
+      grid-template-columns: 1.4fr .9fr;
+      gap: 14px;
+      padding: 0 18px 18px;
+    }
+    .note {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fafaf9;
+      padding: 13px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 650;
+    }
+    .note strong { color: var(--ink); }
+    .legend { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 9px; }
+    .legend span { border: 1px solid var(--line); border-radius: 999px; padding: 5px 8px; background: #fff; color: var(--muted); font-size: 11px; font-weight: 800; }
+    .choice-bar {
+      display: flex;
+      gap: 10px;
+      margin-top: 18px;
+    }
+    .choice {
+      flex: 1;
+      min-height: 52px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #fff;
+      padding: 12px;
+      font-weight: 900;
+      cursor: pointer;
+    }
+    .choice small { display: block; color: var(--muted); font-size: 12px; font-weight: 650; margin-top: 2px; }
+    @media (max-width: 980px) {
+      .history-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .notes { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px) {
+      .page { padding: 14px; }
+      .topbar, .province-hero, .section-head, .choice-bar { flex-direction: column; align-items: stretch; }
+      .province-hero h1 { font-size: 24px; }
+      .history-grid { grid-template-columns: 1fr; padding: 12px; }
+      .section-head { padding: 16px; }
+      .range-tabs { justify-content: flex-start; }
+      .current-price strong { font-size: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <div class="topbar">
+      <div class="crumb">Provinsi / DKI Jakarta</div>
+      <div class="actions" aria-hidden="true">
+        <button class="icon-button">S</button>
+        <button class="icon-button">R</button>
+      </div>
+    </div>
+
+    <section class="province-hero">
+      <div>
+        <h1>Prov. DKI Jakarta</h1>
+        <div class="hero-meta">
+          <span>Updated 12 Jun 2026</span>
+          <span>9 active products</span>
+          <span>Static JSON API</span>
+        </div>
+      </div>
+      <span class="badge">History backfill preview</span>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Riwayat harga</div>
+          <h2>Old prices by fuel type</h2>
+          <p>Each product card shows the current price, lowest/highest historical price, a compact step chart, and the actual old price periods with source labels.</p>
+        </div>
+        <div class="range-tabs" aria-hidden="true">
+          <span>1M</span>
+          <span>3M</span>
+          <span class="active">1Y</span>
+          <span>All</span>
+        </div>
+      </div>
+
+      <div class="history-grid">
+        <article class="history-card orange">
+          <div class="card-accent"></div>
+          <div class="card-body">
+            <div class="card-title-row">
+              <div>
+                <div class="product-name">PERTAMAX</div>
+                <div class="period-count">3 recorded periods</div>
+              </div>
+              <div class="current-price"><span>Current</span><strong>Rp16.250</strong></div>
+            </div>
+            <div class="stats">
+              <div class="stat"><span>Lowest</span><strong>Rp12.300</strong></div>
+              <div class="stat"><span>Highest</span><strong>Rp16.250</strong></div>
+            </div>
+            <div class="chart-box">
+              <svg viewBox="0 0 360 100" role="img" aria-label="Pertamax mini step chart">
+                <line x1="24" y1="24" x2="336" y2="24" stroke="#ffedd5" />
+                <line x1="24" y1="50" x2="336" y2="50" stroke="#fed7aa" />
+                <line x1="24" y1="76" x2="336" y2="76" stroke="#ffedd5" />
+                <path d="M28 76 H116 V58 H224 V26 H332" fill="none" stroke="#f97316" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+                <circle cx="28" cy="76" r="6" fill="#f97316" /><circle cx="116" cy="58" r="6" fill="#f97316" /><circle cx="224" cy="26" r="6" fill="#f97316" />
+              </svg>
+            </div>
+            <div class="old-title"><span>Old prices</span><span class="source-chip">mixed sources</span></div>
+            <div class="period-list">
+              <div class="period"><div class="period-main"><span>1 Sep 2024 - 1 Oct 2024</span><strong>Rp12.950</strong></div><div class="period-source">Source: Pertamina / reputable news backfill</div></div>
+              <div class="period"><div class="period-main"><span>7 Jun 2026 - 9 Jun 2026</span><strong>Rp12.300</strong></div><div class="period-source">Source: generated API snapshot</div></div>
+              <div class="period"><div class="period-main"><span>9 Jun 2026 - now</span><strong>Rp16.250</strong></div><div class="period-source">Source: latest MyPertamina sync</div></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="history-card green">
+          <div class="card-accent"></div>
+          <div class="card-body">
+            <div class="card-title-row">
+              <div><div class="product-name">PERTALITE</div><div class="period-count">2 recorded periods</div></div>
+              <div class="current-price"><span>Current</span><strong>Rp10.000</strong></div>
+            </div>
+            <div class="stats">
+              <div class="stat"><span>Lowest</span><strong>Rp7.650</strong></div>
+              <div class="stat"><span>Highest</span><strong>Rp10.000</strong></div>
+            </div>
+            <div class="chart-box">
+              <svg viewBox="0 0 360 100" role="img" aria-label="Pertalite mini step chart">
+                <line x1="24" y1="76" x2="336" y2="76" stroke="#dcfce7" />
+                <line x1="24" y1="48" x2="336" y2="48" stroke="#bbf7d0" />
+                <path d="M28 68 H166 V42 H332" fill="none" stroke="#15803d" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+                <circle cx="28" cy="68" r="6" fill="#15803d" /><circle cx="166" cy="42" r="6" fill="#15803d" />
+              </svg>
+            </div>
+            <div class="old-title"><span>Old prices</span><span class="source-chip">official</span></div>
+            <div class="period-list">
+              <div class="period"><div class="period-main"><span>Before 3 Sep 2022</span><strong>Rp7.650</strong></div><div class="period-source">Source: official price-change announcement</div></div>
+              <div class="period"><div class="period-main"><span>3 Sep 2022 - now</span><strong>Rp10.000</strong></div><div class="period-source">Source: official/news backfill + latest sync</div></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="history-card blue">
+          <div class="card-accent"></div>
+          <div class="card-body">
+            <div class="card-title-row">
+              <div><div class="product-name">DEXLITE</div><div class="period-count">4 recorded periods</div></div>
+              <div class="current-price"><span>Current</span><strong>Rp23.000</strong></div>
+            </div>
+            <div class="stats">
+              <div class="stat"><span>Lowest</span><strong>Rp21.700</strong></div>
+              <div class="stat"><span>Highest</span><strong>Rp23.000</strong></div>
+            </div>
+            <div class="chart-box">
+              <svg viewBox="0 0 360 100" role="img" aria-label="Dexlite mini step chart">
+                <line x1="24" y1="24" x2="336" y2="24" stroke="#e0f2fe" />
+                <line x1="24" y1="50" x2="336" y2="50" stroke="#bae6fd" />
+                <line x1="24" y1="76" x2="336" y2="76" stroke="#e0f2fe" />
+                <path d="M28 70 H108 V58 H190 V40 H272 V30 H332" fill="none" stroke="#0369a1" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+                <circle cx="28" cy="70" r="6" fill="#0369a1" /><circle cx="108" cy="58" r="6" fill="#0369a1" /><circle cx="190" cy="40" r="6" fill="#0369a1" /><circle cx="272" cy="30" r="6" fill="#0369a1" />
+              </svg>
+            </div>
+            <div class="old-title"><span>Old prices</span><span class="source-chip">view latest 3</span></div>
+            <div class="period-list">
+              <div class="period"><div class="period-main"><span>1 Aug 2024 - 1 Sep 2024</span><strong>Rp21.700</strong></div><div class="period-source">Source: reputable news backfill</div></div>
+              <div class="period"><div class="period-main"><span>1 Sep 2024 - 7 Jun 2026</span><strong>Rp22.500</strong></div><div class="period-source">Source: official/news backfill</div></div>
+              <div class="period"><div class="period-main"><span>7 Jun 2026 - now</span><strong>Rp23.000</strong></div><div class="period-source">Source: latest MyPertamina sync</div></div>
+            </div>
+            <button class="view-all" type="button">View all 4 periods</button>
+          </div>
+        </article>
+
+        <article class="history-card violet">
+          <div class="card-accent"></div>
+          <div class="card-body">
+            <div class="card-title-row">
+              <div><div class="product-name">PERTAMAX TURBO</div><div class="period-count">1 recorded period</div></div>
+              <div class="current-price"><span>Current</span><strong>Rp20.750</strong></div>
+            </div>
+            <div class="stats">
+              <div class="stat"><span>Lowest</span><strong>Rp20.750</strong></div>
+              <div class="stat"><span>Highest</span><strong>Rp20.750</strong></div>
+            </div>
+            <div class="chart-box">
+              <svg viewBox="0 0 360 100" role="img" aria-label="Pertamax Turbo mini flat chart">
+                <line x1="24" y1="50" x2="336" y2="50" stroke="#ddd6fe" />
+                <path d="M28 50 H332" fill="none" stroke="#6d28d9" stroke-width="5" stroke-linecap="round" />
+                <circle cx="28" cy="50" r="6" fill="#6d28d9" />
+              </svg>
+            </div>
+            <div class="old-title"><span>Old prices</span><span class="source-chip">single point</span></div>
+            <div class="period-list">
+              <div class="period"><div class="period-main"><span>7 Jun 2026 - now</span><strong>Rp20.750</strong></div><div class="period-source">Source: generated API snapshot</div></div>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <div class="notes">
+        <div class="note"><strong>Backfill rule:</strong> old entries only appear if they have official or reputable-news provenance. Province-specific sources stay province-specific; national sources can seed matching province files only when the source clearly applies nationally.</div>
+        <div class="note"><strong>JSON model:</strong> keep event points small, add optional source metadata, and compute "date until date" periods in the frontend.
+          <div class="legend"><span>official</span><span>reputable_news</span><span>snapshot</span></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="choice-bar">
+      <button class="choice" data-choice="approve" onclick="toggleSelect(this)">This matches the design<small>Use this for the spec and implementation plan.</small></button>
+      <button class="choice" data-choice="revise-density" onclick="toggleSelect(this)">Make it less dense<small>Show fewer old periods on each card.</small></button>
+      <button class="choice" data-choice="revise-style" onclick="toggleSelect(this)">Change the visual style<small>Keep the data model, adjust look and spacing.</small></button>
+    </div>
+  </main>
+</body>
+</html>

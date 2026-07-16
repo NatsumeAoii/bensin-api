@@ -1,6 +1,7 @@
 import { Clock } from "lucide-react";
 import { formatSyncTime } from "@/utils/date";
 import { WarningBanner } from "@/components/WarningBanner";
+import { useTranslation } from "@/i18n";
 
 interface StaleTimeBannerProps {
   /** Pipeline sync timestamp (ISO 8601) — when our data was last fetched. */
@@ -36,6 +37,7 @@ export function StaleTimeBanner({
 }: StaleTimeBannerProps) {
   const syncedDate = new Date(syncedAt);
   const diffMs = now.getTime() - syncedDate.getTime();
+  const { t } = useTranslation();
 
   // Hide for fresh data or unparseable timestamps
   if (Number.isNaN(diffMs) || diffMs < STALE_THRESHOLD_MS) return null;
@@ -43,7 +45,7 @@ export function StaleTimeBanner({
   return (
     <WarningBanner
       icon={Clock}
-      message={`Data terakhir diperbarui ${formatSyncTime(syncedAt, now)}`}
+      message={t("stale.lastUpdated", { time: formatSyncTime(syncedAt, now) })}
     />
   );
 }

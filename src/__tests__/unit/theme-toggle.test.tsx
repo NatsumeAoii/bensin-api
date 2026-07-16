@@ -1,7 +1,8 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, beforeEach } from "vitest";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { useThemeStore } from "@/stores/theme-store";
+import { renderWithI18n } from "@/__tests__/test-utils";
 
 describe("ThemeToggle", () => {
   beforeEach(() => {
@@ -9,7 +10,7 @@ describe("ThemeToggle", () => {
   });
 
   it("renders a button with Sun icon and correct aria-label in light mode", () => {
-    render(<ThemeToggle />);
+    renderWithI18n(<ThemeToggle />);
     const button = screen.getByRole("button", {
       name: "Ganti ke mode gelap",
     });
@@ -18,7 +19,7 @@ describe("ThemeToggle", () => {
 
   it("renders a button with Moon icon and correct aria-label in dark mode", () => {
     useThemeStore.setState({ theme: "dark" });
-    render(<ThemeToggle />);
+    renderWithI18n(<ThemeToggle />);
     const button = screen.getByRole("button", {
       name: "Ganti ke mode terang",
     });
@@ -26,7 +27,7 @@ describe("ThemeToggle", () => {
   });
 
   it("calls toggleTheme when clicked", () => {
-    render(<ThemeToggle />);
+    renderWithI18n(<ThemeToggle />);
     const button = screen.getByRole("button", {
       name: "Ganti ke mode gelap",
     });
@@ -35,7 +36,7 @@ describe("ThemeToggle", () => {
   });
 
   it("updates aria-label after toggling from light to dark", () => {
-    render(<ThemeToggle />);
+    renderWithI18n(<ThemeToggle />);
     const button = screen.getByRole("button", {
       name: "Ganti ke mode gelap",
     });
@@ -46,7 +47,7 @@ describe("ThemeToggle", () => {
   });
 
   it("has a minimum tap target of 44x44px", () => {
-    render(<ThemeToggle />);
+    renderWithI18n(<ThemeToggle />);
     const button = screen.getByRole("button");
     expect(button.className).toContain("min-h-[44px]");
     expect(button.className).toContain("min-w-[44px]");

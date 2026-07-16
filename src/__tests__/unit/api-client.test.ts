@@ -8,6 +8,7 @@ describe("API Client", () => {
 
   afterEach(() => {
     vi.useRealTimers();
+    vi.unstubAllEnvs();
     vi.restoreAllMocks();
   });
 
@@ -79,7 +80,7 @@ describe("API Client", () => {
       const result = await apiClient.getIndex();
 
       expect(fetchSpy).toHaveBeenCalledWith(
-        "https://nasgunawann.github.io/bensin-api/v1/index.json",
+        "/v1/index.json",
         expect.objectContaining({ signal: expect.any(AbortSignal) })
       );
       expect(result).toEqual(validIndex);
@@ -95,7 +96,7 @@ describe("API Client", () => {
       const result = await apiClient.getProvince("dki-jakarta");
 
       expect(fetchSpy).toHaveBeenCalledWith(
-        "https://nasgunawann.github.io/bensin-api/v1/provinsi/dki-jakarta.json",
+        "/v1/provinsi/dki-jakarta.json",
         expect.objectContaining({ signal: expect.any(AbortSignal) })
       );
       expect(result).toEqual(validProvince);
@@ -111,10 +112,34 @@ describe("API Client", () => {
       const result = await apiClient.getNational();
 
       expect(fetchSpy).toHaveBeenCalledWith(
-        "https://nasgunawann.github.io/bensin-api/v1/nasional.json",
+        "/v1/nasional.json",
         expect.objectContaining({ signal: expect.any(AbortSignal) })
       );
       expect(result).toEqual(validNational);
+    });
+
+    it("uses explicit API base URL override without a duplicate slash", async () => {
+      vi.stubEnv("VITE_API_BASE_URL", "https://example.test/bensin-api/");
+      const validHistory = {
+        province: "Prov. DKI Jakarta",
+        province_slug: "dki-jakarta",
+        products: {
+          PERTAMAX: [{ date: "2026-06-07", price_rupiah: 12300 }],
+        },
+      };
+      const fetchSpy = vi
+        .spyOn(globalThis, "fetch")
+        .mockResolvedValue(
+          new Response(JSON.stringify(validHistory), { status: 200 })
+        );
+
+      const result = await apiClient.getHistory("dki-jakarta");
+
+      expect(fetchSpy).toHaveBeenCalledWith(
+        "https://example.test/bensin-api/v1/history/provinsi/dki-jakarta.json",
+        expect.objectContaining({ signal: expect.any(AbortSignal) })
+      );
+      expect(result).toEqual(validHistory);
     });
 
     it("throws VALIDATION_ERROR when payload shape is invalid", async () => {

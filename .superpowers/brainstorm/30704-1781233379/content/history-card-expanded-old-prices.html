@@ -1,0 +1,94 @@
+﻿<h2>History card with old prices visible</h2>
+<p class="subtitle">This is layout C expanded: the top stays scannable, and one fuel card opens to show old price periods and sources.</p>
+
+<div class="mockup">
+  <div class="mockup-header">Preview: Province detail history section</div>
+  <div class="mockup-body">
+    <div style="background:#fafaf9;border:1px solid #e7e5e4;border-radius:14px;padding:18px;font-family:system-ui;color:#1c1917">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:14px">
+        <div>
+          <div style="font-size:11px;font-weight:800;color:#f97316;text-transform:uppercase;letter-spacing:.04em">Riwayat harga</div>
+          <h3 style="font-size:18px;line-height:1.2;margin:4px 0 0;color:#1c1917">Harga lama per jenis BBM</h3>
+        </div>
+        <span style="background:#fff7ed;border:1px solid #fed7aa;color:#c2410c;border-radius:999px;padding:6px 10px;font-size:11px;font-weight:800;white-space:nowrap">8 produk</span>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px">
+        <div style="background:white;border:1px solid #fed7aa;border-radius:12px;padding:12px;box-shadow:0 8px 20px rgba(249,115,22,.08)">
+          <div style="display:flex;justify-content:space-between;gap:10px;align-items:center">
+            <strong style="font-size:13px">PERTAMAX</strong>
+            <span style="font-size:13px;font-weight:800">Rp16.250</span>
+          </div>
+          <div style="font-size:10px;color:#78716c;margin-top:2px">Lowest Rp12.300 | Highest Rp16.250</div>
+          <svg viewBox="0 0 280 56" style="width:100%;height:56px;margin-top:8px">
+            <line x1="4" y1="44" x2="276" y2="44" stroke="#f5f5f4" />
+            <path d="M4 42 H92 V32 H172 V16 H276" fill="none" stroke="#f97316" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
+            <circle cx="4" cy="42" r="4" fill="#f97316" /><circle cx="92" cy="32" r="4" fill="#f97316" /><circle cx="172" cy="16" r="4" fill="#f97316" />
+          </svg>
+          <div style="margin-top:8px;border-top:1px solid #ffedd5;padding-top:8px">
+            <div style="font-size:11px;font-weight:800;margin-bottom:6px">Old prices</div>
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;padding:8px">
+                <div style="display:flex;justify-content:space-between;gap:8px;font-size:11px"><span>1 Sep 2024 - 1 Oct 2024</span><strong>Rp12.950</strong></div>
+                <div style="font-size:10px;color:#78716c;margin-top:3px">Source: Pertamina announcement</div>
+              </div>
+              <div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;padding:8px">
+                <div style="display:flex;justify-content:space-between;gap:8px;font-size:11px"><span>7 Jun 2026 - 9 Jun 2026</span><strong>Rp12.300</strong></div>
+                <div style="font-size:10px;color:#78716c;margin-top:3px">Source: generated API snapshot</div>
+              </div>
+              <div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;padding:8px">
+                <div style="display:flex;justify-content:space-between;gap:8px;font-size:11px"><span>9 Jun 2026 - now</span><strong>Rp16.250</strong></div>
+                <div style="font-size:10px;color:#78716c;margin-top:3px">Source: latest MyPertamina sync</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="background:white;border:1px solid #e7e5e4;border-radius:12px;padding:12px">
+          <div style="display:flex;justify-content:space-between;gap:10px;align-items:center">
+            <strong style="font-size:13px">PERTALITE</strong>
+            <span style="font-size:13px;font-weight:800">Rp10.000</span>
+          </div>
+          <div style="font-size:10px;color:#78716c;margin-top:2px">Flat since first record</div>
+          <svg viewBox="0 0 280 56" style="width:100%;height:56px;margin-top:8px">
+            <line x1="4" y1="30" x2="276" y2="30" stroke="#22c55e" stroke-width="3.5" stroke-linecap="round" />
+          </svg>
+          <div style="font-size:11px;color:#57534e;margin-top:8px">Tap to show old prices</div>
+        </div>
+
+        <div style="background:white;border:1px solid #e7e5e4;border-radius:12px;padding:12px">
+          <div style="display:flex;justify-content:space-between;gap:10px;align-items:center">
+            <strong style="font-size:13px">DEXLITE</strong>
+            <span style="font-size:13px;font-weight:800">Rp23.000</span>
+          </div>
+          <div style="font-size:10px;color:#78716c;margin-top:2px">Lowest Rp21.700 | Highest Rp23.000</div>
+          <svg viewBox="0 0 280 56" style="width:100%;height:56px;margin-top:8px">
+            <path d="M4 38 H118 V24 H276" fill="none" stroke="#0ea5e9" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <div style="font-size:11px;color:#57534e;margin-top:8px">Tap to show old prices</div>
+        </div>
+      </div>
+
+      <div style="margin-top:12px;background:#f5f5f4;border:1px solid #e7e5e4;border-radius:10px;padding:10px;font-size:11px;color:#57534e">
+        Backfilled entries are marked with their source. If a source is province-specific, it goes into that province only; if it is national and clearly applies to all listed regions, we can seed all matching province files.
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="options">
+  <div class="option" data-choice="inline-expand" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Inline expansion</h3>
+      <p>Clicking a card expands the old prices directly under that card. Best for quick comparison, but cards can become uneven heights.</p>
+    </div>
+  </div>
+  <div class="option" data-choice="detail-panel" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Detail panel below cards</h3>
+      <p>Cards stay clean; selecting a fuel type opens one full-width detail panel below the grid with old prices, sources, and a larger chart.</p>
+    </div>
+  </div>
+</div>

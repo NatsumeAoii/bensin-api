@@ -26,10 +26,13 @@ ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 if ROOT_DIR not in sys.path:
     sys.path.insert(0, ROOT_DIR)
 
+import logging
 import re
 import unicodedata
 from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional, Tuple
+
+logger = logging.getLogger(__name__)
 
 from pipeline.config import (
     ROOT,
@@ -322,16 +325,27 @@ def generate_outputs(provinces: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         'provinsi': {},
         'endpoints': {
             'all_provinces': '/v1/nasional.json',
+            'history_index': '/v1/history/index.json',
+            'province_history': '/v1/history/provinsi/{slug}.json',
         }
     }
 
     nasional_list = []
+    slug_counts: Dict[str, int] = {}
     for prov in provinces:
         if not isinstance(prov, dict):
             print('Skipping non-object entry in data:', repr(prov))
             continue
         payload = build_province_file(prov)
         slug = payload['province_slug']
+        if slug in slug_counts:
+            slug_counts[slug] += 1
+            new_slug = f'{slug}-{slug_counts[slug]}'
+            logger.warning('Slug collision: %r already seen, renaming to %r', slug, new_slug)
+            slug = new_slug
+            payload['province_slug'] = slug
+        else:
+            slug_counts[slug] = 1
         prov_path = f'v1/provinsi/{slug}.json'
         out_path = os.path.join(ROOT, prov_path)
         os.makedirs(os.path.dirname(out_path), exist_ok=True)

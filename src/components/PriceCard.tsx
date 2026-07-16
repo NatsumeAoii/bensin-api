@@ -2,46 +2,44 @@ import { CheckCircle2, XCircle, HelpCircle, Droplets } from "lucide-react";
 import type { Product, Availability } from "@/types/api";
 import { formatPrice } from "@/utils/format";
 import { getProductColor } from "@/utils/products";
+import { useTranslation } from "@/i18n";
 
 interface PriceCardProps {
   product: Product;
 }
 
-const availabilityConfig: Record<
-  Availability,
-  {
-    label: string;
-    icon: typeof CheckCircle2;
-    colorClass: string;
-    bgClass: string;
-  }
-> = {
-  available: {
-    label: "Tersedia",
-    icon: CheckCircle2,
-    colorClass: "text-emerald-600 dark:text-emerald-400",
-    bgClass: "bg-emerald-50 dark:bg-emerald-950/40",
-  },
-  unavailable: {
-    label: "Tidak Tersedia",
-    icon: XCircle,
-    colorClass: "text-red-500 dark:text-red-400",
-    bgClass: "bg-red-50 dark:bg-red-950/40",
-  },
-  unknown: {
-    label: "Tidak Diketahui",
-    icon: HelpCircle,
-    colorClass: "text-amber-500 dark:text-amber-400",
-    bgClass: "bg-amber-50 dark:bg-amber-950/40",
-  },
-};
-
 export function PriceCard({ product }: PriceCardProps) {
+  const { t } = useTranslation();
   const { product: productName, price_rupiah, availability } = product;
-  const priceDisplay = formatPrice(price_rupiah);
+  const priceDisplay = formatPrice(price_rupiah, t("price.unavailableLabel"));
+  const productColor = getProductColor(productName);
+
+  const availabilityConfig: Record<
+    Availability,
+    { label: string; icon: typeof CheckCircle2; colorClass: string; bgClass: string }
+  > = {
+    available: {
+      label: t("price.available"),
+      icon: CheckCircle2,
+      colorClass: "text-emerald-600 dark:text-emerald-400",
+      bgClass: "bg-emerald-50 dark:bg-emerald-950/40",
+    },
+    unavailable: {
+      label: t("price.unavailable"),
+      icon: XCircle,
+      colorClass: "text-red-500 dark:text-red-400",
+      bgClass: "bg-red-50 dark:bg-red-950/40",
+    },
+    unknown: {
+      label: t("price.unknown"),
+      icon: HelpCircle,
+      colorClass: "text-amber-500 dark:text-amber-400",
+      bgClass: "bg-amber-50 dark:bg-amber-950/40",
+    },
+  };
+
   const config = availabilityConfig[availability];
   const Icon = config.icon;
-  const productColor = getProductColor(productName);
 
   const ariaLabel = `${productName}, ${priceDisplay}, ${config.label}`;
 

@@ -80,4 +80,25 @@ describe("sortByPrice", () => {
     const result = sortByPrice(equalPrices, "Pertamax");
     expect(result.map((p) => p.province)).toEqual(["A", "B", "C"]);
   });
+
+  it("sorts descending when direction is 'desc'", () => {
+    const result = sortByPrice(provinces, "Pertamax", "desc");
+    const prices = result.map(
+      (p) => p.products.find((pr) => pr.product === "Pertamax")?.price_rupiah
+    );
+    expect(prices).toEqual([13000, 12800, 12500, null]);
+  });
+
+  it("still places nulls last in descending sort", () => {
+    const result = sortByPrice(provinces, "Pertamax", "desc");
+    expect(result[result.length - 1].province).toBe("Papua");
+  });
+
+  it("defaults to ascending when no direction specified", () => {
+    const result = sortByPrice(provinces, "Pertamax");
+    const prices = result.map(
+      (p) => p.products.find((pr) => pr.product === "Pertamax")?.price_rupiah
+    );
+    expect(prices).toEqual([12500, 12800, 13000, null]);
+  });
 });

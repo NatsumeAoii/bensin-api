@@ -72,3 +72,16 @@ class HistoryModel(BaseModel):
     province: NonEmptyStr
     province_slug: NonEmptyStr
     products: dict[str, List[HistoryPointModel]]
+
+
+class HistoryIndexEntry(BaseModel):
+    slug: NonEmptyStr
+    name: NonEmptyStr
+    path: NonEmptyStr
+    point_count: int
+
+
+class HistoryIndexModel(BaseModel):
+    count: int
+    synced_at: NonEmptyStr
+    provinsi: List[HistoryIndexEntry]

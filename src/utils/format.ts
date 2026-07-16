@@ -30,13 +30,17 @@ export function formatRupiah(price: number): string {
 
 /**
  * Formats a price for display, handling null (unavailable) case.
- * Returns "Tidak Tersedia" when price is null, otherwise delegates to formatRupiah.
+ * Returns the provided unavailableLabel when price is null, otherwise delegates to formatRupiah.
  *
  * @example
  * formatPrice(12600) // "Rp 12.600"
  * formatPrice(null)  // "Tidak Tersedia"
+ * formatPrice(null, "Unavailable") // "Unavailable"
  */
-export function formatPrice(price: number | null): string {
-  if (price === null) return "Tidak Tersedia";
+export function formatPrice(
+  price: number | null,
+  unavailableLabel: string = "Tidak Tersedia"
+): string {
+  if (price === null) return unavailableLabel;
   return formatRupiah(price);
 }

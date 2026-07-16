@@ -1,5 +1,6 @@
 import { AlertTriangle } from "lucide-react";
 import { WarningBanner } from "@/components/WarningBanner";
+import { useTranslation } from "@/i18n";
 
 interface StaleDataBannerProps {
   visible: boolean;
@@ -12,13 +13,14 @@ interface StaleDataBannerProps {
  * inline retry so the user has a recovery action, not just a warning.
  */
 export function StaleDataBanner({ visible, onRetry }: StaleDataBannerProps) {
+  const { t } = useTranslation();
   if (!visible) return null;
 
   return (
     <WarningBanner
       icon={AlertTriangle}
-      message="Data mungkin sudah tidak terbaru. Periksa koneksi internet Anda."
-      action={onRetry ? { label: "Coba lagi", onClick: onRetry } : undefined}
+      message={t("stale.warning")}
+      action={onRetry ? { label: t("stale.retry"), onClick: onRetry } : undefined}
     />
   );
 }

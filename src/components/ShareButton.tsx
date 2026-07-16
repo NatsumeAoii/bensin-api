@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Share2, Check, AlertCircle } from "lucide-react";
+import { useTranslation } from "@/i18n";
 
 interface ShareButtonProps {
   title: string;
@@ -15,6 +16,7 @@ type ShareStatus = "idle" | "copied" | "error";
  */
 export function ShareButton({ title, text }: ShareButtonProps) {
   const [status, setStatus] = useState<ShareStatus>("idle");
+  const { t } = useTranslation();
 
   async function handleShare() {
     const shareData = {
@@ -48,12 +50,12 @@ export function ShareButton({ title, text }: ShareButtonProps) {
   }
 
   const config = {
-    idle: { Icon: Share2, label: "Bagikan", srLabel: "Bagikan" },
-    copied: { Icon: Check, label: "Disalin", srLabel: "Link disalin" },
+    idle: { Icon: Share2, label: t("share.label"), srLabel: t("share.label") },
+    copied: { Icon: Check, label: t("share.copied"), srLabel: t("share.linkCopied") },
     error: {
       Icon: AlertCircle,
-      label: "Gagal menyalin",
-      srLabel: "Gagal menyalin link",
+      label: t("share.copyFailed"),
+      srLabel: t("share.copyLinkFailed"),
     },
   }[status];
 

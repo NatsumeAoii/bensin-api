@@ -1,4 +1,3 @@
 User-agent: *
 Allow: /
-
 Sitemap: https://nasgunawann.github.io/bensin-api/sitemap.xml

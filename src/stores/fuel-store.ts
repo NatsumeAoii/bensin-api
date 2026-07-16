@@ -1,8 +1,10 @@
 import { create } from "zustand";
 import { apiClient, ApiError } from "@/api/client";
+import { buildChangeFeed } from "@/utils/history-feed";
 import type {
   IndexResponse,
   NationalResponse,
+  PriceChangeEvent,
   ProvinceResponse,
 } from "@/types/api";
 
@@ -28,6 +30,12 @@ interface FuelState {
   nationalLoading: boolean;
   nationalError: ApiError | null;
 
+  // History feed data
+  historyFeed: PriceChangeEvent[] | null;
+  historyFeedLoading: boolean;
+  historyFeedError: ApiError | null;
+  historyFeedSyncedAt: string | null;
+
   // Retry tracking per request key
   retryCount: Record<string, number>;
 
@@ -35,6 +43,7 @@ interface FuelState {
   fetchIndex: (bypassCache?: boolean) => Promise<void>;
   fetchProvince: (slug: string, bypassCache?: boolean) => Promise<void>;
   fetchNational: (bypassCache?: boolean) => Promise<void>;
+  fetchHistoryFeed: (bypassCache?: boolean) => Promise<void>;
   retry: (key: string) => Promise<void>;
 }
 
@@ -46,11 +55,12 @@ type StoreGet = () => FuelState;
  * Keys follow the format: "index", "province:{slug}", or "national".
  */
 function parseRequestKey(key: string): {
-  type: "index" | "province" | "national";
+  type: "index" | "province" | "national" | "historyFeed";
   slug?: string;
 } {
   if (key === "index") return { type: "index" };
   if (key === "national") return { type: "national" };
+  if (key === "historyFeed") return { type: "historyFeed" };
   if (key.startsWith("province:")) {
     return { type: "province", slug: key.slice("province:".length) };
   }
@@ -135,6 +145,11 @@ export const useFuelStore = create<FuelState>((set, get) => ({
   nationalLoading: false,
   nationalError: null,
 
+  historyFeed: null,
+  historyFeedLoading: false,
+  historyFeedError: null,
+  historyFeedSyncedAt: null,
+
   retryCount: {},
 
   fetchIndex: (bypassCache = false) =>
@@ -205,6 +220,45 @@ export const useFuelStore = create<FuelState>((set, get) => ({
       (error) => set({ nationalLoading: false, nationalError: error })
     ),
 
+  fetchHistoryFeed: (bypassCache = false) =>
+    runFetch(
+      "historyFeed",
+      get().historyFeed !== null,
+      bypassCache,
+      get,
+      set,
+      async () => {
+        const index = await apiClient.getHistoryIndex();
+        const slugs = index.provinsi.map((p) => p.slug);
+        const results = await apiClient.getAllHistory(slugs);
+        const histories: Array<{
+          slug: string;
+          name: string;
+          products: Record<string, import("@/types/api").HistoryPoint[]>;
+        }> = [];
+        for (let i = 0; i < results.length; i++) {
+          const result = results[i];
+          if (result.status === "fulfilled") {
+            histories.push({
+              slug: result.value.province_slug,
+              name: result.value.province,
+              products: result.value.products,
+            });
+          }
+        }
+        return { feed: buildChangeFeed(histories), syncedAt: index.synced_at };
+      },
+      () => set({ historyFeedLoading: true, historyFeedError: null }),
+      (data) =>
+        set({
+          historyFeed: data.feed,
+          historyFeedSyncedAt: data.syncedAt,
+          historyFeedLoading: false,
+          historyFeedError: null,
+        }),
+      (error) => set({ historyFeedLoading: false, historyFeedError: error })
+    ),
+
   retry: async (key: string) => {
     if ((get().retryCount[key] ?? 0) >= MAX_RETRY_COUNT) return;
 
@@ -221,6 +275,9 @@ export const useFuelStore = create<FuelState>((set, get) => ({
         break;
       case "national":
         await get().fetchNational(true);
+        break;
+      case "historyFeed":
+        await get().fetchHistoryFeed(true);
         break;
     }
   },

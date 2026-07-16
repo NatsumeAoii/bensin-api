@@ -1,10 +1,11 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
-import { render, screen, waitFor } from "@testing-library/react";
+import { screen, waitFor } from "@testing-library/react";
 
 import { PriceHistoryChart } from "@/components/PriceHistoryChart";
 import { filterByRange } from "@/utils/history-range";
 import { apiClient, ApiError } from "@/api/client";
 import type { HistoryPoint, HistoryResponse } from "@/types/api";
+import { renderWithI18n } from "@/__tests__/test-utils";
 
 // ---------------------------------------------------------------------------
 // filterByRange — range slicing with carry-in point
@@ -77,7 +78,7 @@ describe("PriceHistoryChart", () => {
   it("renders the chart when history loads", async () => {
     vi.spyOn(apiClient, "getHistory").mockResolvedValue(sample);
 
-    render(<PriceHistoryChart slug="aceh" />);
+    renderWithI18n(<PriceHistoryChart slug="aceh" />);
 
     await waitFor(() => {
       expect(screen.getByText("Riwayat Harga")).toBeInTheDocument();
@@ -94,7 +95,7 @@ describe("PriceHistoryChart", () => {
       products: {},
     });
 
-    render(<PriceHistoryChart slug="aceh" />);
+    renderWithI18n(<PriceHistoryChart slug="aceh" />);
 
     await waitFor(() => {
       expect(
@@ -108,7 +109,7 @@ describe("PriceHistoryChart", () => {
       new ApiError("HTTP 404", "HTTP_ERROR", 404)
     );
 
-    render(<PriceHistoryChart slug="aceh" />);
+    renderWithI18n(<PriceHistoryChart slug="aceh" />);
 
     await waitFor(() => {
       expect(
@@ -122,11 +123,11 @@ describe("PriceHistoryChart", () => {
       new ApiError("Koneksi terlalu lama", "TIMEOUT")
     );
 
-    render(<PriceHistoryChart slug="aceh" />);
+    renderWithI18n(<PriceHistoryChart slug="aceh" />);
 
     await waitFor(() => {
       expect(
-        screen.getByRole("button", { name: /Coba lagi/ })
+        screen.getByRole("button", { name: /Coba Lagi/i })
       ).toBeInTheDocument();
     });
   });

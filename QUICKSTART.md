@@ -22,10 +22,11 @@ Open the local URL printed by Vite. The default is:
 http://localhost:5173
 ```
 
-The dashboard fetches data from:
+The dashboard fetches generated `v1/` data from the same dev/deploy origin by
+default:
 
 ```text
-https://nasgunawann.github.io/bensin-api
+/v1/index.json
 ```
 
 No local backend is required.
@@ -87,7 +88,7 @@ With `--fetch`, the script also writes `raw/raw-*.json` and overwrites
 
 ## Notes
 
-- `.env` setup is optional. Set `VITE_API_BASE_URL` (see `.env.example`) to
-  point the dashboard at locally generated `v1/` data.
+- `.env` setup is optional. Leave `VITE_API_BASE_URL` unset to read generated
+  `v1/` data from the same origin, or set it to another static API host.
 - CI runs both frontend checks (`ci.yml`) and the scheduled data sync
   (`sync.yml`); the dashboard deploys via `deploy-pages.yml`.

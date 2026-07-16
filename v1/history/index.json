@@ -5,241 +5,241 @@
       "slug": "aceh",
       "name": "Prov. Aceh",
       "path": "/v1/history/provinsi/aceh.json",
-      "point_count": 9
+      "point_count": 12
     },
     {
       "slug": "bali",
       "name": "Prov. Bali",
       "path": "/v1/history/provinsi/bali.json",
-      "point_count": 9
+      "point_count": 12
     },
     {
       "slug": "bangka-belitung",
       "name": "Prov. Bangka-Belitung",
       "path": "/v1/history/provinsi/bangka-belitung.json",
-      "point_count": 9
+      "point_count": 12
     },
     {
       "slug": "banten",
       "name": "Prov. Banten",
       "path": "/v1/history/provinsi/banten.json",
-      "point_count": 11
+      "point_count": 14
     },
     {
       "slug": "bengkulu",
       "name": "Prov. Bengkulu",
       "path": "/v1/history/provinsi/bengkulu.json",
-      "point_count": 9
+      "point_count": 12
     },
     {
       "slug": "di-yogyakarta",
       "name": "Prov. DI Yogyakarta",
       "path": "/v1/history/provinsi/di-yogyakarta.json",
-      "point_count": 11
+      "point_count": 14
     },
     {
       "slug": "dki-jakarta",
       "name": "Prov. DKI Jakarta",
       "path": "/v1/history/provinsi/dki-jakarta.json",
-      "point_count": 11
+      "point_count": 14
     },
     {
       "slug": "free-trade-zone-ftz-batam",
       "name": "Free Trade Zone (FTZ) Batam",
       "path": "/v1/history/provinsi/free-trade-zone-ftz-batam.json",
-      "point_count": 9
+      "point_count": 12
     },
     {
       "slug": "free-trade-zone-ftz-sabang",
       "name": "Free Trade Zone (FTZ) Sabang",
       "path": "/v1/history/provinsi/free-trade-zone-ftz-sabang.json",
-      "point_count": 7
+      "point_count": 8
     },
     {
       "slug": "gorontalo",
       "name": "Prov. Gorontalo",
       "path": "/v1/history/provinsi/gorontalo.json",
-      "point_count": 9
+      "point_count": 12
     },
     {
       "slug": "jambi",
       "name": "Prov. Jambi",
       "path": "/v1/history/provinsi/jambi.json",
-      "point_count": 9
+      "point_count": 12
     },
     {
       "slug": "jawa-barat",
       "name": "Prov. Jawa Barat",
       "path": "/v1/history/provinsi/jawa-barat.json",
-      "point_count": 11
+      "point_count": 14
     },
     {
       "slug": "jawa-tengah",
       "name": "Prov. Jawa Tengah",
       "path": "/v1/history/provinsi/jawa-tengah.json",
-      "point_count": 11
+      "point_count": 14
     },
     {
       "slug": "jawa-timur",
       "name": "Prov. Jawa Timur",
       "path": "/v1/history/provinsi/jawa-timur.json",
-      "point_count": 11
+      "point_count": 14
     },
     {
       "slug": "kalimantan-barat",
       "name": "Prov. Kalimantan Barat",
       "path": "/v1/history/provinsi/kalimantan-barat.json",
-      "point_count": 9
+      "point_count": 12
     },
     {
       "slug": "kalimantan-selatan",
       "name": "Prov. Kalimantan Selatan",
       "path": "/v1/history/provinsi/kalimantan-selatan.json",
-      "point_count": 9
+      "point_count": 12
     },
     {
       "slug": "kalimantan-tengah",
       "name": "Prov. Kalimantan Tengah",
       "path": "/v1/history/provinsi/kalimantan-tengah.json",
-      "point_count": 9
+      "point_count": 12
     },
     {
       "slug": "kalimantan-timur",
       "name": "Prov. Kalimantan Timur",
       "path": "/v1/history/provinsi/kalimantan-timur.json",
-      "point_count": 9
+      "point_count": 12
     },
     {
       "slug": "kalimantan-utara",
       "name": "Prov. Kalimantan Utara",
       "path": "/v1/history/provinsi/kalimantan-utara.json",
-      "point_count": 9
+      "point_count": 12
     },
     {
       "slug": "kepulauan-riau",
       "name": "Prov. Kepulauan Riau",
       "path": "/v1/history/provinsi/kepulauan-riau.json",
-      "point_count": 9
+      "point_count": 12
     },
     {
       "slug": "lampung",
       "name": "Prov. Lampung",
       "path": "/v1/history/provinsi/lampung.json",
-      "point_count": 9
+      "point_count": 12
     },
     {
       "slug": "maluku",
       "name": "Prov. Maluku",
       "path": "/v1/history/provinsi/maluku.json",
-      "point_count": 7
+      "point_count": 8
     },
     {
       "slug": "maluku-utara",
       "name": "Prov. Maluku Utara",
       "path": "/v1/history/provinsi/maluku-utara.json",
-      "point_count": 7
+      "point_count": 8
     },
     {
       "slug": "nusa-tenggara-barat",
       "name": "Prov. Nusa Tenggara Barat",
       "path": "/v1/history/provinsi/nusa-tenggara-barat.json",
-      "point_count": 9
+      "point_count": 12
     },
     {
       "slug": "nusa-tenggara-timur",
       "name": "Prov. Nusa Tenggara Timur",
       "path": "/v1/history/provinsi/nusa-tenggara-timur.json",
-      "point_count": 10
+      "point_count": 14
     },
     {
       "slug": "papua",
       "name": "Prov. Papua",
       "path": "/v1/history/provinsi/papua.json",
-      "point_count": 8
+      "point_count": 10
     },
     {
       "slug": "papua-barat",
       "name": "Prov. Papua Barat",
       "path": "/v1/history/provinsi/papua-barat.json",
-      "point_count": 8
+      "point_count": 10
     },
     {
       "slug": "papua-barat-daya",
       "name": "Prov. Papua Barat Daya",
       "path": "/v1/history/provinsi/papua-barat-daya.json",
-      "point_count": 8
+      "point_count": 10
     },
     {
       "slug": "papua-pegunungan",
       "name": "Prov. Papua Pegunungan",
       "path": "/v1/history/provinsi/papua-pegunungan.json",
-      "point_count": 7
+      "point_count": 8
     },
     {
       "slug": "papua-selatan",
       "name": "Prov. Papua Selatan",
       "path": "/v1/history/provinsi/papua-selatan.json",
-      "point_count": 7
+      "point_count": 8
     },
     {
       "slug": "papua-tengah",
       "name": "Prov. Papua Tengah",
       "path": "/v1/history/provinsi/papua-tengah.json",
-      "point_count": 7
+      "point_count": 8
     },
     {
       "slug": "riau",
       "name": "Prov. Riau",
       "path": "/v1/history/provinsi/riau.json",
-      "point_count": 9
+      "point_count": 12
     },
     {
       "slug": "sulawesi-barat",
       "name": "Prov. Sulawesi Barat",
       "path": "/v1/history/provinsi/sulawesi-barat.json",
-      "point_count": 9
+      "point_count": 12
     },
     {
       "slug": "sulawesi-selatan",
       "name": "Prov. Sulawesi Selatan",
       "path": "/v1/history/provinsi/sulawesi-selatan.json",
-      "point_count": 9
+      "point_count": 12
     },
     {
       "slug": "sulawesi-tengah",
       "name": "Prov. Sulawesi Tengah",
       "path": "/v1/history/provinsi/sulawesi-tengah.json",
-      "point_count": 9
+      "point_count": 12
     },
     {
       "slug": "sulawesi-tenggara",
       "name": "Prov. Sulawesi Tenggara",
       "path": "/v1/history/provinsi/sulawesi-tenggara.json",
-      "point_count": 9
+      "point_count": 12
     },
     {
       "slug": "sulawesi-utara",
       "name": "Prov. Sulawesi Utara",
       "path": "/v1/history/provinsi/sulawesi-utara.json",
-      "point_count": 9
+      "point_count": 12
     },
     {
       "slug": "sumatera-barat",
       "name": "Prov. Sumatera Barat",
       "path": "/v1/history/provinsi/sumatera-barat.json",
-      "point_count": 9
+      "point_count": 12
     },
     {
       "slug": "sumatera-selatan",
       "name": "Prov. Sumatera Selatan",
       "path": "/v1/history/provinsi/sumatera-selatan.json",
-      "point_count": 9
+      "point_count": 12
     },
     {
       "slug": "sumatera-utara",
       "name": "Prov. Sumatera Utara",
       "path": "/v1/history/provinsi/sumatera-utara.json",
-      "point_count": 9
+      "point_count": 12
     }
   ]
 }

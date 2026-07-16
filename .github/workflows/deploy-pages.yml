@@ -43,6 +43,7 @@ jobs:
       - name: Prepare Pages artifact
         run: |
           cp dist/index.html dist/404.html
+          rm -rf dist/v1
           cp -R v1 dist/v1
 
       - name: Configure Pages

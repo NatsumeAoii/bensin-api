@@ -29,6 +29,9 @@ const ProvinceDetailPage = lazyWithRetry(
   () => import("@/pages/ProvinceDetailPage")
 );
 const NationalPage = lazyWithRetry(() => import("@/pages/NationalPage"));
+const PriceChangePage = lazyWithRetry(
+  () => import("@/pages/PriceChangePage")
+);
 const NotFoundPage = lazyWithRetry(() => import("@/pages/NotFoundPage"));
 
 /**
@@ -119,6 +122,10 @@ export const router = createBrowserRouter(
             {
               path: "/nasional",
               element: <LazyRoute element={<NationalPage />} />,
+            },
+            {
+              path: "/perubahan",
+              element: <LazyRoute element={<PriceChangePage />} />,
             },
             {
               path: "*",

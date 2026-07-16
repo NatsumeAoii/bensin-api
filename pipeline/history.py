@@ -26,6 +26,7 @@ import os
 from typing import Any, Dict, List, Optional
 
 from pipeline.config import OUT_DIR
+from pipeline.fetch_normalize import iso_now
 from pipeline.schemas import HistoryModel
 
 HISTORY_DIR = os.path.join(OUT_DIR, 'history')
@@ -177,7 +178,7 @@ def update_history(province_payloads: List[Dict[str, Any]]) -> int:
         index_path = os.path.join(HISTORY_DIR, 'index.json')
         with open(index_path, 'w', encoding='utf-8') as f:
             json.dump(
-                {'count': len(index_entries), 'provinsi': index_entries},
+                {'count': len(index_entries), 'synced_at': iso_now(), 'provinsi': index_entries},
                 f, ensure_ascii=False, indent=2,
             )
     except Exception as exc:  # noqa: BLE001

@@ -1,0 +1,165 @@
+﻿<h2>Redo: old prices visible on the cards</h2>
+<p class="subtitle">This version makes the old price periods visible immediately, without needing tabs or opening a detail panel first.</p>
+
+<div class="mockup">
+  <div class="mockup-header">Preview: History section on province page</div>
+  <div class="mockup-body">
+    <div style="background:#fafaf9;border:1px solid #e7e5e4;border-radius:14px;padding:18px;font-family:system-ui;color:#1c1917">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:16px">
+        <div>
+          <div style="font-size:11px;font-weight:800;color:#f97316;text-transform:uppercase;letter-spacing:.04em">Riwayat harga</div>
+          <h3 style="font-size:18px;line-height:1.2;margin:4px 0 0;color:#1c1917">Old prices by fuel type</h3>
+          <p style="font-size:12px;color:#78716c;margin:5px 0 0">Each card shows current, low/high, mini chart, and previous price periods.</p>
+        </div>
+        <span style="background:#fff7ed;border:1px solid #fed7aa;color:#c2410c;border-radius:999px;padding:6px 10px;font-size:11px;font-weight:800;white-space:nowrap">DKI Jakarta</span>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px">
+        <article style="background:white;border:1px solid #fed7aa;border-radius:12px;padding:12px;box-shadow:0 10px 24px rgba(249,115,22,.08)">
+          <div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-start">
+            <div>
+              <strong style="font-size:13px">PERTAMAX</strong>
+              <div style="font-size:10px;color:#78716c;margin-top:2px">3 price periods</div>
+            </div>
+            <div style="text-align:right">
+              <div style="font-size:10px;color:#78716c">Current</div>
+              <strong style="font-size:16px;color:#1c1917">Rp16.250</strong>
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:10px">
+            <div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;padding:7px"><div style="font-size:9px;color:#9a3412">Lowest</div><strong style="font-size:12px">Rp12.300</strong></div>
+            <div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;padding:7px"><div style="font-size:9px;color:#9a3412">Highest</div><strong style="font-size:12px">Rp16.250</strong></div>
+          </div>
+
+          <svg viewBox="0 0 280 64" style="width:100%;height:64px;margin-top:10px;background:#fffbf7;border:1px solid #ffedd5;border-radius:9px">
+            <line x1="16" y1="48" x2="264" y2="48" stroke="#fed7aa" />
+            <line x1="16" y1="28" x2="264" y2="28" stroke="#ffedd5" />
+            <path d="M20 46 H92 V36 H166 V18 H260" fill="none" stroke="#f97316" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
+            <circle cx="20" cy="46" r="4" fill="#f97316" /><circle cx="92" cy="36" r="4" fill="#f97316" /><circle cx="166" cy="18" r="4" fill="#f97316" />
+          </svg>
+
+          <div style="margin-top:10px">
+            <div style="font-size:11px;font-weight:800;margin-bottom:6px">Old prices</div>
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <div style="border-left:3px solid #f97316;background:#fff7ed;border-radius:8px;padding:7px 8px">
+                <div style="display:flex;justify-content:space-between;gap:8px;font-size:11px"><span>1 Sep 2024 - 1 Oct 2024</span><strong>Rp12.950</strong></div>
+                <div style="font-size:9px;color:#78716c;margin-top:2px">Source: official/news backfill</div>
+              </div>
+              <div style="border-left:3px solid #f97316;background:#fff7ed;border-radius:8px;padding:7px 8px">
+                <div style="display:flex;justify-content:space-between;gap:8px;font-size:11px"><span>7 Jun 2026 - 9 Jun 2026</span><strong>Rp12.300</strong></div>
+                <div style="font-size:9px;color:#78716c;margin-top:2px">Source: API snapshot</div>
+              </div>
+              <div style="border-left:3px solid #f97316;background:#fff7ed;border-radius:8px;padding:7px 8px">
+                <div style="display:flex;justify-content:space-between;gap:8px;font-size:11px"><span>9 Jun 2026 - now</span><strong>Rp16.250</strong></div>
+                <div style="font-size:9px;color:#78716c;margin-top:2px">Source: latest sync</div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article style="background:white;border:1px solid #d9f99d;border-radius:12px;padding:12px">
+          <div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-start">
+            <div>
+              <strong style="font-size:13px">PERTALITE</strong>
+              <div style="font-size:10px;color:#78716c;margin-top:2px">2 price periods</div>
+            </div>
+            <div style="text-align:right">
+              <div style="font-size:10px;color:#78716c">Current</div>
+              <strong style="font-size:16px;color:#1c1917">Rp10.000</strong>
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:10px">
+            <div style="background:#f7fee7;border:1px solid #d9f99d;border-radius:8px;padding:7px"><div style="font-size:9px;color:#4d7c0f">Lowest</div><strong style="font-size:12px">Rp7.650</strong></div>
+            <div style="background:#f7fee7;border:1px solid #d9f99d;border-radius:8px;padding:7px"><div style="font-size:9px;color:#4d7c0f">Highest</div><strong style="font-size:12px">Rp10.000</strong></div>
+          </div>
+
+          <svg viewBox="0 0 280 64" style="width:100%;height:64px;margin-top:10px;background:#fcfff4;border:1px solid #ecfccb;border-radius:9px">
+            <line x1="16" y1="48" x2="264" y2="48" stroke="#d9f99d" />
+            <path d="M20 42 H124 V28 H260" fill="none" stroke="#65a30d" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
+            <circle cx="20" cy="42" r="4" fill="#65a30d" /><circle cx="124" cy="28" r="4" fill="#65a30d" />
+          </svg>
+
+          <div style="margin-top:10px">
+            <div style="font-size:11px;font-weight:800;margin-bottom:6px">Old prices</div>
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <div style="border-left:3px solid #65a30d;background:#f7fee7;border-radius:8px;padding:7px 8px">
+                <div style="display:flex;justify-content:space-between;gap:8px;font-size:11px"><span>Before 3 Sep 2022</span><strong>Rp7.650</strong></div>
+                <div style="font-size:9px;color:#78716c;margin-top:2px">Source: official/news backfill</div>
+              </div>
+              <div style="border-left:3px solid #65a30d;background:#f7fee7;border-radius:8px;padding:7px 8px">
+                <div style="display:flex;justify-content:space-between;gap:8px;font-size:11px"><span>3 Sep 2022 - now</span><strong>Rp10.000</strong></div>
+                <div style="font-size:9px;color:#78716c;margin-top:2px">Source: official/news backfill + latest sync</div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article style="background:white;border:1px solid #bae6fd;border-radius:12px;padding:12px">
+          <div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-start">
+            <div>
+              <strong style="font-size:13px">DEXLITE</strong>
+              <div style="font-size:10px;color:#78716c;margin-top:2px">3 price periods</div>
+            </div>
+            <div style="text-align:right">
+              <div style="font-size:10px;color:#78716c">Current</div>
+              <strong style="font-size:16px;color:#1c1917">Rp23.000</strong>
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:10px">
+            <div style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:8px;padding:7px"><div style="font-size:9px;color:#0369a1">Lowest</div><strong style="font-size:12px">Rp21.700</strong></div>
+            <div style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:8px;padding:7px"><div style="font-size:9px;color:#0369a1">Highest</div><strong style="font-size:12px">Rp23.000</strong></div>
+          </div>
+
+          <svg viewBox="0 0 280 64" style="width:100%;height:64px;margin-top:10px;background:#f7fcff;border:1px solid #e0f2fe;border-radius:9px">
+            <line x1="16" y1="48" x2="264" y2="48" stroke="#bae6fd" />
+            <line x1="16" y1="28" x2="264" y2="28" stroke="#e0f2fe" />
+            <path d="M20 42 H106 V34 H178 V22 H260" fill="none" stroke="#0284c7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
+            <circle cx="20" cy="42" r="4" fill="#0284c7" /><circle cx="106" cy="34" r="4" fill="#0284c7" /><circle cx="178" cy="22" r="4" fill="#0284c7" />
+          </svg>
+
+          <div style="margin-top:10px">
+            <div style="font-size:11px;font-weight:800;margin-bottom:6px">Old prices</div>
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <div style="border-left:3px solid #0284c7;background:#f0f9ff;border-radius:8px;padding:7px 8px">
+                <div style="display:flex;justify-content:space-between;gap:8px;font-size:11px"><span>1 Aug 2024 - 1 Sep 2024</span><strong>Rp21.700</strong></div>
+                <div style="font-size:9px;color:#78716c;margin-top:2px">Source: official/news backfill</div>
+              </div>
+              <div style="border-left:3px solid #0284c7;background:#f0f9ff;border-radius:8px;padding:7px 8px">
+                <div style="display:flex;justify-content:space-between;gap:8px;font-size:11px"><span>1 Sep 2024 - 7 Jun 2026</span><strong>Rp22.500</strong></div>
+                <div style="font-size:9px;color:#78716c;margin-top:2px">Source: official/news backfill</div>
+              </div>
+              <div style="border-left:3px solid #0284c7;background:#f0f9ff;border-radius:8px;padding:7px 8px">
+                <div style="display:flex;justify-content:space-between;gap:8px;font-size:11px"><span>7 Jun 2026 - now</span><strong>Rp23.000</strong></div>
+                <div style="font-size:9px;color:#78716c;margin-top:2px">Source: latest sync</div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <div style="margin-top:12px;background:#f5f5f4;border:1px solid #e7e5e4;border-radius:10px;padding:10px;font-size:11px;color:#57534e">
+        Implementation idea: show the latest 2-3 old periods on each card, then add a small "View all history" action when a product has more records.
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="options">
+  <div class="option" data-choice="yes-visible" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Use this visible-old-price card</h3>
+      <p>Old prices are visible immediately on every product card.</p>
+    </div>
+  </div>
+  <div class="option" data-choice="too-busy" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Too busy</h3>
+      <p>Keep cards simpler and move old price details into a selected-product panel.</p>
+    </div>
+  </div>
+</div>

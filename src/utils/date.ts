@@ -14,27 +14,20 @@ const RELATIVE_UNITS: Array<{ unit: Intl.RelativeTimeFormatUnit; ms: number }> =
     { unit: "second", ms: 1000 },
   ];
 
-/**
- * Cached Intl.RelativeTimeFormat instance — avoids re-initializing ICU locale
- * data on every call. Safe to reuse since the formatter is stateless and
- * locale/options never change at runtime.
- */
-let cachedRtf: Intl.RelativeTimeFormat | null = null;
+const rtfCache = new Map<string, Intl.RelativeTimeFormat>();
 
-function getRelativeTimeFormat(): Intl.RelativeTimeFormat {
-  if (!cachedRtf) {
-    cachedRtf = new Intl.RelativeTimeFormat("id", { numeric: "always" });
+function getRelativeTimeFormat(locale: string): Intl.RelativeTimeFormat {
+  let rtf = rtfCache.get(locale);
+  if (!rtf) {
+    rtf = new Intl.RelativeTimeFormat(locale, { numeric: "always" });
+    rtfCache.set(locale, rtf);
   }
-  return cachedRtf;
+  return rtf;
 }
 
-/**
- * Formats a relative time difference using the largest appropriate unit.
- * Uses a cached Intl.RelativeTimeFormat with Indonesian ("id") locale.
- */
-function formatRelativeTime(date: Date, now: Date): string {
+function formatRelativeTime(date: Date, now: Date, locale: string): string {
   const diffMs = now.getTime() - date.getTime();
-  const rtf = getRelativeTimeFormat();
+  const rtf = getRelativeTimeFormat(locale);
 
   for (const { unit, ms } of RELATIVE_UNITS) {
     const value = Math.floor(diffMs / ms);
@@ -43,30 +36,31 @@ function formatRelativeTime(date: Date, now: Date): string {
     }
   }
 
-  // Less than 1 second ago
   return rtf.format(0, "second");
 }
 
 /**
- * Formats an ISO 8601 timestamp as relative time in Indonesian if < 7 days old,
- * otherwise as absolute date (e.g., "1 Jun 2026").
+ * Formats an ISO 8601 timestamp as relative time if < 7 days old,
+ * otherwise as absolute date.
  *
  * @param isoString - ISO 8601 timestamp string
  * @param now - Optional current date for testability (defaults to new Date())
+ * @param locale - BCP 47 locale tag (defaults to "id")
  * @returns Formatted date string
  */
 export function formatSyncTime(
   isoString: string,
-  now: Date = new Date()
+  now: Date = new Date(),
+  locale: string = "id"
 ): string {
   const date = new Date(isoString);
   const diffMs = now.getTime() - date.getTime();
 
   if (diffMs < SEVEN_DAYS_MS) {
-    return formatRelativeTime(date, now);
+    return formatRelativeTime(date, now, locale);
   }
 
-  return date.toLocaleDateString("id-ID", {
+  return date.toLocaleDateString(locale === "id" ? "id-ID" : "en-US", {
     day: "numeric",
     month: "short",
     year: "numeric",

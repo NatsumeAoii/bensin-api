@@ -12,8 +12,6 @@ import { apiClient } from "@/api/client";
  * **Validates: Requirements 2.2**
  */
 describe("Property 1: Province URL Construction", () => {
-  const BASE_URL = "https://nasgunawann.github.io/bensin-api";
-
   afterEach(() => {
     vi.restoreAllMocks();
   });
@@ -42,7 +40,7 @@ describe("Property 1: Province URL Construction", () => {
 
           await apiClient.getProvince(slug);
 
-          const expectedUrl = `${BASE_URL}/v1/provinsi/${slug}.json`;
+          const expectedUrl = `/v1/provinsi/${slug}.json`;
           expect(fetchSpy).toHaveBeenCalledWith(
             expectedUrl,
             expect.objectContaining({ signal: expect.any(AbortSignal) })

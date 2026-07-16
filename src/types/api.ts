@@ -1,6 +1,6 @@
 /**
  * TypeScript types matching the Bensin-API JSON response structures.
- * Source: https://nasgunawann.github.io/bensin-api/v1/
+ * Source: generated static JSON under /v1/.
  */
 
 export interface IndexProvinceEntry {
@@ -57,4 +57,28 @@ export interface HistoryResponse {
   province: string;
   province_slug: string;
   products: Record<string, HistoryPoint[]>;
+}
+
+export interface HistoryIndexEntry {
+  slug: string;
+  name: string;
+  path: string;
+  point_count: number;
+}
+
+export interface HistoryIndexResponse {
+  count: number;
+  synced_at: string;
+  provinsi: HistoryIndexEntry[];
+}
+
+export interface PriceChangeEvent {
+  date: string;
+  province: string;
+  province_slug: string;
+  product: string;
+  old_price: number;
+  new_price: number;
+  change_absolute: number;
+  change_percent: number;
 }

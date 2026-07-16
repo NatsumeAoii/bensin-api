@@ -1,8 +1,8 @@
 import { describe, it, expect } from "vitest";
 import fc from "fast-check";
-import { render } from "@testing-library/react";
 import { PriceGrid } from "@/components/PriceGrid";
 import type { Product, Availability } from "@/types/api";
+import { renderWithI18n } from "@/__tests__/test-utils";
 
 /**
  * Feature: fuel-price-dashboard, Property 7: Price Grid Count Equals Products Length
@@ -37,7 +37,7 @@ describe("Property 7: Price Grid Count Equals Products Length", () => {
             return acc;
           }, []);
 
-          const { container } = render(<PriceGrid products={uniqueProducts} />);
+          const { container } = renderWithI18n(<PriceGrid products={uniqueProducts} />);
           const articles = container.querySelectorAll("article");
 
           expect(articles.length).toBe(uniqueProducts.length);
