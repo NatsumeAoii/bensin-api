@@ -99,12 +99,12 @@ Production base URL:
 https://nasgunawann.github.io/bensin-api
 ```
 
-| Endpoint                   | Purpose                                                                |
-| -------------------------- | ---------------------------------------------------------------------- |
-| `/v1/index.json`           | Lightweight index of provinces, paths, product counts, and file sizes. |
-| `/v1/nasional.json`        | Full national payload containing all provinces.                        |
-| `/v1/provinsi/{slug}.json` | Fuel prices for one province slug.                                     |
-| `/v1/history/provinsi/{slug}.json` | Change-based price history for one province slug.             |
+| Endpoint                           | Purpose                                                                |
+| ---------------------------------- | ---------------------------------------------------------------------- |
+| `/v1/index.json`                   | Lightweight index of provinces, paths, product counts, and file sizes. |
+| `/v1/nasional.json`                | Full national payload containing all provinces.                        |
+| `/v1/provinsi/{slug}.json`         | Fuel prices for one province slug.                                     |
+| `/v1/history/provinsi/{slug}.json` | Change-based price history for one province slug.                      |
 
 Example:
 
@@ -227,7 +227,7 @@ Two GitHub Actions workflows are present:
 7. Commits and pushes updated snapshots directly to `main` with `[skip ci]`.
 
 `.github/workflows/ci.yml` enforces code quality on push and pull request: a
-frontend job (`npm ci`, lint, typecheck, format check, test, build) and a
+frontend job (`npm install`, lint, typecheck, format check, test, build) and a
 pipeline job (pytest).
 
 `.github/workflows/deploy-pages.yml` builds the dashboard and deploys it to
@@ -241,8 +241,6 @@ bensin-api/
   .github/workflows/sync.yml       Data sync workflow (every 6 hours)
   .github/workflows/ci.yml         Frontend + pipeline CI on push/PR
   .github/workflows/deploy-pages.yml  GitHub Pages deploy
-  .kiro/specs/                     Requirements/design/task notes present locally
-  .vscode/extensions.json          VS Code extension recommendations
   pipeline/                        Python data generator and schemas
   pipeline/tests/                  pytest and Hypothesis tests
   public/                          Static browser assets
@@ -293,7 +291,7 @@ GitHub profile `@nasgunawann`.
 
 ## License
 
-MIT. See `LICENSE` and `LICENSE.md`.
+MIT. See `LICENSE`.
 
 ## Q&A
 
