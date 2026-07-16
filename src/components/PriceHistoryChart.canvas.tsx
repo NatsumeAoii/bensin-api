@@ -298,8 +298,8 @@ export function ChartCanvas({ series, productName, labels }: ChartCanvasProps) {
             })}
           </div>
         ) : (
-          labels?.latestPrice ??
-          `Harga terkini: ${formatRupiah(seriesData[0]?.points[seriesData[0].points.length - 1]?.price_rupiah ?? 0)}`
+          (labels?.latestPrice ??
+          `Harga terkini: ${formatRupiah(seriesData[0]?.points[seriesData[0].points.length - 1]?.price_rupiah ?? 0)}`)
         )}
       </div>
     </div>

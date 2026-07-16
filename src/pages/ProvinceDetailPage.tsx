@@ -50,9 +50,9 @@ export default function ProvinceDetailPage() {
 
   const announceRef = useRef<HTMLDivElement>(null);
 
-  const loading = slug ? provinceLoading[slug] ?? false : false;
-  const error = slug ? provinceError[slug] ?? null : null;
-  const data = slug ? provinces[slug] ?? null : null;
+  const loading = slug ? (provinceLoading[slug] ?? false) : false;
+  const error = slug ? (provinceError[slug] ?? null) : null;
+  const data = slug ? (provinces[slug] ?? null) : null;
   const requestKey = slug ? `province:${slug}` : "";
   const currentRetryCount = retryCount[requestKey] ?? 0;
   const retryDisabled = currentRetryCount >= 3;
