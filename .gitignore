@@ -48,6 +48,8 @@ coverage/
 .kiro
 .kilo
 .docs
+.superpowers
+.vscode
 
 # IDEs and editors
 .idea/
