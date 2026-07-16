@@ -46,6 +46,8 @@ coverage/
 
 # Kiro
 .kiro
+.kilo
+.docs
 
 # IDEs and editors
 .idea/

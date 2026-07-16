@@ -87,7 +87,7 @@ export const historyResponseSchema: z.ZodType<HistoryResponse> = z.object({
 export const historyIndexResponseSchema: z.ZodType<HistoryIndexResponse> =
   z.object({
     count: z.number(),
-    synced_at: z.string(),
+    synced_at: z.string().optional().default(""),
     provinsi: z.array(
       z.object({
         slug: z.string(),
