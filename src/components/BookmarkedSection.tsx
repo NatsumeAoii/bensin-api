@@ -79,7 +79,11 @@ export function BookmarkedSection({ provinceNames }: BookmarkedSectionProps) {
               className="touch-active flex shrink-0 items-center gap-2 rounded-xl border border-stone-200/80 bg-white px-4 py-2.5 text-sm font-medium text-stone-700 transition-all hover:border-orange-200 hover:bg-orange-50/50 hover:text-orange-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500 dark:border-stone-700/60 dark:bg-stone-900 dark:text-stone-300 dark:hover:border-orange-800/50 dark:hover:bg-orange-950/20 dark:hover:text-orange-400"
             >
               <span className="whitespace-nowrap">{name}</span>
-              <ChevronRight size={14} className="text-stone-400 dark:text-stone-500" aria-hidden="true" />
+              <ChevronRight
+                size={14}
+                className="text-stone-400 dark:text-stone-500"
+                aria-hidden="true"
+              />
             </Link>
           );
         })}

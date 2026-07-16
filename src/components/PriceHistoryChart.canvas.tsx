@@ -91,7 +91,13 @@ export function ChartCanvas({ series, productName, labels }: ChartCanvasProps) {
         stepPath += ` H ${coords[i].x} V ${coords[i].y}`;
       }
 
-      return { name: s.name, color: s.color, coords, stepPath, points: s.points };
+      return {
+        name: s.name,
+        color: s.color,
+        coords,
+        stepPath,
+        points: s.points,
+      };
     });
 
     const dateCoords = allDates.map((d) => ({
@@ -120,8 +126,17 @@ export function ChartCanvas({ series, productName, labels }: ChartCanvasProps) {
     );
   }
 
-  const { innerHeight, minPrice, maxPrice, yMin, yMax, yFor, seriesData, allDates, dateCoords } =
-    geometry;
+  const {
+    innerHeight,
+    minPrice,
+    maxPrice,
+    yMin,
+    yMax,
+    yFor,
+    seriesData,
+    allDates,
+    dateCoords,
+  } = geometry;
 
   const dateFmt = CHART_DATE_FORMAT;
   const animate = !prefersReducedMotion();
@@ -283,8 +298,8 @@ export function ChartCanvas({ series, productName, labels }: ChartCanvasProps) {
             })}
           </div>
         ) : (
-          (labels?.latestPrice ??
-            `Harga terkini: ${formatRupiah(seriesData[0]?.points[seriesData[0].points.length - 1]?.price_rupiah ?? 0)}`)
+          labels?.latestPrice ??
+          `Harga terkini: ${formatRupiah(seriesData[0]?.points[seriesData[0].points.length - 1]?.price_rupiah ?? 0)}`
         )}
       </div>
     </div>

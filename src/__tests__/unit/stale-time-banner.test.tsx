@@ -38,7 +38,9 @@ describe("StaleTimeBanner", () => {
     const exactlyThirteenHoursAgo = new Date(
       "2026-06-04T23:00:00Z"
     ).toISOString();
-    renderWithI18n(<StaleTimeBanner syncedAt={exactlyThirteenHoursAgo} now={now} />);
+    renderWithI18n(
+      <StaleTimeBanner syncedAt={exactlyThirteenHoursAgo} now={now} />
+    );
 
     // Boundary is inclusive: at exactly 13h the data is considered stale
     expect(screen.getByRole("status")).toBeInTheDocument();

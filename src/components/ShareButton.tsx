@@ -51,7 +51,11 @@ export function ShareButton({ title, text }: ShareButtonProps) {
 
   const config = {
     idle: { Icon: Share2, label: t("share.label"), srLabel: t("share.label") },
-    copied: { Icon: Check, label: t("share.copied"), srLabel: t("share.linkCopied") },
+    copied: {
+      Icon: Check,
+      label: t("share.copied"),
+      srLabel: t("share.linkCopied"),
+    },
     error: {
       Icon: AlertCircle,
       label: t("share.copyFailed"),

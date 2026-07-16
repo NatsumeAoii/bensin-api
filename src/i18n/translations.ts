@@ -83,13 +83,15 @@ const translations = {
     "error.retryLater": "Coba lagi nanti",
     "error.loadFailed": "Gagal memuat data",
     "error.appProblem": "Aplikasi mengalami masalah",
-    "error.unexpected": "Terjadi kesalahan tak terduga. Muat ulang halaman untuk melanjutkan.",
+    "error.unexpected":
+      "Terjadi kesalahan tak terduga. Muat ulang halaman untuk melanjutkan.",
     "error.reload": "Muat Ulang",
     "error.loadHistory": "Gagal memuat riwayat harga",
 
     // Stale / Warning
     "stale.lastUpdated": "Data terakhir diperbarui {time}",
-    "stale.warning": "Data mungkin sudah tidak terbaru. Periksa koneksi internet Anda.",
+    "stale.warning":
+      "Data mungkin sudah tidak terbaru. Periksa koneksi internet Anda.",
     "stale.retry": "Coba lagi",
 
     // Loading
@@ -102,7 +104,8 @@ const translations = {
     // Not Found
     "notFound.title": "Halaman Tidak Ditemukan",
     "notFound.heading": "Halaman tidak ditemukan",
-    "notFound.description": "Halaman yang Anda cari tidak tersedia atau sudah dipindahkan.",
+    "notFound.description":
+      "Halaman yang Anda cari tidak tersedia atau sudah dipindahkan.",
     "notFound.backHome": "Kembali ke Beranda",
     "notFound.provinceTitle": "Provinsi tidak ditemukan",
     "notFound.provinceDesc": "Data untuk provinsi ini tidak tersedia.",
@@ -113,7 +116,8 @@ const translations = {
     "history.timeRange": "Rentang waktu",
     "history.selectProduct": "Pilih produk",
     "history.notAvailable": "Riwayat harga belum tersedia",
-    "history.notAvailableDesc": "Data riwayat mulai terkumpul sejak fitur ini aktif dan akan bertambah setiap kali harga berubah.",
+    "history.notAvailableDesc":
+      "Data riwayat mulai terkumpul sejak fitur ini aktif dan akan bertambah setiap kali harga berubah.",
     "history.1month": "1 Bulan",
     "history.3months": "3 Bulan",
     "history.1year": "1 Tahun",
@@ -140,7 +144,8 @@ const translations = {
     "changes.empty": "Belum ada perubahan harga yang tercatat",
 
     // Footer
-    "footer.description": "Data harga BBM bersumber dari MyPertamina dan diperbarui secara otomatis setiap jam. Proyek open-source untuk kepentingan publik.",
+    "footer.description":
+      "Data harga BBM bersumber dari MyPertamina dan diperbarui secara otomatis setiap jam. Proyek open-source untuk kepentingan publik.",
     "footer.viewGithub": "Lihat di GitHub",
     "footer.dataSource": "Sumber data: MyPertamina \u00b7 API publik gratis",
 
@@ -154,7 +159,8 @@ const translations = {
 
     // Chart
     "chart.noChanges": "Tidak ada perubahan harga pada rentang ini.",
-    "chart.ariaLabel": "Grafik riwayat harga {product}. {count} titik perubahan, dari {min} hingga {max}.",
+    "chart.ariaLabel":
+      "Grafik riwayat harga {product}. {count} titik perubahan, dari {min} hingga {max}.",
     "chart.latestPrice": "Harga terkini: {price}",
 
     // Province navigation
@@ -254,7 +260,8 @@ const translations = {
     "error.retryLater": "Try again later",
     "error.loadFailed": "Failed to load data",
     "error.appProblem": "Application encountered a problem",
-    "error.unexpected": "An unexpected error occurred. Reload the page to continue.",
+    "error.unexpected":
+      "An unexpected error occurred. Reload the page to continue.",
     "error.reload": "Reload",
     "error.loadHistory": "Failed to load price history",
 
@@ -273,7 +280,8 @@ const translations = {
     // Not Found
     "notFound.title": "Page Not Found",
     "notFound.heading": "Page not found",
-    "notFound.description": "The page you are looking for is not available or has been moved.",
+    "notFound.description":
+      "The page you are looking for is not available or has been moved.",
     "notFound.backHome": "Back to Home",
     "notFound.provinceTitle": "Province not found",
     "notFound.provinceDesc": "Data for this province is not available.",
@@ -284,7 +292,8 @@ const translations = {
     "history.timeRange": "Time range",
     "history.selectProduct": "Select product",
     "history.notAvailable": "Price history not yet available",
-    "history.notAvailableDesc": "History data has been collected since this feature was activated and will grow each time prices change.",
+    "history.notAvailableDesc":
+      "History data has been collected since this feature was activated and will grow each time prices change.",
     "history.1month": "1 Month",
     "history.3months": "3 Months",
     "history.1year": "1 Year",
@@ -311,7 +320,8 @@ const translations = {
     "changes.empty": "No price changes recorded yet",
 
     // Footer
-    "footer.description": "Fuel price data sourced from MyPertamina and updated automatically every hour. An open-source project for public benefit.",
+    "footer.description":
+      "Fuel price data sourced from MyPertamina and updated automatically every hour. An open-source project for public benefit.",
     "footer.viewGithub": "View on GitHub",
     "footer.dataSource": "Data source: MyPertamina \u00b7 Free public API",
 
@@ -325,7 +335,8 @@ const translations = {
 
     // Chart
     "chart.noChanges": "No price changes in this range.",
-    "chart.ariaLabel": "Price history chart for {product}. {count} data points, from {min} to {max}.",
+    "chart.ariaLabel":
+      "Price history chart for {product}. {count} data points, from {min} to {max}.",
     "chart.latestPrice": "Latest price: {price}",
 
     // Province navigation
@@ -358,9 +369,10 @@ export function resolveTranslation(
   key: TranslationKey,
   params?: Record<string, string | number>
 ): string {
-  const value = (translations[locale] as Record<string, string>)[key]
-    ?? (translations.id as Record<string, string>)[key]
-    ?? key;
+  const value =
+    (translations[locale] as Record<string, string>)[key] ??
+    (translations.id as Record<string, string>)[key] ??
+    key;
 
   if (!params) return value;
 

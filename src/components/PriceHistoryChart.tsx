@@ -91,20 +91,17 @@ export function PriceHistoryChart({ slug }: PriceHistoryChartProps) {
 
   const products = history ? Object.keys(history.products) : [];
 
-  const toggleProduct = useCallback(
-    (product: string) => {
-      setSelectedProducts((prev) => {
-        if (prev.includes(product)) {
-          return prev.filter((p) => p !== product);
-        }
-        if (prev.length >= MAX_SELECTED) {
-          return [...prev.slice(1), product];
-        }
-        return [...prev, product];
-      });
-    },
-    []
-  );
+  const toggleProduct = useCallback((product: string) => {
+    setSelectedProducts((prev) => {
+      if (prev.includes(product)) {
+        return prev.filter((p) => p !== product);
+      }
+      if (prev.length >= MAX_SELECTED) {
+        return [...prev.slice(1), product];
+      }
+      return [...prev, product];
+    });
+  }, []);
 
   const rangeDef = RANGES.find((r) => r.key === range);
 
@@ -132,7 +129,11 @@ export function PriceHistoryChart({ slug }: PriceHistoryChartProps) {
       const points = filterByRange(raw, rangeDef?.days ?? null, new Date());
       const slugifiedProduct = productName.toLowerCase().replace(/\s+/g, "-");
       const filename = `riwayat-${slug}-${slugifiedProduct}-${range}.csv`;
-      const headers = [t("history.date"), t("history.price"), t("history.price")];
+      const headers = [
+        t("history.date"),
+        t("history.price"),
+        t("history.price"),
+      ];
       const rows: (string | number)[][] = points.map((p) => [
         p.date,
         p.price_rupiah,

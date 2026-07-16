@@ -27,7 +27,10 @@ export function RegionGroup({
       prices.push(found.price_rupiah);
     }
   }
-  const avg = prices.length > 0 ? Math.round(prices.reduce((a, b) => a + b, 0) / prices.length) : null;
+  const avg =
+    prices.length > 0
+      ? Math.round(prices.reduce((a, b) => a + b, 0) / prices.length)
+      : null;
 
   return (
     <details open className="group">
@@ -38,7 +41,9 @@ export function RegionGroup({
         </span>
         {avg !== null && (
           <span className="text-xs font-medium text-stone-500 dark:text-stone-400">
-            {t("national.averagePrice", { price: formatPrice(avg, t("price.unavailableLabel")) })}
+            {t("national.averagePrice", {
+              price: formatPrice(avg, t("price.unavailableLabel")),
+            })}
           </span>
         )}
       </summary>
@@ -69,15 +74,17 @@ export function RegionGroup({
                       {t("national.mostExpensive")}
                     </span>
                   )}
-                  <span className={`text-sm font-bold ${
-                    price === null
-                      ? "text-stone-400 dark:text-stone-600"
-                      : isLowest
-                        ? "text-emerald-600 dark:text-emerald-400"
-                        : isHighest
-                          ? "text-red-600 dark:text-red-400"
-                          : "text-stone-900 dark:text-stone-100"
-                  }`}>
+                  <span
+                    className={`text-sm font-bold ${
+                      price === null
+                        ? "text-stone-400 dark:text-stone-600"
+                        : isLowest
+                          ? "text-emerald-600 dark:text-emerald-400"
+                          : isHighest
+                            ? "text-red-600 dark:text-red-400"
+                            : "text-stone-900 dark:text-stone-100"
+                    }`}
+                  >
                     {formatPrice(price, t("price.unavailableLabel"))}
                   </span>
                 </span>

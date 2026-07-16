@@ -33,13 +33,19 @@ describe("BookmarkButton", () => {
 
   it("has correct aria-label when not bookmarked", () => {
     renderWithI18n(<BookmarkButton slug="aceh" />);
-    expect(screen.getByRole("button")).toHaveAttribute("aria-label", "Simpan provinsi");
+    expect(screen.getByRole("button")).toHaveAttribute(
+      "aria-label",
+      "Simpan provinsi"
+    );
   });
 
   it("has correct aria-label when bookmarked", () => {
     useBookmarkStore.setState({ bookmarks: ["aceh"] });
     renderWithI18n(<BookmarkButton slug="aceh" />);
-    expect(screen.getByRole("button")).toHaveAttribute("aria-label", "Hapus dari simpanan");
+    expect(screen.getByRole("button")).toHaveAttribute(
+      "aria-label",
+      "Hapus dari simpanan"
+    );
   });
 
   it("has minimum 44x44px touch target", () => {

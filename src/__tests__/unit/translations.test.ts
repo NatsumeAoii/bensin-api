@@ -1,5 +1,9 @@
 import { describe, it, expect } from "vitest";
-import { translations, resolveTranslation, type TranslationKey } from "@/i18n/translations";
+import {
+  translations,
+  resolveTranslation,
+  type TranslationKey,
+} from "@/i18n/translations";
 
 describe("Translations", () => {
   const idKeys = Object.keys(translations.id) as TranslationKey[];
@@ -31,8 +35,12 @@ describe("Translations", () => {
 
       if (!enValue) continue; // skip if missing (caught by other test)
 
-      const idParams = [...idValue.matchAll(paramRegex)].map((m) => m[1]).sort();
-      const enParams = [...enValue.matchAll(paramRegex)].map((m) => m[1]).sort();
+      const idParams = [...idValue.matchAll(paramRegex)]
+        .map((m) => m[1])
+        .sort();
+      const enParams = [...enValue.matchAll(paramRegex)]
+        .map((m) => m[1])
+        .sort();
 
       expect(idParams, `Param mismatch for key "${key}"`).toEqual(enParams);
     }
@@ -72,12 +80,16 @@ describe("resolveTranslation", () => {
   });
 
   it("interpolates parameters", () => {
-    const result = resolveTranslation("id", "home.provinceCount", { count: 34 });
+    const result = resolveTranslation("id", "home.provinceCount", {
+      count: 34,
+    });
     expect(result).toBe("34 Provinsi");
   });
 
   it("interpolates parameters in English", () => {
-    const result = resolveTranslation("en", "home.provinceCount", { count: 34 });
+    const result = resolveTranslation("en", "home.provinceCount", {
+      count: 34,
+    });
     expect(result).toBe("34 Provinces");
   });
 
@@ -87,12 +99,17 @@ describe("resolveTranslation", () => {
   });
 
   it("returns the key itself when key is completely missing", () => {
-    const result = resolveTranslation("id", "nonexistent.key" as TranslationKey);
+    const result = resolveTranslation(
+      "id",
+      "nonexistent.key" as TranslationKey
+    );
     expect(result).toBe("nonexistent.key");
   });
 
   it("interpolates string params", () => {
-    const result = resolveTranslation("id", "detail.updated", { time: "5 menit lalu" });
+    const result = resolveTranslation("id", "detail.updated", {
+      time: "5 menit lalu",
+    });
     expect(result).toBe("Diperbarui 5 menit lalu");
   });
 });

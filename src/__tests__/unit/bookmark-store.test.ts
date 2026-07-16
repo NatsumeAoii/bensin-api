@@ -21,7 +21,9 @@ describe("Bookmark Store", () => {
 
     it("persists to localStorage", () => {
       useBookmarkStore.getState().toggleBookmark("bali");
-      expect(JSON.parse(localStorage.getItem("bbm-bookmarks")!)).toEqual(["bali"]);
+      expect(JSON.parse(localStorage.getItem("bbm-bookmarks")!)).toEqual([
+        "bali",
+      ]);
     });
 
     it("does not add beyond max 20 bookmarks", () => {
@@ -107,7 +109,11 @@ describe("Bookmark Store", () => {
     it("merges new slugs with existing", () => {
       useBookmarkStore.setState({ bookmarks: ["aceh"] });
       useBookmarkStore.getState().mergeBookmarks(["bali", "papua"]);
-      expect(useBookmarkStore.getState().bookmarks).toEqual(["aceh", "bali", "papua"]);
+      expect(useBookmarkStore.getState().bookmarks).toEqual([
+        "aceh",
+        "bali",
+        "papua",
+      ]);
     });
 
     it("deduplicates slugs", () => {
@@ -119,7 +125,9 @@ describe("Bookmark Store", () => {
     it("respects max limit during merge", () => {
       const slugs = Array.from({ length: 18 }, (_, i) => `slug-${i}`);
       useBookmarkStore.setState({ bookmarks: slugs });
-      useBookmarkStore.getState().mergeBookmarks(["new-1", "new-2", "new-3", "new-4"]);
+      useBookmarkStore
+        .getState()
+        .mergeBookmarks(["new-1", "new-2", "new-3", "new-4"]);
       expect(useBookmarkStore.getState().bookmarks).toHaveLength(20);
     });
   });
@@ -130,7 +138,9 @@ describe("Bookmark Store", () => {
         throw new DOMException("QuotaExceededError");
       });
 
-      expect(() => useBookmarkStore.getState().toggleBookmark("aceh")).not.toThrow();
+      expect(() =>
+        useBookmarkStore.getState().toggleBookmark("aceh")
+      ).not.toThrow();
       expect(useBookmarkStore.getState().bookmarks).toContain("aceh");
 
       vi.mocked(Storage.prototype.setItem).mockRestore();

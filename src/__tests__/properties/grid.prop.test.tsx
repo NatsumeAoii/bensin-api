@@ -37,7 +37,9 @@ describe("Property 7: Price Grid Count Equals Products Length", () => {
             return acc;
           }, []);
 
-          const { container } = renderWithI18n(<PriceGrid products={uniqueProducts} />);
+          const { container } = renderWithI18n(
+            <PriceGrid products={uniqueProducts} />
+          );
           const articles = container.querySelectorAll("article");
 
           expect(articles.length).toBe(uniqueProducts.length);

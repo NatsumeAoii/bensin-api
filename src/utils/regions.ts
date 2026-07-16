@@ -9,30 +9,48 @@ export const REGION_MAP: Record<string, Region> = {
   sumatera: {
     name: "Sumatera",
     slugs: [
-      "aceh", "sumatera-utara", "sumatera-barat", "riau", "jambi",
-      "sumatera-selatan", "bengkulu", "lampung", "kepulauan-bangka-belitung",
+      "aceh",
+      "sumatera-utara",
+      "sumatera-barat",
+      "riau",
+      "jambi",
+      "sumatera-selatan",
+      "bengkulu",
+      "lampung",
+      "kepulauan-bangka-belitung",
       "kepulauan-riau",
     ],
   },
   jawa: {
     name: "Jawa",
     slugs: [
-      "dki-jakarta", "jawa-barat", "jawa-tengah", "di-yogyakarta",
-      "jawa-timur", "banten",
+      "dki-jakarta",
+      "jawa-barat",
+      "jawa-tengah",
+      "di-yogyakarta",
+      "jawa-timur",
+      "banten",
     ],
   },
   kalimantan: {
     name: "Kalimantan",
     slugs: [
-      "kalimantan-barat", "kalimantan-tengah", "kalimantan-selatan",
-      "kalimantan-timur", "kalimantan-utara",
+      "kalimantan-barat",
+      "kalimantan-tengah",
+      "kalimantan-selatan",
+      "kalimantan-timur",
+      "kalimantan-utara",
     ],
   },
   sulawesi: {
     name: "Sulawesi",
     slugs: [
-      "sulawesi-utara", "sulawesi-tengah", "sulawesi-selatan",
-      "sulawesi-tenggara", "gorontalo", "sulawesi-barat",
+      "sulawesi-utara",
+      "sulawesi-tengah",
+      "sulawesi-selatan",
+      "sulawesi-tenggara",
+      "gorontalo",
+      "sulawesi-barat",
     ],
   },
   bali_nt: {
@@ -45,7 +63,14 @@ export const REGION_MAP: Record<string, Region> = {
   },
   papua: {
     name: "Papua",
-    slugs: ["papua", "papua-barat", "papua-tengah", "papua-pegunungan", "papua-selatan", "papua-barat-daya"],
+    slugs: [
+      "papua",
+      "papua-barat",
+      "papua-tengah",
+      "papua-pegunungan",
+      "papua-selatan",
+      "papua-barat-daya",
+    ],
   },
 };
 

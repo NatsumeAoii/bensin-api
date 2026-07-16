@@ -6,7 +6,9 @@ import { renderWithI18n } from "@/__tests__/test-utils";
 describe("ErrorState", () => {
   it("renders error message and retry button as a pair", () => {
     const onRetry = vi.fn();
-    renderWithI18n(<ErrorState message="Gagal memuat data" onRetry={onRetry} />);
+    renderWithI18n(
+      <ErrorState message="Gagal memuat data" onRetry={onRetry} />
+    );
 
     expect(screen.getByText("Gagal memuat data")).toBeInTheDocument();
     expect(
@@ -16,7 +18,9 @@ describe("ErrorState", () => {
 
   it("calls onRetry when retry button is clicked", () => {
     const onRetry = vi.fn();
-    renderWithI18n(<ErrorState message="Gagal memuat data" onRetry={onRetry} />);
+    renderWithI18n(
+      <ErrorState message="Gagal memuat data" onRetry={onRetry} />
+    );
 
     fireEvent.click(screen.getByRole("button", { name: "Coba Lagi" }));
     expect(onRetry).toHaveBeenCalledTimes(1);
@@ -44,7 +48,9 @@ describe("ErrorState", () => {
 
   it("uses aria-live='assertive' for screen reader announcement", () => {
     const onRetry = vi.fn();
-    renderWithI18n(<ErrorState message="Koneksi terlalu lama" onRetry={onRetry} />);
+    renderWithI18n(
+      <ErrorState message="Koneksi terlalu lama" onRetry={onRetry} />
+    );
 
     const alert = screen.getByRole("alert");
     expect(alert).toHaveAttribute("aria-live", "assertive");
@@ -67,7 +73,9 @@ describe("ErrorState", () => {
 
   it("retry button has minimum 44x44px tap target", () => {
     const onRetry = vi.fn();
-    renderWithI18n(<ErrorState message="Gagal memuat data" onRetry={onRetry} />);
+    renderWithI18n(
+      <ErrorState message="Gagal memuat data" onRetry={onRetry} />
+    );
 
     const button = screen.getByRole("button", { name: "Coba Lagi" });
     expect(button.className).toContain("min-h-[44px]");

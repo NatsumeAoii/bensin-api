@@ -5,18 +5,26 @@ import { useMetaTags } from "@/utils/meta-tags";
 describe("useMetaTags", () => {
   afterEach(() => {
     // Clean up any leftover meta tags
-    document.querySelectorAll('meta[property^="og:"]').forEach((el) => el.remove());
-    document.querySelectorAll('meta[name^="twitter:"]').forEach((el) => el.remove());
+    document
+      .querySelectorAll('meta[property^="og:"]')
+      .forEach((el) => el.remove());
+    document
+      .querySelectorAll('meta[name^="twitter:"]')
+      .forEach((el) => el.remove());
   });
 
   it("sets OG tags on mount", () => {
-    renderHook(() => useMetaTags({ title: "Test Title", description: "Test desc" }));
+    renderHook(() =>
+      useMetaTags({ title: "Test Title", description: "Test desc" })
+    );
 
     const ogTitle = document.head.querySelector('meta[property="og:title"]');
     expect(ogTitle).not.toBeNull();
     expect(ogTitle!.content).toContain("Test Title");
 
-    const ogDesc = document.head.querySelector('meta[property="og:description"]');
+    const ogDesc = document.head.querySelector(
+      'meta[property="og:description"]'
+    );
     expect(ogDesc).not.toBeNull();
     expect(ogDesc!.content).toBe("Test desc");
   });
@@ -43,7 +51,9 @@ describe("useMetaTags", () => {
   });
 
   it("sets og:url when provided", () => {
-    renderHook(() => useMetaTags({ title: "Test", url: "https://example.com" }));
+    renderHook(() =>
+      useMetaTags({ title: "Test", url: "https://example.com" })
+    );
 
     const ogUrl = document.head.querySelector('meta[property="og:url"]');
     expect(ogUrl).not.toBeNull();

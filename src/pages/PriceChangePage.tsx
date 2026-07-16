@@ -167,12 +167,16 @@ export default function PriceChangePage() {
         </div>
       </nav>
 
-      <div className="mt-4 flex flex-wrap gap-2" role="group" aria-label={t("changes.dateRange")}>
-        {([
+      <div
+        className="mt-4 flex flex-wrap gap-2"
+        role="group"
+        aria-label={t("changes.dateRange")}
+      >
+        {[
           { key: "7d" as const, label: t("changes.7days") },
           { key: "30d" as const, label: t("changes.30days") },
           { key: "all" as const, label: t("changes.allTime") },
-        ]).map((opt) => (
+        ].map((opt) => (
           <button
             key={opt.key}
             type="button"

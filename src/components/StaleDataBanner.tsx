@@ -20,7 +20,9 @@ export function StaleDataBanner({ visible, onRetry }: StaleDataBannerProps) {
     <WarningBanner
       icon={AlertTriangle}
       message={t("stale.warning")}
-      action={onRetry ? { label: t("stale.retry"), onClick: onRetry } : undefined}
+      action={
+        onRetry ? { label: t("stale.retry"), onClick: onRetry } : undefined
+      }
     />
   );
 }

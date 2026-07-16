@@ -30,7 +30,10 @@ export function PriceChangeTimeline({ events }: PriceChangeTimelineProps) {
             {date}
           </h3>
           <div className="overflow-hidden rounded-2xl border border-stone-200/80 bg-white dark:border-stone-700/60 dark:bg-stone-900">
-            <ul className="divide-y divide-stone-100 dark:divide-stone-800" role="list">
+            <ul
+              className="divide-y divide-stone-100 dark:divide-stone-800"
+              role="list"
+            >
               {grouped.get(date)!.map((event, index) => (
                 <li key={`${event.province_slug}-${event.product}-${index}`}>
                   <TimelineEntry event={event} />

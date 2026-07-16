@@ -8,7 +8,8 @@ export function LocaleToggle() {
     setLocale(locale === "id" ? "en" : "id");
   }
 
-  const ariaLabel = locale === "id" ? "Switch to English" : "Ganti ke Bahasa Indonesia";
+  const ariaLabel =
+    locale === "id" ? "Switch to English" : "Ganti ke Bahasa Indonesia";
 
   return (
     <button

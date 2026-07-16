@@ -16,7 +16,12 @@ export function PriceCard({ product }: PriceCardProps) {
 
   const availabilityConfig: Record<
     Availability,
-    { label: string; icon: typeof CheckCircle2; colorClass: string; bgClass: string }
+    {
+      label: string;
+      icon: typeof CheckCircle2;
+      colorClass: string;
+      bgClass: string;
+    }
   > = {
     available: {
       label: t("price.available"),

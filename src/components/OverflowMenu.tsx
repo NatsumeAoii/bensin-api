@@ -63,9 +63,8 @@ export function OverflowMenu({ items, triggerLabel }: OverflowMenuProps) {
       }
       if (e.key === "ArrowDown" || e.key === "ArrowUp") {
         e.preventDefault();
-        const menuItems = menuRef.current?.querySelectorAll<HTMLElement>(
-          '[role="menuitem"]'
-        );
+        const menuItems =
+          menuRef.current?.querySelectorAll<HTMLElement>('[role="menuitem"]');
         if (!menuItems?.length) return;
         const current = document.activeElement;
         const idx = Array.from(menuItems).indexOf(current as HTMLElement);
@@ -178,9 +177,8 @@ export function DesktopOverflowMenu({
       }
       if (e.key === "ArrowDown" || e.key === "ArrowUp") {
         e.preventDefault();
-        const menuItems = menuRef.current?.querySelectorAll<HTMLElement>(
-          '[role="menuitem"]'
-        );
+        const menuItems =
+          menuRef.current?.querySelectorAll<HTMLElement>('[role="menuitem"]');
         if (!menuItems?.length) return;
         const current = document.activeElement;
         const idx = Array.from(menuItems).indexOf(current as HTMLElement);

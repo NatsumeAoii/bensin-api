@@ -257,8 +257,8 @@ export default function ProvinceListPage() {
                           size={16}
                           className="text-stone-400 transition-transform group-hover:translate-x-0.5 dark:text-stone-500"
                           aria-hidden="true"
-                      />
-                    </span>
+                        />
+                      </span>
                     </button>
                     <div className="absolute right-1 top-1 z-10 opacity-0 transition-opacity group-hover:opacity-100">
                       <BookmarkButton slug={province.slug} />

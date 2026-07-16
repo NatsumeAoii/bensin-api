@@ -7,9 +7,7 @@ import type { NavItem } from "@/components/OverflowMenu";
 import { useLocaleStore } from "@/stores/locale-store";
 import { renderWithI18n } from "@/__tests__/test-utils";
 
-const testItems: NavItem[] = [
-  { to: "/peta", label: "nav.map", icon: Map },
-];
+const testItems: NavItem[] = [{ to: "/peta", label: "nav.map", icon: Map }];
 
 const multiItems: NavItem[] = [
   { to: "/peta", label: "nav.map", icon: Map },

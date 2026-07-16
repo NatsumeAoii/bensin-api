@@ -1,6 +1,11 @@
 import { describe, it, expect, afterEach } from "vitest";
 import { renderHook } from "@testing-library/react";
-import { useJsonLd, websiteSchema, datasetSchema, webPageSchema } from "@/utils/structured-data";
+import {
+  useJsonLd,
+  websiteSchema,
+  datasetSchema,
+  webPageSchema,
+} from "@/utils/structured-data";
 
 describe("useJsonLd", () => {
   afterEach(() => {

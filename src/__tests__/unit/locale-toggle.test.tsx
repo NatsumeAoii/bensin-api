@@ -37,10 +37,7 @@ describe("LocaleToggle", () => {
     renderWithI18n(<LocaleToggle />);
 
     const button = screen.getByRole("button");
-    expect(button).toHaveAttribute(
-      "aria-label",
-      "Ganti ke Bahasa Indonesia"
-    );
+    expect(button).toHaveAttribute("aria-label", "Ganti ke Bahasa Indonesia");
   });
 
   it("toggles locale from id to en on click", () => {

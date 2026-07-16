@@ -29,9 +29,7 @@ const ProvinceDetailPage = lazyWithRetry(
   () => import("@/pages/ProvinceDetailPage")
 );
 const NationalPage = lazyWithRetry(() => import("@/pages/NationalPage"));
-const PriceChangePage = lazyWithRetry(
-  () => import("@/pages/PriceChangePage")
-);
+const PriceChangePage = lazyWithRetry(() => import("@/pages/PriceChangePage"));
 const NotFoundPage = lazyWithRetry(() => import("@/pages/NotFoundPage"));
 
 /**

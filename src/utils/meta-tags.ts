@@ -1,7 +1,8 @@
 import { useEffect } from "react";
 
 const BASE_TITLE = "BBM Indonesia";
-const BASE_DESCRIPTION = "Harga BBM Indonesia terkini dari Pertamina. Data 40 provinsi, 9 produk, diperbarui otomatis setiap jam.";
+const BASE_DESCRIPTION =
+  "Harga BBM Indonesia terkini dari Pertamina. Data 40 provinsi, 9 produk, diperbarui otomatis setiap jam.";
 
 interface MetaTagOptions {
   title?: string;
@@ -25,9 +26,7 @@ function setMeta(property: string, content: string): HTMLMetaElement {
 }
 
 function setNameMeta(name: string, content: string): HTMLMetaElement {
-  let el = document.head.querySelector<HTMLMetaElement>(
-    `meta[name="${name}"]`
-  );
+  let el = document.head.querySelector<HTMLMetaElement>(`meta[name="${name}"]`);
   if (!el) {
     el = document.createElement("meta");
     el.setAttribute("name", name);
@@ -51,7 +50,9 @@ export function useMetaTags(options: MetaTagOptions): void {
   } = options;
 
   useEffect(() => {
-    const fullTitle = title ? `${title} — ${BASE_TITLE}` : `${BASE_TITLE} — Harga BBM Terkini`;
+    const fullTitle = title
+      ? `${title} — ${BASE_TITLE}`
+      : `${BASE_TITLE} — Harga BBM Terkini`;
     const prevTitle = document.title;
     document.title = fullTitle;
 

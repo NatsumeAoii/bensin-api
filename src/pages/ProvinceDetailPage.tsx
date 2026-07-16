@@ -50,9 +50,9 @@ export default function ProvinceDetailPage() {
 
   const announceRef = useRef<HTMLDivElement>(null);
 
-  const loading = slug ? (provinceLoading[slug] ?? false) : false;
-  const error = slug ? (provinceError[slug] ?? null) : null;
-  const data = slug ? (provinces[slug] ?? null) : null;
+  const loading = slug ? provinceLoading[slug] ?? false : false;
+  const error = slug ? provinceError[slug] ?? null : null;
+  const data = slug ? provinces[slug] ?? null : null;
   const requestKey = slug ? `province:${slug}` : "";
   const currentRetryCount = retryCount[requestKey] ?? 0;
   const retryDisabled = currentRetryCount >= 3;
@@ -89,7 +89,9 @@ export default function ProvinceDetailPage() {
   useCanonicalUrl(slugValid && slug ? `/provinsi/${slug}` : null);
   useMetaTags({
     title: data?.province ?? undefined,
-    description: data ? `Harga BBM di ${data.province} dari Pertamina` : undefined,
+    description: data
+      ? `Harga BBM di ${data.province} dari Pertamina`
+      : undefined,
   });
   useJsonLd(data ? datasetSchema(data.province) : null);
 
@@ -157,7 +159,11 @@ export default function ProvinceDetailPage() {
   if (data && data.products.length === 0) {
     return (
       <div>
-        <BackLink provinceName={data.province} adjacent={adjacent} total={provinceList.length} />
+        <BackLink
+          provinceName={data.province}
+          adjacent={adjacent}
+          total={provinceList.length}
+        />
         <ProvinceHeader name={data.province} syncedAt={data.synced_at} />
         <div className="mt-6">
           <EmptyState message={t("detail.noData")} />
@@ -179,7 +185,11 @@ export default function ProvinceDetailPage() {
 
     return (
       <div>
-        <BackLink provinceName={data.province} adjacent={adjacent} total={provinceList.length} />
+        <BackLink
+          provinceName={data.province}
+          adjacent={adjacent}
+          total={provinceList.length}
+        />
         <ProvinceHeader
           name={data.province}
           syncedAt={data.synced_at}
@@ -242,7 +252,11 @@ function BackLink({
   total,
 }: {
   provinceName?: string;
-  adjacent?: { prev: { slug: string; name: string } | null; next: { slug: string; name: string } | null; index: number } | null;
+  adjacent?: {
+    prev: { slug: string; name: string } | null;
+    next: { slug: string; name: string } | null;
+    index: number;
+  } | null;
   total?: number;
 }) {
   const { t } = useTranslation();

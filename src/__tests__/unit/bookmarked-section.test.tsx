@@ -57,7 +57,9 @@ describe("BookmarkedSection", () => {
     fireEvent.click(clearBtn);
 
     // First click shows confirmation
-    expect(screen.getByText("Hapus semua provinsi tersimpan?")).toBeInTheDocument();
+    expect(
+      screen.getByText("Hapus semua provinsi tersimpan?")
+    ).toBeInTheDocument();
     expect(useBookmarkStore.getState().bookmarks).toEqual(["aceh"]);
 
     // Second click actually clears

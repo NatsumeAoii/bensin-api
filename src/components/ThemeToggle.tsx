@@ -8,7 +8,9 @@ export function ThemeToggle() {
   const { t } = useTranslation();
 
   const isLight = theme === "light";
-  const ariaLabel = isLight ? t("theme.switchToDark") : t("theme.switchToLight");
+  const ariaLabel = isLight
+    ? t("theme.switchToDark")
+    : t("theme.switchToLight");
   const Icon = isLight ? Sun : Moon;
 
   return (

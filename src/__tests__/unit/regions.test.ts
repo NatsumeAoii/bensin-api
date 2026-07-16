@@ -22,8 +22,14 @@ describe("regions", () => {
       const allSlugs = Object.values(REGION_MAP).flatMap((r) => r.slugs);
       // Check a sample of known slugs
       const expected = [
-        "aceh", "dki-jakarta", "bali", "papua", "kalimantan-barat",
-        "sulawesi-utara", "maluku", "jawa-timur",
+        "aceh",
+        "dki-jakarta",
+        "bali",
+        "papua",
+        "kalimantan-barat",
+        "sulawesi-utara",
+        "maluku",
+        "jawa-timur",
       ];
       for (const slug of expected) {
         expect(allSlugs).toContain(slug);
@@ -66,10 +72,7 @@ describe("regions", () => {
     });
 
     it("skips provinces with unknown slugs", () => {
-      const provinces = [
-        makeProvince("aceh"),
-        makeProvince("unknown-region"),
-      ];
+      const provinces = [makeProvince("aceh"), makeProvince("unknown-region")];
       const groups = groupByRegion(provinces);
       expect(groups.size).toBe(1);
       expect(groups.has("sumatera")).toBe(true);
