@@ -26,6 +26,10 @@
       {
         "date": "2026-06-09",
         "price_rupiah": 15250
+      },
+      {
+        "date": "2026-07-31",
+        "price_rupiah": 14950
       }
     ],
     "PERTAMAX PERTASHOP": [
@@ -36,6 +40,10 @@
       {
         "date": "2026-06-09",
         "price_rupiah": 15150
+      },
+      {
+        "date": "2026-07-31",
+        "price_rupiah": 14850
       }
     ],
     "BIOSOLAR": [

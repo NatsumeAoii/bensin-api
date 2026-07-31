@@ -3,369 +3,369 @@
   "version": "v1",
   "author": "Nasrullah Gunawan",
   "github_repository": "https://github.com/nasgunawann/bensin-api",
-  "synced_at": "2026-07-31T13:57:59.718480Z",
-  "pertamina_updated_at": "2026-06-30T17:00:44.000Z",
+  "synced_at": "2026-07-31T19:19:53.455466Z",
+  "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
   "provinsi_count": 40,
   "provinsi": {
     "aceh": {
       "name": "Prov. Aceh",
       "slug": "aceh",
       "path": "/v1/provinsi/aceh.json",
-      "pertamina_updated_at": "2026-06-30T17:00:44.000Z",
-      "synced_at": "2026-07-31T13:57:59.719154Z",
+      "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
+      "synced_at": "2026-07-31T19:19:53.463926Z",
       "products_count": 9,
-      "file_size_bytes": 1397
+      "file_size_bytes": 1165
     },
     "free-trade-zone-ftz-sabang": {
       "name": "Free Trade Zone (FTZ) Sabang",
       "slug": "free-trade-zone-ftz-sabang",
       "path": "/v1/provinsi/free-trade-zone-ftz-sabang.json",
-      "pertamina_updated_at": "2026-06-30T17:00:44.000Z",
-      "synced_at": "2026-07-31T13:57:59.719664Z",
+      "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
+      "synced_at": "2026-07-31T19:19:53.464372Z",
       "products_count": 9,
-      "file_size_bytes": 1439
+      "file_size_bytes": 1207
     },
     "sumatera-utara": {
       "name": "Prov. Sumatera Utara",
       "slug": "sumatera-utara",
       "path": "/v1/provinsi/sumatera-utara.json",
-      "pertamina_updated_at": "2026-06-30T17:00:44.000Z",
-      "synced_at": "2026-07-31T13:57:59.719950Z",
+      "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
+      "synced_at": "2026-07-31T19:19:53.464674Z",
       "products_count": 9,
-      "file_size_bytes": 1417
+      "file_size_bytes": 1185
     },
     "sumatera-barat": {
       "name": "Prov. Sumatera Barat",
       "slug": "sumatera-barat",
       "path": "/v1/provinsi/sumatera-barat.json",
-      "pertamina_updated_at": "2026-06-30T17:00:44.000Z",
-      "synced_at": "2026-07-31T13:57:59.721079Z",
+      "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
+      "synced_at": "2026-07-31T19:19:53.465536Z",
       "products_count": 9,
-      "file_size_bytes": 1417
+      "file_size_bytes": 1185
     },
     "riau": {
       "name": "Prov. Riau",
       "slug": "riau",
       "path": "/v1/provinsi/riau.json",
-      "pertamina_updated_at": "2026-06-30T17:00:44.000Z",
-      "synced_at": "2026-07-31T13:57:59.721337Z",
+      "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
+      "synced_at": "2026-07-31T19:19:53.465827Z",
       "products_count": 9,
-      "file_size_bytes": 1397
+      "file_size_bytes": 1165
     },
     "kepulauan-riau": {
       "name": "Prov. Kepulauan Riau",
       "slug": "kepulauan-riau",
       "path": "/v1/provinsi/kepulauan-riau.json",
-      "pertamina_updated_at": "2026-06-30T17:00:44.000Z",
-      "synced_at": "2026-07-31T13:57:59.721591Z",
+      "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
+      "synced_at": "2026-07-31T19:19:53.466094Z",
       "products_count": 9,
-      "file_size_bytes": 1417
+      "file_size_bytes": 1185
     },
     "free-trade-zone-ftz-batam": {
       "name": "Free Trade Zone (FTZ) Batam",
       "slug": "free-trade-zone-ftz-batam",
       "path": "/v1/provinsi/free-trade-zone-ftz-batam.json",
-      "pertamina_updated_at": "2026-06-30T17:00:44.000Z",
-      "synced_at": "2026-07-31T13:57:59.721862Z",
+      "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
+      "synced_at": "2026-07-31T19:19:53.466357Z",
       "products_count": 9,
-      "file_size_bytes": 1435
+      "file_size_bytes": 1203
     },
     "jambi": {
       "name": "Prov. Jambi",
       "slug": "jambi",
       "path": "/v1/provinsi/jambi.json",
-      "pertamina_updated_at": "2026-06-30T17:00:44.000Z",
-      "synced_at": "2026-07-31T13:57:59.722109Z",
+      "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
+      "synced_at": "2026-07-31T19:19:53.466634Z",
       "products_count": 9,
-      "file_size_bytes": 1399
+      "file_size_bytes": 1167
     },
     "bengkulu": {
       "name": "Prov. Bengkulu",
       "slug": "bengkulu",
       "path": "/v1/provinsi/bengkulu.json",
-      "pertamina_updated_at": "2026-06-30T17:00:44.000Z",
-      "synced_at": "2026-07-31T13:57:59.722349Z",
+      "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
+      "synced_at": "2026-07-31T19:19:53.466895Z",
       "products_count": 9,
-      "file_size_bytes": 1405
+      "file_size_bytes": 1173
     },
     "sumatera-selatan": {
       "name": "Prov. Sumatera Selatan",
       "slug": "sumatera-selatan",
       "path": "/v1/provinsi/sumatera-selatan.json",
-      "pertamina_updated_at": "2026-06-30T17:00:44.000Z",
-      "synced_at": "2026-07-31T13:57:59.722581Z",
+      "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
+      "synced_at": "2026-07-31T19:19:53.467141Z",
       "products_count": 9,
-      "file_size_bytes": 1421
+      "file_size_bytes": 1189
     },
     "bangka-belitung": {
       "name": "Prov. Bangka-Belitung",
       "slug": "bangka-belitung",
       "path": "/v1/provinsi/bangka-belitung.json",
-      "pertamina_updated_at": "2026-06-30T17:00:44.000Z",
-      "synced_at": "2026-07-31T13:57:59.722839Z",
+      "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
+      "synced_at": "2026-07-31T19:19:53.467385Z",
       "products_count": 9,
-      "file_size_bytes": 1419
+      "file_size_bytes": 1187
     },
     "lampung": {
       "name": "Prov. Lampung",
       "slug": "lampung",
       "path": "/v1/provinsi/lampung.json",
-      "pertamina_updated_at": "2026-06-30T17:00:44.000Z",
-      "synced_at": "2026-07-31T13:57:59.723082Z",
+      "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
+      "synced_at": "2026-07-31T19:19:53.467654Z",
       "products_count": 9,
-      "file_size_bytes": 1403
+      "file_size_bytes": 1171
     },
     "dki-jakarta": {
       "name": "Prov. DKI Jakarta",
       "slug": "dki-jakarta",
       "path": "/v1/provinsi/dki-jakarta.json",
-      "pertamina_updated_at": "2026-06-30T17:00:44.000Z",
-      "synced_at": "2026-07-31T13:57:59.723316Z",
+      "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
+      "synced_at": "2026-07-31T19:19:53.467902Z",
       "products_count": 9,
-      "file_size_bytes": 1468
+      "file_size_bytes": 1178
     },
     "banten": {
       "name": "Prov. Banten",
       "slug": "banten",
       "path": "/v1/provinsi/banten.json",
-      "pertamina_updated_at": "2026-06-30T17:00:44.000Z",
-      "synced_at": "2026-07-31T13:57:59.723543Z",
+      "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
+      "synced_at": "2026-07-31T19:19:53.468139Z",
       "products_count": 9,
-      "file_size_bytes": 1458
+      "file_size_bytes": 1168
     },
     "jawa-barat": {
       "name": "Prov. Jawa Barat",
       "slug": "jawa-barat",
       "path": "/v1/provinsi/jawa-barat.json",
-      "pertamina_updated_at": "2026-06-30T17:00:44.000Z",
-      "synced_at": "2026-07-31T13:57:59.723810Z",
+      "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
+      "synced_at": "2026-07-31T19:19:53.468381Z",
       "products_count": 9,
-      "file_size_bytes": 1466
+      "file_size_bytes": 1176
     },
     "jawa-tengah": {
       "name": "Prov. Jawa Tengah",
       "slug": "jawa-tengah",
       "path": "/v1/provinsi/jawa-tengah.json",
-      "pertamina_updated_at": "2026-06-30T17:00:44.000Z",
-      "synced_at": "2026-07-31T13:57:59.724048Z",
+      "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
+      "synced_at": "2026-07-31T19:19:53.468646Z",
       "products_count": 9,
-      "file_size_bytes": 1468
+      "file_size_bytes": 1178
     },
     "di-yogyakarta": {
       "name": "Prov. DI Yogyakarta",
       "slug": "di-yogyakarta",
       "path": "/v1/provinsi/di-yogyakarta.json",
-      "pertamina_updated_at": "2026-06-30T17:00:44.000Z",
-      "synced_at": "2026-07-31T13:57:59.724280Z",
+      "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
+      "synced_at": "2026-07-31T19:19:53.468889Z",
       "products_count": 9,
-      "file_size_bytes": 1472
+      "file_size_bytes": 1182
     },
     "jawa-timur": {
       "name": "Prov. Jawa Timur",
       "slug": "jawa-timur",
       "path": "/v1/provinsi/jawa-timur.json",
-      "pertamina_updated_at": "2026-06-30T17:00:44.000Z",
-      "synced_at": "2026-07-31T13:57:59.724520Z",
+      "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
+      "synced_at": "2026-07-31T19:19:53.469133Z",
       "products_count": 9,
-      "file_size_bytes": 1466
+      "file_size_bytes": 1176
     },
     "bali": {
       "name": "Prov. Bali",
       "slug": "bali",
       "path": "/v1/provinsi/bali.json",
-      "pertamina_updated_at": "2026-06-30T17:00:44.000Z",
-      "synced_at": "2026-07-31T13:57:59.724774Z",
+      "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
+      "synced_at": "2026-07-31T19:19:53.469367Z",
       "products_count": 9,
-      "file_size_bytes": 1397
+      "file_size_bytes": 1165
     },
     "nusa-tenggara-barat": {
       "name": "Prov. Nusa Tenggara Barat",
       "slug": "nusa-tenggara-barat",
       "path": "/v1/provinsi/nusa-tenggara-barat.json",
-      "pertamina_updated_at": "2026-06-30T17:00:44.000Z",
-      "synced_at": "2026-07-31T13:57:59.725072Z",
+      "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
+      "synced_at": "2026-07-31T19:19:53.469697Z",
       "products_count": 9,
-      "file_size_bytes": 1427
+      "file_size_bytes": 1195
     },
     "nusa-tenggara-timur": {
       "name": "Prov. Nusa Tenggara Timur",
       "slug": "nusa-tenggara-timur",
       "path": "/v1/provinsi/nusa-tenggara-timur.json",
-      "pertamina_updated_at": "2026-06-30T17:00:44.000Z",
-      "synced_at": "2026-07-31T13:57:59.725310Z",
+      "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
+      "synced_at": "2026-07-31T19:19:53.469959Z",
       "products_count": 9,
-      "file_size_bytes": 1426
+      "file_size_bytes": 1194
     },
     "kalimantan-barat": {
       "name": "Prov. Kalimantan Barat",
       "slug": "kalimantan-barat",
       "path": "/v1/provinsi/kalimantan-barat.json",
-      "pertamina_updated_at": "2026-06-30T17:00:44.000Z",
-      "synced_at": "2026-07-31T13:57:59.725538Z",
+      "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
+      "synced_at": "2026-07-31T19:19:53.470211Z",
       "products_count": 9,
-      "file_size_bytes": 1421
+      "file_size_bytes": 1189
     },
     "kalimantan-tengah": {
       "name": "Prov. Kalimantan Tengah",
       "slug": "kalimantan-tengah",
       "path": "/v1/provinsi/kalimantan-tengah.json",
-      "pertamina_updated_at": "2026-06-30T17:00:44.000Z",
-      "synced_at": "2026-07-31T13:57:59.725792Z",
+      "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
+      "synced_at": "2026-07-31T19:19:53.470466Z",
       "products_count": 9,
-      "file_size_bytes": 1423
+      "file_size_bytes": 1191
     },
     "kalimantan-selatan": {
       "name": "Prov. Kalimantan Selatan",
       "slug": "kalimantan-selatan",
       "path": "/v1/provinsi/kalimantan-selatan.json",
-      "pertamina_updated_at": "2026-06-30T17:00:44.000Z",
-      "synced_at": "2026-07-31T13:57:59.726030Z",
+      "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
+      "synced_at": "2026-07-31T19:19:53.470738Z",
       "products_count": 9,
-      "file_size_bytes": 1425
+      "file_size_bytes": 1193
     },
     "kalimantan-timur": {
       "name": "Prov. Kalimantan Timur",
       "slug": "kalimantan-timur",
       "path": "/v1/provinsi/kalimantan-timur.json",
-      "pertamina_updated_at": "2026-06-30T17:00:44.000Z",
-      "synced_at": "2026-07-31T13:57:59.726256Z",
+      "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
+      "synced_at": "2026-07-31T19:19:53.470987Z",
       "products_count": 9,
-      "file_size_bytes": 1421
+      "file_size_bytes": 1189
     },
     "kalimantan-utara": {
       "name": "Prov. Kalimantan Utara",
       "slug": "kalimantan-utara",
       "path": "/v1/provinsi/kalimantan-utara.json",
-      "pertamina_updated_at": "2026-06-30T17:00:44.000Z",
-      "synced_at": "2026-07-31T13:57:59.726479Z",
+      "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
+      "synced_at": "2026-07-31T19:19:53.471225Z",
       "products_count": 9,
-      "file_size_bytes": 1421
+      "file_size_bytes": 1189
     },
     "sulawesi-utara": {
       "name": "Prov. Sulawesi Utara",
       "slug": "sulawesi-utara",
       "path": "/v1/provinsi/sulawesi-utara.json",
-      "pertamina_updated_at": "2026-06-30T17:00:44.000Z",
-      "synced_at": "2026-07-31T13:57:59.726732Z",
+      "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
+      "synced_at": "2026-07-31T19:19:53.471465Z",
       "products_count": 9,
-      "file_size_bytes": 1417
+      "file_size_bytes": 1185
     },
     "gorontalo": {
       "name": "Prov. Gorontalo",
       "slug": "gorontalo",
       "path": "/v1/provinsi/gorontalo.json",
-      "pertamina_updated_at": "2026-06-30T17:00:44.000Z",
-      "synced_at": "2026-07-31T13:57:59.726961Z",
+      "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
+      "synced_at": "2026-07-31T19:19:53.471729Z",
       "products_count": 9,
-      "file_size_bytes": 1407
+      "file_size_bytes": 1175
     },
     "sulawesi-tengah": {
       "name": "Prov. Sulawesi Tengah",
       "slug": "sulawesi-tengah",
       "path": "/v1/provinsi/sulawesi-tengah.json",
-      "pertamina_updated_at": "2026-06-30T17:00:44.000Z",
-      "synced_at": "2026-07-31T13:57:59.727185Z",
+      "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
+      "synced_at": "2026-07-31T19:19:53.471965Z",
       "products_count": 9,
-      "file_size_bytes": 1419
+      "file_size_bytes": 1187
     },
     "sulawesi-tenggara": {
       "name": "Prov. Sulawesi Tenggara",
       "slug": "sulawesi-tenggara",
       "path": "/v1/provinsi/sulawesi-tenggara.json",
-      "pertamina_updated_at": "2026-06-30T17:00:44.000Z",
-      "synced_at": "2026-07-31T13:57:59.727414Z",
+      "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
+      "synced_at": "2026-07-31T19:19:53.472208Z",
       "products_count": 9,
-      "file_size_bytes": 1423
+      "file_size_bytes": 1191
     },
     "sulawesi-selatan": {
       "name": "Prov. Sulawesi Selatan",
       "slug": "sulawesi-selatan",
       "path": "/v1/provinsi/sulawesi-selatan.json",
-      "pertamina_updated_at": "2026-06-30T17:00:44.000Z",
-      "synced_at": "2026-07-31T13:57:59.727660Z",
+      "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
+      "synced_at": "2026-07-31T19:19:53.472449Z",
       "products_count": 9,
-      "file_size_bytes": 1421
+      "file_size_bytes": 1189
     },
     "sulawesi-barat": {
       "name": "Prov. Sulawesi Barat",
       "slug": "sulawesi-barat",
       "path": "/v1/provinsi/sulawesi-barat.json",
-      "pertamina_updated_at": "2026-06-30T17:00:44.000Z",
-      "synced_at": "2026-07-31T13:57:59.727904Z",
+      "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
+      "synced_at": "2026-07-31T19:19:53.472715Z",
       "products_count": 9,
-      "file_size_bytes": 1417
+      "file_size_bytes": 1185
     },
     "maluku": {
       "name": "Prov. Maluku",
       "slug": "maluku",
       "path": "/v1/provinsi/maluku.json",
-      "pertamina_updated_at": "2026-06-30T17:00:44.000Z",
-      "synced_at": "2026-07-31T13:57:59.728130Z",
+      "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
+      "synced_at": "2026-07-31T19:19:53.472949Z",
       "products_count": 9,
-      "file_size_bytes": 1403
+      "file_size_bytes": 1171
     },
     "maluku-utara": {
       "name": "Prov. Maluku Utara",
       "slug": "maluku-utara",
       "path": "/v1/provinsi/maluku-utara.json",
-      "pertamina_updated_at": "2026-06-30T17:00:44.000Z",
-      "synced_at": "2026-07-31T13:57:59.728354Z",
+      "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
+      "synced_at": "2026-07-31T19:19:53.473183Z",
       "products_count": 9,
-      "file_size_bytes": 1415
+      "file_size_bytes": 1183
     },
     "papua": {
       "name": "Prov. Papua",
       "slug": "papua",
       "path": "/v1/provinsi/papua.json",
-      "pertamina_updated_at": "2026-06-30T17:00:44.000Z",
-      "synced_at": "2026-07-31T13:57:59.728589Z",
+      "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
+      "synced_at": "2026-07-31T19:19:53.473427Z",
       "products_count": 9,
-      "file_size_bytes": 1400
+      "file_size_bytes": 1168
     },
     "papua-barat": {
       "name": "Prov. Papua Barat",
       "slug": "papua-barat",
       "path": "/v1/provinsi/papua-barat.json",
-      "pertamina_updated_at": "2026-06-30T17:00:44.000Z",
-      "synced_at": "2026-07-31T13:57:59.728851Z",
+      "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
+      "synced_at": "2026-07-31T19:19:53.473701Z",
       "products_count": 9,
-      "file_size_bytes": 1412
+      "file_size_bytes": 1180
     },
     "papua-selatan": {
       "name": "Prov. Papua Selatan",
       "slug": "papua-selatan",
       "path": "/v1/provinsi/papua-selatan.json",
-      "pertamina_updated_at": "2026-06-30T17:00:44.000Z",
-      "synced_at": "2026-07-31T13:57:59.729143Z",
+      "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
+      "synced_at": "2026-07-31T19:19:53.474015Z",
       "products_count": 9,
-      "file_size_bytes": 1417
+      "file_size_bytes": 1185
     },
     "papua-pegunungan": {
       "name": "Prov. Papua Pegunungan",
       "slug": "papua-pegunungan",
       "path": "/v1/provinsi/papua-pegunungan.json",
-      "pertamina_updated_at": "2026-06-30T17:00:44.000Z",
-      "synced_at": "2026-07-31T13:57:59.729377Z",
+      "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
+      "synced_at": "2026-07-31T19:19:53.474269Z",
       "products_count": 9,
-      "file_size_bytes": 1423
+      "file_size_bytes": 1191
     },
     "papua-tengah": {
       "name": "Prov. Papua Tengah",
       "slug": "papua-tengah",
       "path": "/v1/provinsi/papua-tengah.json",
-      "pertamina_updated_at": "2026-06-30T17:00:44.000Z",
-      "synced_at": "2026-07-31T13:57:59.729651Z",
+      "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
+      "synced_at": "2026-07-31T19:19:53.474512Z",
       "products_count": 9,
-      "file_size_bytes": 1415
+      "file_size_bytes": 1183
     },
     "papua-barat-daya": {
       "name": "Prov. Papua Barat Daya",
       "slug": "papua-barat-daya",
       "path": "/v1/provinsi/papua-barat-daya.json",
-      "pertamina_updated_at": "2026-06-30T17:00:44.000Z",
-      "synced_at": "2026-07-31T13:57:59.729905Z",
+      "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
+      "synced_at": "2026-07-31T19:19:53.474789Z",
       "products_count": 9,
-      "file_size_bytes": 1422
+      "file_size_bytes": 1190
     }
   },
   "endpoints": {

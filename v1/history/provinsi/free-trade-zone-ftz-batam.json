@@ -26,6 +26,10 @@
       {
         "date": "2026-06-09",
         "price_rupiah": 15500
+      },
+      {
+        "date": "2026-07-31",
+        "price_rupiah": 15150
       }
     ],
     "PERTAMAX PERTASHOP": [
@@ -36,6 +40,10 @@
       {
         "date": "2026-06-09",
         "price_rupiah": 15400
+      },
+      {
+        "date": "2026-07-31",
+        "price_rupiah": 15050
       }
     ],
     "PERTAMAX TURBO": [
@@ -46,6 +54,10 @@
       {
         "date": "2026-06-30",
         "price_rupiah": 18350
+      },
+      {
+        "date": "2026-07-31",
+        "price_rupiah": 17400
       }
     ],
     "BIOSOLAR": [
