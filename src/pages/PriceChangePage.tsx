@@ -17,6 +17,8 @@ import { useMetaTags } from "@/utils/meta-tags";
 import { useJsonLd, webPageSchema } from "@/utils/structured-data";
 import { useVisibilityRefresh } from "@/utils/use-visibility-refresh";
 import { useTranslation } from "@/i18n";
+import { WarningBanner } from "@/components/WarningBanner";
+import { AlertTriangle } from "lucide-react";
 
 type DateRange = "7d" | "30d" | "all";
 
@@ -39,6 +41,7 @@ export default function PriceChangePage() {
     historyFeedLoading,
     historyFeedError,
     historyFeedSyncedAt,
+    historyFeedFailures,
     retryCount,
     fetchHistoryFeed,
     retry,
@@ -107,7 +110,7 @@ export default function PriceChangePage() {
         <ChangesHeader />
         <div className="mt-6">
           <ErrorState
-            message={historyFeedError.message}
+            message={historyFeedError}
             onRetry={() => retry("historyFeed")}
             disabled={(retryCount["historyFeed"] ?? 0) >= 3}
           />
@@ -132,6 +135,17 @@ export default function PriceChangePage() {
       {historyFeedSyncedAt && (
         <div className="mt-4">
           <StaleTimeBanner syncedAt={historyFeedSyncedAt} />
+        </div>
+      )}
+      {historyFeedFailures.length > 0 && (
+        <div className="mt-4">
+          <WarningBanner
+            icon={AlertTriangle}
+            message={t("changes.partial", {
+              count: historyFeedFailures.length,
+            })}
+            action={{ label: t("error.retry"), onClick: handleRefresh }}
+          />
         </div>
       )}
 

@@ -175,6 +175,17 @@ export const apiClient = {
       "/v1/history/index.json",
       historyIndexResponseSchema
     ),
-  getAllHistory: (slugs: string[]) =>
-    Promise.allSettled(slugs.map((s) => apiClient.getHistory(s))),
+  getAllHistory: async (slugs: string[], concurrency = 5) => {
+    const validSlugs = [...new Set(slugs)].filter(isValidSlug);
+    const results: PromiseSettledResult<HistoryResponse>[] = [];
+    for (let offset = 0; offset < validSlugs.length; offset += concurrency) {
+      const batch = validSlugs.slice(offset, offset + concurrency);
+      results.push(
+        ...(await Promise.allSettled(
+          batch.map((slug) => apiClient.getHistory(slug))
+        ))
+      );
+    }
+    return results;
+  },
 };

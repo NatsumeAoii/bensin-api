@@ -195,7 +195,7 @@ export default function ProvinceListPage() {
         {/* Error state */}
         {!indexLoading && indexError && (
           <ErrorState
-            message={indexError.message}
+            message={indexError}
             onRetry={handleRetry}
             disabled={retryDisabled}
           />

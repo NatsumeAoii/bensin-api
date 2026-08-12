@@ -43,8 +43,12 @@ def derive_date(synced_at: str) -> str:
     """
     if not synced_at:
         raise ValueError('synced_at is required to derive a history date')
-    # ISO 8601 always starts with YYYY-MM-DD; slice is robust to the suffix.
-    return synced_at[:10]
+    from datetime import date, datetime
+    try:
+        parsed = datetime.fromisoformat(synced_at.replace('Z', '+00:00'))
+    except ValueError as exc:
+        raise ValueError('synced_at must be an ISO 8601 timestamp') from exc
+    return date.fromisoformat(parsed.date().isoformat()).isoformat()
 
 
 def load_history(path: str) -> Optional[Dict[str, Any]]:
@@ -88,7 +92,8 @@ def merge_history(
     # Start from a deep-ish copy of existing series so we never mutate input.
     if existing is not None:
         for name, points in existing.get('products', {}).items():
-            result_products[name] = [dict(p) for p in points]
+            unique = {point['date']: dict(point) for point in points}
+            result_products[name] = [unique[key] for key in sorted(unique)]
 
     for product in products:
         name = product.get('product')
@@ -98,9 +103,10 @@ def merge_history(
 
         series = result_products.setdefault(name, [])
 
-        if series and series[-1].get('date') == date:
+        if date in {point.get('date') for point in series}:
             # Same calendar day already recorded — keep one point, latest price.
-            series[-1]['price_rupiah'] = price
+            next(point for point in series if point.get('date') == date)['price_rupiah'] = price
+            series.sort(key=lambda point: point['date'])
             continue
 
         last_price = series[-1]['price_rupiah'] if series else None
@@ -131,7 +137,7 @@ def write_history(path: str, data: Dict[str, Any]) -> None:
         json.dump(data, f, ensure_ascii=False, indent=2)
 
 
-def update_history(province_payloads: List[Dict[str, Any]]) -> int:
+def update_history(province_payloads: List[Dict[str, Any]], output_dir: Optional[str] = None) -> int:
     """Append change-based history for each province. Fault-isolated.
 
     Accepts the same per-province payloads produced by the main pipeline
@@ -140,7 +146,9 @@ def update_history(province_payloads: List[Dict[str, Any]]) -> int:
     failure is reported and counted as a skip so the primary ``v1/`` output is
     unaffected.
     """
-    os.makedirs(HISTORY_PROV_DIR, exist_ok=True)
+    history_dir = os.path.join(output_dir, 'history') if output_dir else HISTORY_DIR
+    history_prov_dir = os.path.join(history_dir, 'provinsi')
+    os.makedirs(history_prov_dir, exist_ok=True)
     written = 0
     index_entries: List[Dict[str, Any]] = []
 
@@ -152,7 +160,7 @@ def update_history(province_payloads: List[Dict[str, Any]]) -> int:
             print('History: skipping payload with missing fields:', slug)
             continue
 
-        prov_path = os.path.join(HISTORY_PROV_DIR, f'{slug}.json')
+        prov_path = os.path.join(history_prov_dir, f'{slug}.json')
         try:
             date = derive_date(synced_at)
             existing = load_history(prov_path)
@@ -175,7 +183,7 @@ def update_history(province_payloads: List[Dict[str, Any]]) -> int:
     # Best-effort history index; failure here is non-critical.
     try:
         index_entries.sort(key=lambda e: e['slug'])
-        index_path = os.path.join(HISTORY_DIR, 'index.json')
+        index_path = os.path.join(history_dir, 'index.json')
         with open(index_path, 'w', encoding='utf-8') as f:
             json.dump(
                 {'count': len(index_entries), 'synced_at': iso_now(), 'provinsi': index_entries},

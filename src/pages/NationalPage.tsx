@@ -200,7 +200,7 @@ export default function NationalPage() {
         <NationalHeader />
         <div className="mt-6">
           <ErrorState
-            message={nationalError.message}
+            message={nationalError}
             onRetry={() => retry("national")}
             disabled={(retryCount["national"] ?? 0) >= 3}
           />

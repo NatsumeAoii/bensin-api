@@ -87,6 +87,13 @@ const translations = {
       "Terjadi kesalahan tak terduga. Muat ulang halaman untuk melanjutkan.",
     "error.reload": "Muat Ulang",
     "error.loadHistory": "Gagal memuat riwayat harga",
+    "error.timeout": "Permintaan terlalu lama. Coba lagi.",
+    "error.network":
+      "Koneksi bermasalah. Periksa jaringan Anda lalu coba lagi.",
+    "error.invalidData": "Data yang diterima tidak dapat digunakan.",
+    "error.invalidInput": "Permintaan tidak valid.",
+    "error.notFound": "Data yang diminta tidak ditemukan.",
+    "changes.partial": "Sebagian riwayat tidak tersedia ({count} provinsi).",
 
     // Stale / Warning
     "stale.lastUpdated": "Data terakhir diperbarui {time}",
@@ -264,6 +271,13 @@ const translations = {
       "An unexpected error occurred. Reload the page to continue.",
     "error.reload": "Reload",
     "error.loadHistory": "Failed to load price history",
+    "error.timeout": "The request took too long. Try again.",
+    "error.network":
+      "There is a connection problem. Check your network and try again.",
+    "error.invalidData": "The received data could not be used.",
+    "error.invalidInput": "The request is invalid.",
+    "error.notFound": "The requested data was not found.",
+    "changes.partial": "Some history is unavailable ({count} provinces).",
 
     // Stale / Warning
     "stale.lastUpdated": "Data last updated {time}",

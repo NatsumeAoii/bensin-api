@@ -146,7 +146,7 @@ export default function ProvinceDetailPage() {
         <BackLink adjacent={adjacent} total={provinceList.length} />
         <div className="mt-6">
           <ErrorState
-            message={error.message}
+            message={error}
             onRetry={() => retry(requestKey)}
             disabled={retryDisabled}
           />

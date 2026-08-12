@@ -7,7 +7,7 @@ export interface IndexProvinceEntry {
   name: string;
   slug: string;
   path: string;
-  pertamina_updated_at: string;
+  pertamina_updated_at: string | null;
   synced_at: string;
   products_count: number;
   file_size_bytes: number;
@@ -19,7 +19,12 @@ export interface IndexResponse {
   author: string;
   github_repository: string;
   synced_at: string;
-  pertamina_updated_at: string;
+  pertamina_updated_at: string | null;
+  generated_at?: string;
+  source_status?: "fresh" | "fallback";
+  source_snapshot_at?: string | null;
+  source_fetched_at?: string | null;
+  source_hash?: string | null;
   provinsi_count: number;
   provinsi: Record<string, IndexProvinceEntry>;
   endpoints: Record<string, string>;
@@ -36,15 +41,25 @@ export interface Product {
 export interface ProvinceResponse {
   province: string;
   province_slug: string;
-  pertamina_updated_at: string;
+  pertamina_updated_at: string | null;
   synced_at: string;
+  generated_at?: string;
+  source_status?: "fresh" | "fallback";
+  source_snapshot_at?: string | null;
+  source_fetched_at?: string | null;
+  source_hash?: string | null;
   products: Product[];
 }
 
 export interface NationalResponse {
   version: string;
   synced_at: string;
-  pertamina_updated_at: string;
+  pertamina_updated_at: string | null;
+  generated_at?: string;
+  source_status?: "fresh" | "fallback";
+  source_snapshot_at?: string | null;
+  source_fetched_at?: string | null;
+  source_hash?: string | null;
   provinces: ProvinceResponse[];
 }
 
@@ -70,6 +85,11 @@ export interface HistoryIndexResponse {
   count: number;
   synced_at: string;
   provinsi: HistoryIndexEntry[];
+}
+
+export interface HistoryFeedFailure {
+  slug: string;
+  error: string;
 }
 
 export interface PriceChangeEvent {

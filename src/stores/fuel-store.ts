@@ -35,6 +35,8 @@ interface FuelState {
   historyFeedLoading: boolean;
   historyFeedError: ApiError | null;
   historyFeedSyncedAt: string | null;
+  historyFeedFailures: string[];
+  historyFeedTotal: number;
 
   // Retry tracking per request key
   retryCount: Record<string, number>;
@@ -149,6 +151,8 @@ export const useFuelStore = create<FuelState>((set, get) => ({
   historyFeedLoading: false,
   historyFeedError: null,
   historyFeedSyncedAt: null,
+  historyFeedFailures: [],
+  historyFeedTotal: 0,
 
   retryCount: {},
 
@@ -236,6 +240,7 @@ export const useFuelStore = create<FuelState>((set, get) => ({
           name: string;
           products: Record<string, import("@/types/api").HistoryPoint[]>;
         }> = [];
+        const failures: string[] = [];
         for (let i = 0; i < results.length; i++) {
           const result = results[i];
           if (result.status === "fulfilled") {
@@ -244,9 +249,16 @@ export const useFuelStore = create<FuelState>((set, get) => ({
               name: result.value.province,
               products: result.value.products,
             });
+          } else {
+            failures.push(slugs[i]);
           }
         }
-        return { feed: buildChangeFeed(histories), syncedAt: index.synced_at };
+        return {
+          feed: buildChangeFeed(histories),
+          syncedAt: index.synced_at,
+          failures,
+          total: slugs.length,
+        };
       },
       () => set({ historyFeedLoading: true, historyFeedError: null }),
       (data) =>
@@ -255,6 +267,8 @@ export const useFuelStore = create<FuelState>((set, get) => ({
           historyFeedSyncedAt: data.syncedAt,
           historyFeedLoading: false,
           historyFeedError: null,
+          historyFeedFailures: data.failures,
+          historyFeedTotal: data.total,
         }),
       (error) => set({ historyFeedLoading: false, historyFeedError: error })
     ),

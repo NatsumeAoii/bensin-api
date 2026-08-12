@@ -1,4 +1,21 @@
 import { ApiError } from "@/api/client";
+import type { TranslationKey } from "@/i18n/translations";
+
+export function getApiErrorMessageKey(error: ApiError): TranslationKey {
+  switch (error.code) {
+    case "TIMEOUT":
+      return "error.timeout";
+    case "NETWORK_ERROR":
+      return "error.network";
+    case "PARSE_ERROR":
+    case "VALIDATION_ERROR":
+      return "error.invalidData";
+    case "INVALID_INPUT":
+      return "error.invalidInput";
+    case "HTTP_ERROR":
+      return error.status === 404 ? "error.notFound" : "error.loadFailed";
+  }
+}
 
 /**
  * Classifies an ApiError as transient (worth retrying) or permanent.

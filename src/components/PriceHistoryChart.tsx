@@ -11,6 +11,7 @@ import { exportToCsv } from "@/utils/csv-export";
 import { ChartCanvas } from "@/components/PriceHistoryChart.canvas";
 import { HistoryDataTable } from "@/components/HistoryDataTable";
 import { useTranslation } from "@/i18n";
+import { getApiErrorMessageKey } from "@/utils/api-error";
 
 interface PriceHistoryChartProps {
   slug: string;
@@ -161,7 +162,9 @@ export function PriceHistoryChart({ slug }: PriceHistoryChartProps) {
       <section className="flex flex-col items-center gap-3 rounded-2xl border border-stone-200 bg-white p-6 text-center dark:border-stone-800 dark:bg-stone-900">
         <AlertCircle size={24} className="text-amber-500" aria-hidden="true" />
         <p className="text-sm text-stone-600 dark:text-stone-400">
-          {error.message}
+          {getApiErrorMessageKey(error)
+            ? t(getApiErrorMessageKey(error))
+            : t("error.loadFailed")}
         </p>
         {canRetry && (
           <button

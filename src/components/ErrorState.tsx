@@ -1,8 +1,10 @@
 import { AlertTriangle, RefreshCw } from "lucide-react";
 import { useTranslation } from "@/i18n";
+import { ApiError } from "@/api/client";
+import { getApiErrorMessageKey } from "@/utils/api-error";
 
 interface ErrorStateProps {
-  message: string;
+  message: string | ApiError;
   onRetry: () => void;
   disabled?: boolean;
 }
@@ -17,6 +19,8 @@ export function ErrorState({
   disabled = false,
 }: ErrorStateProps) {
   const { t } = useTranslation();
+  const safeMessage =
+    message instanceof ApiError ? t(getApiErrorMessageKey(message)) : message;
 
   return (
     <div
@@ -34,7 +38,9 @@ export function ErrorState({
         <p className="text-base font-semibold text-stone-800 dark:text-stone-200">
           {t("error.title")}
         </p>
-        <p className="text-sm text-stone-600 dark:text-stone-400">{message}</p>
+        <p className="text-sm text-stone-600 dark:text-stone-400">
+          {safeMessage}
+        </p>
       </div>
       <button
         type="button"

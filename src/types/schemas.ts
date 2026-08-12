@@ -38,7 +38,12 @@ export const indexResponseSchema: z.ZodType<IndexResponse> = z.object({
   author: z.string(),
   github_repository: z.string(),
   synced_at: z.string(),
-  pertamina_updated_at: z.string(),
+  pertamina_updated_at: z.string().nullable(),
+  generated_at: z.string().optional(),
+  source_status: z.enum(["fresh", "fallback"]).optional(),
+  source_snapshot_at: z.string().nullable().optional(),
+  source_fetched_at: z.string().nullable().optional(),
+  source_hash: z.string().nullable().optional(),
   provinsi_count: z.number(),
   provinsi: z.record(
     z.string(),
@@ -46,7 +51,7 @@ export const indexResponseSchema: z.ZodType<IndexResponse> = z.object({
       name: z.string(),
       slug: z.string(),
       path: z.string(),
-      pertamina_updated_at: z.string(),
+      pertamina_updated_at: z.string().nullable(),
       synced_at: z.string(),
       products_count: z.number(),
       file_size_bytes: z.number(),
@@ -58,7 +63,12 @@ export const indexResponseSchema: z.ZodType<IndexResponse> = z.object({
 export const provinceResponseSchema: z.ZodType<ProvinceResponse> = z.object({
   province: z.string(),
   province_slug: z.string(),
-  pertamina_updated_at: z.string(),
+  pertamina_updated_at: z.string().nullable(),
+  generated_at: z.string().optional(),
+  source_status: z.enum(["fresh", "fallback"]).optional(),
+  source_snapshot_at: z.string().nullable().optional(),
+  source_fetched_at: z.string().nullable().optional(),
+  source_hash: z.string().nullable().optional(),
   synced_at: z.string(),
   products: z.array(productSchema),
 });
@@ -66,7 +76,7 @@ export const provinceResponseSchema: z.ZodType<ProvinceResponse> = z.object({
 export const nationalResponseSchema: z.ZodType<NationalResponse> = z.object({
   version: z.string(),
   synced_at: z.string(),
-  pertamina_updated_at: z.string(),
+  pertamina_updated_at: z.string().nullable(),
   provinces: z.array(provinceResponseSchema),
 });
 

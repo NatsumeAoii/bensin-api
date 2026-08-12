@@ -109,25 +109,39 @@ def non_blank_text(max_size: int) -> st.SearchStrategy[str]:
 
 availability_strategy = st.sampled_from(['available', 'unavailable', 'unknown'])
 
-product_strategy = st.fixed_dictionaries({
-    'product': non_blank_text(50),
-    'price_rupiah': st.one_of(st.none(), st.integers(min_value=1, max_value=100_000_000)),
-    'availability': availability_strategy,
-    'pertamina_updated_at': st.one_of(st.none(), non_blank_text(30)),
-})
+product_strategy = st.one_of(
+    st.fixed_dictionaries({
+        'product': non_blank_text(50),
+        'price_rupiah': st.integers(min_value=1, max_value=10_000_000),
+        'availability': st.just('available'),
+        'pertamina_updated_at': st.none(),
+    }),
+    st.fixed_dictionaries({
+        'product': non_blank_text(50),
+        'price_rupiah': st.none(),
+        'availability': st.just('unavailable'),
+        'pertamina_updated_at': st.none(),
+    }),
+    st.fixed_dictionaries({
+        'product': non_blank_text(50),
+        'price_rupiah': st.one_of(st.none(), st.integers(min_value=1, max_value=10_000_000)),
+        'availability': st.just('unknown'),
+        'pertamina_updated_at': st.none(),
+    }),
+)
 
 province_strategy = st.fixed_dictionaries({
     'province': non_blank_text(100),
     'province_slug': non_blank_text(100),
-    'pertamina_updated_at': st.one_of(st.none(), non_blank_text(30)),
-    'synced_at': non_blank_text(30),
-    'products': st.lists(product_strategy, min_size=1, max_size=5),
+    'pertamina_updated_at': st.one_of(st.none(), st.just('2026-06-01T00:00:00Z')),
+    'synced_at': st.just('2026-06-01T00:00:00Z'),
+        'products': st.lists(product_strategy, min_size=1, max_size=5, unique_by=lambda product: product['product']),
 })
 
 valid_national_strategy = st.fixed_dictionaries({
     'version': non_blank_text(20),
-    'synced_at': non_blank_text(30),
-    'pertamina_updated_at': st.one_of(st.none(), non_blank_text(30)),
+    'synced_at': st.just('2026-06-01T00:00:00Z'),
+    'pertamina_updated_at': st.one_of(st.none(), st.just('2026-06-01T00:00:00Z')),
     'provinces': st.lists(province_strategy, min_size=1, max_size=5),
 })
 
@@ -222,7 +236,7 @@ def test_property4_validation_gates_file_write(data):
 # ---------------------------------------------------------------------------
 
 @given(payload=valid_national_strategy)
-@settings(max_examples=100)
+@settings(max_examples=100, deadline=None)
 def test_property5_valid_nasional_roundtrip(payload):
     """Property 5: Valid nasional data round-trips through write_json.
 

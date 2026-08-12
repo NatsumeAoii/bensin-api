@@ -19,7 +19,11 @@ Input shapes
 from __future__ import annotations
 import json
 import os
+import hashlib
+import shutil
 import sys
+import tempfile
+from decimal import Decimal, InvalidOperation, ROUND_HALF_UP
 
 # Ensure repository root is in sys.path
 ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
@@ -74,8 +78,11 @@ def parse_price(raw: Any) -> Tuple[Optional[int], str]:
     if s == '' or s.lower() in ('n/a', 'na', 'null'):
         return None, 'unavailable'
     
-    # remove currency prefixes
-    s = re.sub(r'(?i)^\s*(rp|idr)\s*', '', s)
+    # Accept only the formats emitted by the upstream source: an optional
+    # currency prefix, digits, and one unambiguous decimal separator.
+    s = re.sub(r'(?i)^\s*(rp|idr)\s*', '', s).strip()
+    if s.startswith('-') or not re.fullmatch(r'\d[\d.,]*', s):
+        return None, 'unknown'
     s = s.strip()
     
     if not any(c.isdigit() for c in s):
@@ -133,9 +140,9 @@ def parse_price(raw: Any) -> Tuple[Optional[int], str]:
         if not integer_part:
             integer_part = '0'
         try:
-            val_float = float(f"{integer_part}.{decimal_part}")
-            val = int(val_float + 0.5)
-        except ValueError:
+            val = int((Decimal(f"{integer_part}.{decimal_part}")
+                       .quantize(Decimal('1'), rounding=ROUND_HALF_UP)))
+        except (InvalidOperation, ValueError):
             return None, 'unknown'
     else:
         digits = re.sub(r'[^0-9]', '', s)
@@ -146,6 +153,8 @@ def parse_price(raw: Any) -> Tuple[Optional[int], str]:
         except ValueError:
             return None, 'unknown'
 
+    if val > 10_000_000:
+        return None, 'unknown'
     if val == 0:
         return None, 'unavailable'
     if val < 0:
@@ -234,7 +243,7 @@ def extract_provinces(src: Any) -> List[Dict[str, Any]]:
     return []
 
 
-def is_valid_upstream_payload(raw_text: str) -> bool:
+def is_valid_upstream_payload(raw_text: str, minimum_provinces: int = 1) -> bool:
     """Validate a fetched upstream payload before it overwrites ``price.json``.
 
     A hijacked or malformed upstream response should never clobber the trusted
@@ -247,16 +256,38 @@ def is_valid_upstream_payload(raw_text: str) -> bool:
         print('Upstream payload rejected: not valid JSON')
         return False
     provinces = extract_provinces(parsed)
-    if not provinces:
+    if len(provinces) < minimum_provinces:
         print('Upstream payload rejected: no provinces found')
         return False
-    has_prices = any(
-        isinstance(p, dict) and isinstance(p.get('list_price'), list)
-        for p in provinces
-    )
-    if not has_prices:
-        print('Upstream payload rejected: no list_price arrays found')
-        return False
+    seen_slugs = set()
+    for province in provinces:
+        if not isinstance(province, dict):
+            print('Upstream payload rejected: province is not an object')
+            return False
+        name = province.get('province')
+        prices = province.get('list_price')
+        if not isinstance(name, str) or not name.strip() or not isinstance(prices, list) or not prices:
+            print('Upstream payload rejected: invalid province or list_price')
+            return False
+        slug = slugify(name)
+        if slug in seen_slugs:
+            print('Upstream payload rejected: duplicate province')
+            return False
+        seen_slugs.add(slug)
+        products = set()
+        for product in prices:
+            if not isinstance(product, dict) or not isinstance(product.get('product'), str) or not product.get('product').strip():
+                print('Upstream payload rejected: invalid product')
+                return False
+            canonical = PRODUCT_CANONICAL_MAP.get(product['product'].strip().upper(), product['product'].strip().upper())
+            if canonical in products:
+                print('Upstream payload rejected: duplicate product')
+                return False
+            products.add(canonical)
+            parsed_price, _ = parse_price(product.get('price'))
+            if product.get('price') not in (None, '', 'N/A', 'NA', 'null') and parsed_price is None:
+                print('Upstream payload rejected: invalid price')
+                return False
     return True
 
 
@@ -309,7 +340,10 @@ def load_source() -> Optional[Any]:
         return json.load(f)
 
 
-def generate_outputs(provinces: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+def generate_outputs(provinces: List[Dict[str, Any]], output_root: Optional[str] = None,
+                     source_status: str = 'fresh', source_snapshot_at: Optional[str] = None,
+                     source_fetched_at: Optional[str] = None,
+                     source_hash: Optional[str] = None) -> List[Dict[str, Any]]:
     """Normalize provinces and write index, national, and per-province files.
 
     Returns the list of per-province payloads (the national list).
@@ -320,6 +354,11 @@ def generate_outputs(provinces: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         'author': 'Nasrullah Gunawan',
         'github_repository': 'https://github.com/nasgunawann/bensin-api',
         'synced_at': iso_now(),
+        'generated_at': iso_now(),
+        'source_status': source_status,
+        'source_snapshot_at': source_snapshot_at,
+        'source_fetched_at': source_fetched_at,
+        'source_hash': source_hash,
         'pertamina_updated_at': None,
         'provinsi_count': 0,
         'provinsi': {},
@@ -334,8 +373,7 @@ def generate_outputs(provinces: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
     slug_counts: Dict[str, int] = {}
     for prov in provinces:
         if not isinstance(prov, dict):
-            print('Skipping non-object entry in data:', repr(prov))
-            continue
+            raise ValueError('upstream province entry is not an object')
         payload = build_province_file(prov)
         slug = payload['province_slug']
         if slug in slug_counts:
@@ -346,8 +384,15 @@ def generate_outputs(provinces: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
             payload['province_slug'] = slug
         else:
             slug_counts[slug] = 1
+        payload.update({
+            'generated_at': index['generated_at'],
+            'source_status': source_status,
+            'source_snapshot_at': source_snapshot_at,
+            'source_fetched_at': source_fetched_at,
+            'source_hash': source_hash,
+        })
         prov_path = f'v1/provinsi/{slug}.json'
-        out_path = os.path.join(ROOT, prov_path)
+        out_path = os.path.join(output_root or ROOT, prov_path)
         os.makedirs(os.path.dirname(out_path), exist_ok=True)
         write_json(out_path, payload)
         file_size = os.path.getsize(out_path)
@@ -373,8 +418,9 @@ def generate_outputs(provinces: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         'pertamina_updated_at': index['pertamina_updated_at'],
         'provinces': nasional_list,
     }
-    write_json(os.path.join(ROOT, 'v1', 'nasional.json'), nasional_payload)
-    write_json(os.path.join(ROOT, 'v1', 'index.json'), index)
+    nasional_payload.update({key: index[key] for key in ('generated_at', 'source_status', 'source_snapshot_at', 'source_fetched_at', 'source_hash')})
+    write_json(os.path.join(output_root or ROOT, 'v1', 'nasional.json'), nasional_payload)
+    write_json(os.path.join(output_root or ROOT, 'v1', 'index.json'), index)
 
     print('Generated v1 files:')
     print(' - v1/index.json')
@@ -382,6 +428,53 @@ def generate_outputs(provinces: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
     print(' - v1/provinsi/*.json')
 
     return nasional_list
+
+
+def publish_outputs(provinces: List[Dict[str, Any]], source_status: str,
+                    source_snapshot_at: Optional[str], source_fetched_at: Optional[str],
+                    source_hash: Optional[str]) -> List[Dict[str, Any]]:
+    """Generate and validate a complete tree, then replace the published tree."""
+    with tempfile.TemporaryDirectory(prefix='bensin-api-stage-') as stage:
+        staged_v1 = os.path.join(stage, 'v1')
+        os.makedirs(staged_v1, exist_ok=True)
+        existing_history = os.path.join(OUT_DIR, 'history')
+        staged_history = os.path.join(staged_v1, 'history')
+        if os.path.isdir(existing_history):
+            shutil.copytree(existing_history, staged_history, ignore=lambda _path, names: [
+                name for name in names
+                if name.endswith('.json') and name.removesuffix('.json') not in {
+                    slugify(province.get('province', ''))
+                    for province in provinces if isinstance(province, dict)
+                }
+            ])
+        nasional_list = generate_outputs(
+            provinces,
+            output_root=stage,
+            source_status=source_status,
+            source_snapshot_at=source_snapshot_at,
+            source_fetched_at=source_fetched_at,
+            source_hash=source_hash,
+        )
+        from pipeline.history import update_history
+        update_history(nasional_list, output_dir=staged_v1)
+        from pipeline.generated_tree_check import validate_generated_tree
+        validate_generated_tree(staged_v1)
+
+        backup = f'{OUT_DIR}.previous'
+        if os.path.exists(backup):
+            shutil.rmtree(backup)
+        if os.path.exists(OUT_DIR):
+            os.replace(OUT_DIR, backup)
+        try:
+            os.replace(staged_v1, OUT_DIR)
+        except Exception:
+            if os.path.exists(backup):
+                os.replace(backup, OUT_DIR)
+            raise
+        finally:
+            if os.path.exists(backup):
+                shutil.rmtree(backup)
+        return nasional_list
 
 
 def main() -> None:
@@ -394,34 +487,38 @@ def main() -> None:
     # If requested, try to fetch upstream and overwrite local PRICE_FILE — but
     # only if the payload validates, so a bad upstream response can't clobber
     # the trusted committed snapshot.
+    source_status = 'fallback'
+    source_fetched_at = None
     if args.fetch:
         try:
             raw = fetch_upstream()
             if raw is None:
+                source_status = 'fallback'
                 print('Warning: upstream fetch failed, continuing with existing price.json')
             elif not is_valid_upstream_payload(raw):
+                source_status = 'fallback'
                 print('Warning: upstream payload invalid, continuing with existing price.json')
             else:
                 save_upstream_payload(raw)
+                source_fetched_at = iso_now()
         except Exception as e:  # noqa: BLE001 - never let fetch abort generation
+            source_status = 'fallback'
             print('Warning: failed fetching upstream, will continue with existing price.json —', e)
 
     src = load_source()
     if src is None:
         return
-    ensure_dirs()
-
     provinces = extract_provinces(src)
-    nasional_list = generate_outputs(provinces)
-
-    # Append-only price history (change-based). Fault-isolated: a failure here
-    # must never affect the primary v1/ snapshot output generated above.
+    source_snapshot_at = None
+    source_hash = None
     try:
-        from pipeline.history import update_history
-        count = update_history(nasional_list)
-        print(f' - v1/history/provinsi/*.json ({count} provinces)')
-    except Exception as exc:  # noqa: BLE001 - boundary: history is non-critical
-        print('Warning: history update failed, v1 output is unaffected —', exc)
+        source_snapshot_at = os.path.getmtime(PRICE_FILE)
+        source_snapshot_at = datetime.fromtimestamp(source_snapshot_at, timezone.utc).isoformat().replace('+00:00', 'Z')
+        with open(PRICE_FILE, 'rb') as source_file:
+            source_hash = hashlib.sha256(source_file.read()).hexdigest()
+    except OSError:
+        pass
+    publish_outputs(provinces, source_status, source_snapshot_at, source_fetched_at, source_hash)
 
 
 if __name__ == '__main__':
