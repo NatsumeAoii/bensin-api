@@ -40,7 +40,9 @@ def validate_generated_tree(root: str) -> None:
             raise ValueError(f'province metadata mismatch for {slug}')
         if province.model_dump() != national_by_slug[slug].model_dump():
             raise ValueError(f'national/province mismatch for {slug}')
-        if province_path.stat().st_size != entry.file_size_bytes:
+        contents = province_path.read_text(encoding='utf-8')
+        canonical_size = len(contents.replace('\r\n', '\n').encode('utf-8'))
+        if canonical_size != entry.file_size_bytes:
             raise ValueError(f'file size mismatch for {slug}')
 
     history_dir = base / 'history' / 'provinsi'

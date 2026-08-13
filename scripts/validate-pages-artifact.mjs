@@ -15,7 +15,8 @@ for (const entry of Object.values(index.provinsi)) {
   const path = entry.path.replace(/^\//, "");
   const file = join(root, path.replaceAll("/", sep));
   const contents = await readFile(file);
-  if ((await stat(file)).size !== entry.file_size_bytes) {
+  const canonicalSize = Buffer.byteLength(contents.toString("utf8").replaceAll("\r\n", "\n"));
+  if (canonicalSize !== entry.file_size_bytes) {
     throw new Error(`Pages artifact file size mismatch: ${path}`);
   }
   JSON.parse(contents);
