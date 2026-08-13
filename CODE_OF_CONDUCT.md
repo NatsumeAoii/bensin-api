@@ -49,29 +49,38 @@ the project include using an official project email address, posting through an
 official social media account, or acting as an appointed representative at an
 online or offline event.
 
-## Enforcement
+## Reporting And Enforcement
 
-The repository does not currently publish a private conduct-reporting email.
-Before wider community launch, add a private maintainer contact here.
+For conduct concerns, contact the maintainer privately through the GitHub profile
+below. Do not include sensitive personal information in a public issue or pull
+request.
 
-Until then, use the visible maintainer profile when private contact is needed:
+Maintainer contact:
 
 ```text
 https://github.com/nasgunawann
 ```
 
-For conduct issues that are appropriate to discuss publicly, use the repository
-issue tracker:
+For non-sensitive project-related conduct concerns, use the repository issue
+tracker without exposing private individuals:
 
 ```text
 https://github.com/nasgunawann/bensin-api/issues
 ```
 
-Do not use public issues for sensitive personal information or private reports.
+Do not use this channel to report security vulnerabilities. Follow
+`SECURITY.md` for security reports.
+
+Maintainers will acknowledge reports when practical, investigate them fairly,
+protect reporter confidentiality where possible, and communicate outcomes to
+the people directly involved. Retaliation against a good-faith report is not
+acceptable. Maintainers may remove content, restrict participation, or apply a
+temporary or permanent ban when necessary to protect the community.
 
 ## Enforcement Guidelines
 
-Maintainers should follow these guidelines when deciding consequences.
+Maintainers should apply consequences proportionately and consistently, taking
+severity, repetition, impact, and cooperation with remediation into account.
 
 ### 1. Correction
 

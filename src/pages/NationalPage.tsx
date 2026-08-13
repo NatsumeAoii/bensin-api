@@ -29,6 +29,15 @@ import { useJsonLd, webPageSchema } from "@/utils/structured-data";
 import { useVisibilityRefresh } from "@/utils/use-visibility-refresh";
 import { useDataChangeAnnouncer } from "@/utils/use-data-change-announcer";
 import { useTranslation } from "@/i18n";
+import { exportToCsv } from "@/utils/csv-export";
+import { ShareButton } from "@/components/ShareButton";
+import { SourceStatusBanner } from "@/components/SourceStatusBanner";
+import {
+  buildComparisonQuery,
+  calculateComparison,
+  MAX_COMPARISON_PROVINCES,
+  parseComparisonSlugs,
+} from "@/utils/comparison";
 
 /**
  * National Page — displays fuel price comparison across all provinces.
@@ -45,17 +54,17 @@ export default function NationalPage() {
     retry,
   } = useFuelStore();
 
-  const [selectedProduct, setSelectedProduct] = useState<string>("");
   const [searchQuery, setSearchQuery] = useState("");
   const [searchParams, setSearchParams] = useSearchParams();
-  const [sortDir, setSortDir] = useState<"asc" | "desc">(
-    searchParams.get("sort") === "desc" ? "desc" : "asc"
-  );
-  const [groupByIsland, setGroupByIsland] = useState(false);
-  const [availabilityFilter, setAvailabilityFilter] = useState<
-    "all" | "available" | "unavailable"
-  >("all");
   const announceRef = useRef<HTMLDivElement>(null);
+
+  const urlSort = searchParams.get("sort") === "desc" ? "desc" : "asc";
+  const urlAvailability = searchParams.get("availability");
+  const urlAvailabilityFilter: "all" | "available" | "unavailable" =
+    urlAvailability === "available" || urlAvailability === "unavailable"
+      ? urlAvailability
+      : "all";
+  const urlGroupByIsland = searchParams.get("group") === "region";
 
   useDocumentTitle(t("national.title"));
   useCanonicalUrl("/nasional");
@@ -81,12 +90,52 @@ export default function NationalPage() {
   }, [national]);
 
   // Derive the effective selected product — no effect needed
+  const requestedProduct = searchParams.get("product");
   const effectiveProduct =
-    selectedProduct || (productNames.length > 0 ? productNames[0] : "");
+    (requestedProduct && productNames.includes(requestedProduct)
+      ? requestedProduct
+      : productNames[0]) || "";
+  const selectedSlugs = useMemo(
+    () =>
+      parseComparisonSlugs(
+        searchParams.get("provinces"),
+        new Set(
+          national?.provinces.map((province) => province.province_slug) ?? []
+        )
+      ),
+    [searchParams, national]
+  );
+
+  const comparison = useMemo(
+    () =>
+      calculateComparison(
+        (national?.provinces ?? []).filter((province) =>
+          selectedSlugs.includes(province.province_slug)
+        ),
+        effectiveProduct
+      ),
+    [national, selectedSlugs, effectiveProduct]
+  );
+
+  function updateComparison(
+    nextSlugs: string[],
+    nextProduct = effectiveProduct
+  ) {
+    const bounded = [...new Set(nextSlugs)].slice(0, MAX_COMPARISON_PROVINCES);
+    setSearchParams(
+      buildComparisonQuery(
+        nextProduct,
+        bounded,
+        urlSort,
+        urlAvailabilityFilter,
+        urlGroupByIsland
+      ),
+      { replace: true }
+    );
+  }
 
   function handleToggleSort() {
-    const next = sortDir === "asc" ? "desc" : "asc";
-    setSortDir(next);
+    const next = urlSort === "asc" ? "desc" : "asc";
     if (next === "desc") {
       setSearchParams(
         (p) => {
@@ -106,26 +155,40 @@ export default function NationalPage() {
     }
   }
 
+  function handleProductChange(product: string) {
+    setSearchParams(
+      buildComparisonQuery(
+        product,
+        selectedSlugs,
+        urlSort,
+        urlAvailabilityFilter,
+        urlGroupByIsland
+      ),
+      { replace: true }
+    );
+  }
+
   const sortedProvinces = useMemo(() => {
     if (!national || !effectiveProduct) return [];
-    return sortByPrice(national.provinces, effectiveProduct, sortDir);
-  }, [national, effectiveProduct, sortDir]);
+    return sortByPrice(national.provinces, effectiveProduct, urlSort);
+  }, [national, effectiveProduct, urlSort]);
 
   // Availability filter
-  const availabilityFiltered = useMemo(() => {
-    if (availabilityFilter === "all") return sortedProvinces;
+  const availabilityFiltered = (() => {
+    if (urlAvailabilityFilter === "all") return sortedProvinces;
     return sortedProvinces.filter((p) => {
       const found = p.products.find((pr) => pr.product === effectiveProduct);
-      if (!found) return availabilityFilter === "unavailable";
-      return availabilityFilter === "available"
+      if (!found) return urlAvailabilityFilter === "unavailable";
+      return urlAvailabilityFilter === "available"
         ? found.availability === "available"
         : found.availability !== "available";
     });
-  }, [sortedProvinces, availabilityFilter, effectiveProduct]);
+  })();
 
-  const filteredProvinces = useMemo(
-    () => filterByName(availabilityFiltered, (p) => p.province, searchQuery),
-    [availabilityFiltered, searchQuery]
+  const filteredProvinces = filterByName(
+    availabilityFiltered,
+    (p) => p.province,
+    searchQuery
   );
 
   // Availability counts
@@ -227,7 +290,13 @@ export default function NationalPage() {
 
       {/* Stale time banner */}
       <div className="mt-4">
-        <StaleTimeBanner syncedAt={national.synced_at} />
+        <SourceStatusBanner
+          status={national.source_status}
+          sourceSnapshotAt={national.source_snapshot_at}
+        />
+        <div className="mt-3">
+          <StaleTimeBanner syncedAt={national.synced_at} />
+        </div>
       </div>
 
       {/* Product selector pills */}
@@ -244,7 +313,7 @@ export default function NationalPage() {
               <button
                 key={name}
                 type="button"
-                onClick={() => setSelectedProduct(name)}
+                onClick={() => handleProductChange(name)}
                 aria-pressed={isActive}
                 className={`min-h-[44px] min-w-[44px] rounded-xl px-4 py-2.5 text-sm font-semibold transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500 ${
                   isActive
@@ -273,19 +342,30 @@ export default function NationalPage() {
           type="button"
           onClick={handleToggleSort}
           aria-label={
-            sortDir === "asc" ? t("national.sortDesc") : t("national.sortAsc")
+            urlSort === "asc" ? t("national.sortDesc") : t("national.sortAsc")
           }
           className="inline-flex min-h-[44px] min-w-[44px] items-center gap-1.5 rounded-xl border border-stone-200 bg-white px-3 py-2 text-xs font-semibold text-stone-700 transition-all hover:border-stone-300 hover:bg-stone-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-300 dark:hover:border-stone-600"
         >
           <ArrowUpDown size={14} aria-hidden="true" />
-          {sortDir === "asc" ? "↑" : "↓"}
+          {urlSort === "asc" ? "↑" : "↓"}
         </button>
         <button
           type="button"
-          onClick={() => setGroupByIsland((v) => !v)}
-          aria-pressed={groupByIsland}
+          onClick={() =>
+            setSearchParams(
+              buildComparisonQuery(
+                effectiveProduct,
+                selectedSlugs,
+                urlSort,
+                urlAvailabilityFilter,
+                !urlGroupByIsland
+              ),
+              { replace: true }
+            )
+          }
+          aria-pressed={urlGroupByIsland}
           className={`inline-flex min-h-[44px] min-w-[44px] items-center gap-1.5 rounded-xl px-3 py-2 text-xs font-semibold transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500 ${
-            groupByIsland
+            urlGroupByIsland
               ? "bg-orange-500 text-white shadow-md"
               : "border border-stone-200 bg-white text-stone-700 hover:border-stone-300 hover:bg-stone-50 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-300 dark:hover:border-stone-600"
           }`}
@@ -294,6 +374,123 @@ export default function NationalPage() {
           {t("national.groupByRegion")}
         </button>
       </div>
+
+      <section
+        className="mt-6 rounded-2xl border border-orange-200 bg-orange-50/60 p-4 dark:border-orange-900/50 dark:bg-orange-950/20"
+        aria-labelledby="comparison-title"
+      >
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <h2
+              id="comparison-title"
+              className="text-base font-bold text-stone-900 dark:text-white"
+            >
+              {t("national.compareTitle")}
+            </h2>
+            <p className="mt-1 text-xs text-stone-600 dark:text-stone-400">
+              {t("national.compareCount", {
+                count: selectedSlugs.length,
+                max: MAX_COMPARISON_PROVINCES,
+              })}
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <ShareButton
+              title={t("national.compareTitle")}
+              text={t("national.compareShareText")}
+            />
+            <button
+              type="button"
+              disabled={!selectedSlugs.length}
+              onClick={() =>
+                exportToCsv(
+                  "bensin-comparison.csv",
+                  [
+                    t("national.csvProvince"),
+                    t("national.csvPrice"),
+                    t("national.csvDifference"),
+                    t("national.csvPercent"),
+                  ],
+                  comparison.rows.map((row) => [
+                    row.province.province,
+                    row.price === null
+                      ? t("price.unavailableLabel")
+                      : row.price,
+                    row.differenceFromAverage ?? "",
+                    row.differencePercent === null
+                      ? ""
+                      : `${row.differencePercent}%`,
+                  ])
+                )
+              }
+              className="min-h-[44px] rounded-xl border border-stone-200 bg-white px-3 text-xs font-semibold disabled:opacity-50 dark:border-stone-700 dark:bg-stone-800"
+            >
+              {t("national.exportComparison")}
+            </button>
+            <button
+              type="button"
+              disabled={!selectedSlugs.length}
+              onClick={() => updateComparison([])}
+              className="min-h-[44px] rounded-xl border border-stone-200 bg-white px-3 text-xs font-semibold disabled:opacity-50 dark:border-stone-700 dark:bg-stone-800"
+            >
+              {t("national.clearComparison")}
+            </button>
+          </div>
+        </div>
+        {selectedSlugs.length > 0 && (
+          <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
+            {[
+              ["minimum", comparison.summary.minimum],
+              ["maximum", comparison.summary.maximum],
+              ["average", comparison.summary.average],
+              ["spread", comparison.summary.spread],
+            ].map(([key, value]) => (
+              <div
+                key={key}
+                className="rounded-xl bg-white/80 p-3 dark:bg-stone-900/70"
+              >
+                <div className="text-[11px] uppercase tracking-wide text-stone-500">
+                  {t(`national.${key}` as never)}
+                </div>
+                <div className="mt-1 text-sm font-bold text-stone-900 dark:text-white">
+                  {value === null
+                    ? t("price.unavailableLabel")
+                    : formatRupiah(value as number)}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+        <div className="mt-4 grid gap-2 sm:grid-cols-2">
+          {filteredProvinces.map((province) => {
+            const checked = selectedSlugs.includes(province.province_slug);
+            return (
+              <label
+                key={province.province_slug}
+                className="flex min-h-[44px] items-center gap-2 rounded-xl bg-white/70 px-3 text-sm dark:bg-stone-900/60"
+              >
+                <input
+                  type="checkbox"
+                  checked={checked}
+                  disabled={
+                    !checked && selectedSlugs.length >= MAX_COMPARISON_PROVINCES
+                  }
+                  onChange={() =>
+                    updateComparison(
+                      checked
+                        ? selectedSlugs.filter(
+                            (slug) => slug !== province.province_slug
+                          )
+                        : [...selectedSlugs, province.province_slug]
+                    )
+                  }
+                />
+                {province.province}
+              </label>
+            );
+          })}
+        </div>
+      </section>
 
       {/* Price stats bar */}
       {(lowestPrice !== null || averagePrice !== null) && (
@@ -364,10 +561,21 @@ export default function NationalPage() {
           <button
             key={opt.key}
             type="button"
-            onClick={() => setAvailabilityFilter(opt.key)}
-            aria-pressed={availabilityFilter === opt.key}
+            onClick={() =>
+              setSearchParams(
+                buildComparisonQuery(
+                  effectiveProduct,
+                  selectedSlugs,
+                  urlSort,
+                  opt.key,
+                  urlGroupByIsland
+                ),
+                { replace: true }
+              )
+            }
+            aria-pressed={urlAvailabilityFilter === opt.key}
             className={`min-h-[44px] rounded-full px-4 py-2 text-xs font-semibold transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500 ${
-              availabilityFilter === opt.key
+              urlAvailabilityFilter === opt.key
                 ? "bg-stone-900 text-white dark:bg-white dark:text-stone-900"
                 : "border border-stone-200 bg-white text-stone-600 hover:bg-stone-50 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-400 dark:hover:bg-stone-700"
             }`}
@@ -418,7 +626,7 @@ export default function NationalPage() {
               onClick: () => setSearchQuery(""),
             }}
           />
-        ) : groupByIsland ? (
+        ) : urlGroupByIsland ? (
           <div className="space-y-3">
             {(() => {
               const groups = groupByRegion(filteredProvinces);

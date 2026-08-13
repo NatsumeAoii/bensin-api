@@ -10,6 +10,7 @@ import { ErrorState } from "@/components/ErrorState";
 import { EmptyState } from "@/components/EmptyState";
 import { RefreshButton } from "@/components/RefreshButton";
 import { StaleTimeBanner } from "@/components/StaleTimeBanner";
+import { SourceStatusBanner } from "@/components/SourceStatusBanner";
 import { BookmarkButton } from "@/components/BookmarkButton";
 import { BookmarkedSection } from "@/components/BookmarkedSection";
 import { formatSyncTime } from "@/utils/date";
@@ -185,7 +186,13 @@ export default function ProvinceListPage() {
         {/* Stale time banner */}
         {index && (
           <div className="mb-5">
-            <StaleTimeBanner syncedAt={index.synced_at} />
+            <SourceStatusBanner
+              status={index.source_status}
+              sourceSnapshotAt={index.source_snapshot_at}
+            />
+            <div className="mt-3">
+              <StaleTimeBanner syncedAt={index.synced_at} />
+            </div>
           </div>
         )}
 

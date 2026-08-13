@@ -487,7 +487,7 @@ def main() -> None:
     # If requested, try to fetch upstream and overwrite local PRICE_FILE — but
     # only if the payload validates, so a bad upstream response can't clobber
     # the trusted committed snapshot.
-    source_status = 'fallback'
+    source_status = 'fresh'
     source_fetched_at = None
     if args.fetch:
         try:

@@ -58,6 +58,15 @@ def test_province_timestamp_none_when_no_dates():
     assert payload['pertamina_updated_at'] is None
 
 
+def test_valid_upstream_payload_rejects_duplicate_products():
+    raw = json.dumps({'data': [{'province': 'Prov. Aceh', 'list_price': [
+        {'product': 'PERTALITE', 'price': '10000'},
+        {'product': 'SOLAR', 'price': '6800'},
+        {'product': 'BIOSOLAR', 'price': '6800'},
+    ]}]})
+    assert is_valid_upstream_payload(raw) is False
+
+
 # ---------------------------------------------------------------------------
 # extract_provinces — supported input shapes
 # ---------------------------------------------------------------------------

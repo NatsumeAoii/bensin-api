@@ -7,7 +7,7 @@ Terima kasih atas minat Anda untuk berkontribusi! Panduan ini menjelaskan bagaim
 ## Prasyarat
 
 - **Node.js** ≥ 20.0.0 + npm
-- **Python** 3.12 (versi yang dipakai CI; 3.10+ umumnya berfungsi)
+- **Python** 3.12 (versi yang dipakai CI dan `requirements.lock`)
 - Git
 
 ## Setup Lingkungan Pengembangan
@@ -18,13 +18,13 @@ git clone https://github.com/nasgunawann/bensin-api.git
 cd bensin-api
 
 # Frontend
-npm install
+npm ci
 
-# Backend (opsional, jika menyentuh pipeline)
+# Data pipeline (jika menyentuh pipeline)
 python -m venv .venv
 .venv\Scripts\Activate.ps1    # Windows PowerShell
 # source .venv/bin/activate   # Linux/macOS
-pip install -r requirements.txt
+python -m pip install -r requirements.lock
 ```
 
 ## Workflow Kontribusi
@@ -43,6 +43,11 @@ pip install -r requirements.txt
 
    # Pipeline (jika diubah):
    python -m pytest pipeline/tests/
+   python -m pipeline.generated_tree_check
+
+   # Dependency security:
+   npm audit --audit-level=high
+   python -m pip_audit -r requirements.lock
    ```
 
 5. **Commit** dengan pesan yang jelas:
@@ -89,11 +94,27 @@ Format: `<type>: <description>`
 - **Pipeline**: Hypothesis-based property tests untuk parser
 - Semua tests harus pass sebelum merge
 
-## Apa yang Tidak Perlu Diubah
+## Generated Output Dan Review
 
-- File `v1/` — dihasilkan otomatis oleh CI
+- File `v1/` — generated output yang juga merupakan API publik dan harus
+  direview ketika berubah
 - File `raw/` — backup upstream, tidak di-commit
-- File `price.json` — snapshot lokal, diperbarui oleh CI
+- File `price.json` — snapshot input yang dapat diperbarui oleh sync CI
+
+Perubahan generated harus terbatas pada `price.json` dan `v1/`. Sync workflow
+akan menolak perubahan pada source, konfigurasi, test, atau workflow.
+
+Pipeline generation uses a temporary staging tree and validates the complete
+generated tree before replacing the published `v1/` tree. Review province,
+history, freshness-metadata, and file-size changes against the source snapshot
+before opening a pull request.
+
+## Comparison Workspace
+
+Halaman `/nasional` mendukung perbandingan hingga 12 provinsi untuk satu produk.
+Pilihan disimpan di URL melalui `product`, `provinces`, `sort`, `availability`,
+dan `group`, sehingga URL dapat dibagikan. Hasil yang terlihat dapat diekspor
+melalui CSV.
 
 ## Pelaporan Bug
 

@@ -7,8 +7,9 @@
 | Latest `main` branch   | Yes       |
 | Older commits or forks | No        |
 
-This repository is a single-branch static site and data pipeline. No separate
-release branches or supported legacy versions were found.
+This repository is a static site and data pipeline. The latest `main` branch is
+the supported publication surface; forks and older commits do not receive
+security fixes from this project.
 
 ## Reporting A Vulnerability
 
@@ -20,8 +21,8 @@ Use GitHub private vulnerability reporting for this repository:
 https://github.com/nasgunawann/bensin-api/security/advisories
 ```
 
-If that is unavailable, contact the maintainer through the visible GitHub
-profile:
+If private vulnerability reporting is unavailable, contact the maintainer
+through the visible GitHub profile:
 
 ```text
 https://github.com/nasgunawann
@@ -59,7 +60,7 @@ made through a GitHub Security Advisory when appropriate.
 - GitHub Actions workflows under `.github/workflows/` (`sync.yml`, `ci.yml`,
   `deploy-pages.yml`).
 - Direct npm and Python dependencies declared in `package.json` and
-  `requirements.txt`.
+  `requirements.txt` and `requirements.lock`.
 
 ## Out Of Scope
 
@@ -67,6 +68,10 @@ made through a GitHub Security Advisory when appropriate.
 - GitHub Pages platform availability or rate limiting.
 - Social engineering.
 - Reports requiring access to secrets not present in this repository.
+
+Conduct concerns are handled separately under `CODE_OF_CONDUCT.md`; do not use
+the security channel for ordinary contribution disputes or interpersonal
+conduct reports.
 
 ## Security Considerations For Deployers
 
@@ -82,17 +87,29 @@ made through a GitHub Security Advisory when appropriate.
 - Pipeline output is validated with Pydantic before writes in
   `pipeline/fetch_normalize.py`.
 - The scheduled sync workflow uses `GITHUB_TOKEN` with `contents: write` and
-  pushes regenerated snapshots directly to `main`. The Pages deploy workflow
-  uses `pages: write` and `id-token: write`.
+  pushes regenerated snapshots directly to `main`. The workflow rejects changed
+  paths outside `price.json` and `v1/`, and stages only those paths. The Pages
+  deploy workflow uses `pages: write` and `id-token: write`.
+- GitHub Actions are pinned to full commit SHAs. Pages artifacts are validated
+  for required files, generated JSON, metadata sizes, and a SHA-256 manifest
+  before upload.
 - No hardcoded application secrets were found in project source.
 
 ## Hardening Checklist
 
 - Keep npm and Python dependencies patched (Dependabot is configured in
   `.github/dependabot.yml` for npm, pip, and GitHub Actions).
+- CI runs `npm audit --audit-level=high` and `pip-audit -r requirements.lock`.
+  High and critical findings block CI. Moderate findings require either an
+  available update or a documented, reviewed exception.
 - Review generated `v1/` diffs before trusting changed data.
 - Treat `raw/` payloads as untrusted upstream input; the generator validates
   fetched payloads before overwriting `price.json`.
 - Keep GitHub Actions permissions scoped to the minimum needed.
 - Frontend code is enforced before merge by `ci.yml` (lint, typecheck, format
   check, test, build).
+- `CODEOWNERS` requires maintainer review for workflows, dependencies, pipeline
+  code, generated API output, and security policy changes.
+- Dependency audit exceptions must identify the package, severity, reason,
+  compensating control, owner, and review date. Do not suppress findings only
+  to make CI green.

@@ -54,6 +54,19 @@ const translations = {
     "national.filterAll": "Semua",
     "national.filterAvailable": "Tersedia",
     "national.filterUnavailable": "Tidak Tersedia",
+    "national.compareTitle": "Bandingkan provinsi",
+    "national.compareCount": "{count} dipilih, maksimum {max}",
+    "national.compareShareText": "Lihat perbandingan harga BBM ini",
+    "national.exportComparison": "Ekspor CSV",
+    "national.clearComparison": "Hapus pilihan",
+    "national.minimum": "Minimum",
+    "national.maximum": "Maksimum",
+    "national.average": "Rata-rata",
+    "national.spread": "Rentang",
+    "national.csvProvince": "Provinsi",
+    "national.csvPrice": "Harga",
+    "national.csvDifference": "Selisih dari rata-rata",
+    "national.csvPercent": "Selisih persen",
 
     // Price / Availability
     "price.available": "Tersedia",
@@ -100,6 +113,9 @@ const translations = {
     "stale.warning":
       "Data mungkin sudah tidak terbaru. Periksa koneksi internet Anda.",
     "stale.retry": "Coba lagi",
+    "freshness.fresh": "Data berhasil diperbarui dari sumber",
+    "freshness.fallback": "Menampilkan snapshot sebelumnya dari {time}",
+    "freshness.unknownTime": "waktu yang tidak diketahui",
 
     // Loading
     "loading.provinceList": "Memuat daftar provinsi",
@@ -238,6 +254,19 @@ const translations = {
     "national.filterAll": "All",
     "national.filterAvailable": "Available",
     "national.filterUnavailable": "Unavailable",
+    "national.compareTitle": "Compare provinces",
+    "national.compareCount": "{count} selected, maximum {max}",
+    "national.compareShareText": "View this fuel price comparison",
+    "national.exportComparison": "Export CSV",
+    "national.clearComparison": "Clear selection",
+    "national.minimum": "Minimum",
+    "national.maximum": "Maximum",
+    "national.average": "Average",
+    "national.spread": "Spread",
+    "national.csvProvince": "Province",
+    "national.csvPrice": "Price",
+    "national.csvDifference": "Difference from average",
+    "national.csvPercent": "Percentage difference",
 
     // Price / Availability
     "price.available": "Available",
@@ -283,6 +312,9 @@ const translations = {
     "stale.lastUpdated": "Data last updated {time}",
     "stale.warning": "Data may be outdated. Check your internet connection.",
     "stale.retry": "Retry",
+    "freshness.fresh": "Data was refreshed from the source",
+    "freshness.fallback": "Showing the previous snapshot from {time}",
+    "freshness.unknownTime": "an unknown time",
 
     // Loading
     "loading.provinceList": "Loading province list",

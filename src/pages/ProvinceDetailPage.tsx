@@ -16,6 +16,7 @@ import { ErrorState } from "@/components/ErrorState";
 import { EmptyState } from "@/components/EmptyState";
 import { StaleDataBanner } from "@/components/StaleDataBanner";
 import { StaleTimeBanner } from "@/components/StaleTimeBanner";
+import { SourceStatusBanner } from "@/components/SourceStatusBanner";
 import { ProvinceNotFound } from "@/components/ProvinceNotFound";
 import { ShareButton } from "@/components/ShareButton";
 import { RefreshButton } from "@/components/RefreshButton";
@@ -217,7 +218,13 @@ export default function ProvinceDetailPage() {
 
         {!hasStaleData && (
           <div className="mt-4">
-            <StaleTimeBanner syncedAt={data.synced_at} />
+            <SourceStatusBanner
+              status={data.source_status}
+              sourceSnapshotAt={data.source_snapshot_at}
+            />
+            <div className="mt-3">
+              <StaleTimeBanner syncedAt={data.synced_at} />
+            </div>
           </div>
         )}
 

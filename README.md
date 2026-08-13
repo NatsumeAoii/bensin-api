@@ -12,7 +12,7 @@ generation pipeline, and the frontend is a Vite single-page app.
 ## Quick Start
 
 ```bash
-npm install
+npm ci
 npm run dev
 ```
 
@@ -28,9 +28,9 @@ host.
 
 - Node.js `>=20.0.0`, as declared in `package.json`.
 - npm, because this repository includes `package-lock.json`.
-- Python for pipeline work. The GitHub Actions workflow uses Python `3.12`;
-  `CONTRIBUTING.md` says Python `>=3.10`.
-- Python packages from `requirements.txt`: `httpx`, `pydantic`, `pytest`, and
+- Python `3.12` for pipeline work; `requirements.lock` pins the CI/test
+  environment.
+- Python packages from `requirements.lock`: `httpx`, `pydantic`, `pytest`, and
   `hypothesis`.
 
 ## Install
@@ -38,7 +38,7 @@ host.
 Frontend dependencies:
 
 ```bash
-npm install
+npm ci
 ```
 
 Pipeline dependencies:
@@ -46,7 +46,7 @@ Pipeline dependencies:
 ```bash
 python -m venv .venv
 .venv\Scripts\Activate.ps1
-pip install -r requirements.txt
+python -m pip install -r requirements.lock
 ```
 
 For Linux or macOS shells, activate the virtual environment with:
@@ -88,8 +88,10 @@ python pipeline/fetch_normalize.py --fetch
 ```
 
 The generator writes `v1/index.json`, `v1/nasional.json`,
-`v1/provinsi/*.json`, and `v1/history/`. With `--fetch`, it also writes a
-timestamped file under `raw/` and overwrites `price.json`.
+`v1/provinsi/*.json`, and `v1/history/` through a temporary staging tree. The
+published tree is replaced only after schema, cross-file, history, and sanity
+validation pass. With `--fetch`, it also writes a timestamped file under
+`raw/` and overwrites `price.json` only after upstream validation succeeds.
 
 ## Public API
 
@@ -140,6 +142,12 @@ TypeScript API types:
 | `unavailable` | The upstream value is empty, null, zero, or otherwise unavailable. |
 | `unknown`     | The parser cannot determine availability from the upstream value.  |
 
+Generated index and national responses may include optional freshness metadata:
+`source_status` (`fresh` or `fallback`), `source_snapshot_at`,
+`source_fetched_at`, `generated_at`, and `source_hash`. Older snapshots without
+these fields remain valid. The dashboard displays fallback status explicitly
+and retains the legacy `synced_at` stale-time check.
+
 ## Configuration
 
 No `.env` file is required. The frontend reads one optional environment
@@ -173,10 +181,20 @@ Observed configuration values:
 | `npm run format`         | Formats `src/` with Prettier.                                 |
 | `npm run format:check`   | Checks `src/` formatting without writing.                     |
 | `npm run clean`          | Removes `dist/`.                                              |
-| `npm run ci`             | Runs lint, typecheck, Vitest, and build.                      |
+| `npm run ci`             | Runs lint, typecheck, format check, Vitest, and build.        |
+| `npm run audit`          | Runs the high-severity npm dependency audit.                  |
 | `npm run pipeline`       | Runs the Python generator against local `price.json`.         |
 | `npm run pipeline:fetch` | Fetches upstream data, then runs the generator.               |
 | `npm run pipeline:test`  | Runs pipeline pytest tests.                                   |
+
+## Comparison Workspace
+
+The `/nasional` page supports selecting up to 12 provinces for one fuel product.
+The comparison URL preserves product, province selection, sort, availability,
+and region grouping state. It displays minimum, maximum, average, spread,
+differences from average, and percentage differences. The visible result can be
+exported as CSV. Unavailable and missing products remain explicit and are
+excluded from numeric statistics.
 
 ## Testing
 
@@ -199,24 +217,20 @@ Combined test command:
 npm run test:all
 ```
 
-Verified in this checkout:
-
-- `npm run lint`, `npm run typecheck`, and `npm run format:check` passed.
-- `npm run test` passed with 37 files and 210 tests.
-- `npm run build` passed; all JS chunks were below the 200 KB gzip budget and
-  CSS below the 75 KB budget.
-- `python -m pytest pipeline/tests/` passed with 49 tests.
+Test counts change as coverage evolves. Use the commands above rather than
+relying on hardcoded counts. CI also runs `npm audit --audit-level=high` and
+`pip-audit -r requirements.lock`.
 
 ## CI And Deployment
 
-Two GitHub Actions workflows are present:
+Three GitHub Actions workflows are present:
 
 `.github/workflows/sync.yml` regenerates the data. It runs every 6 hours
 (cron `0 */6 * * *`) and on manual dispatch. The job:
 
 1. Checks out the repository.
 2. Sets up Python `3.12` with pip caching.
-3. Installs `requirements.txt`.
+3. Installs the pinned `requirements.lock` dependencies.
 4. Runs `python pipeline/fetch_normalize.py --fetch` (validates the upstream
    payload before overwriting `price.json`).
 5. Runs `python -m pytest pipeline/tests/`.
@@ -224,11 +238,12 @@ Two GitHub Actions workflows are present:
    - `v1/index.json` must contain at least 30 provinces.
    - At least 50% of product entries must have non-null `price_rupiah`.
    - `v1/nasional.json` must be between 10 KB and 10 MB.
-7. Commits and pushes updated snapshots directly to `main` with `[skip ci]`.
+7. Verifies that only `price.json` and `v1/` changed, then commits and pushes
+   only those generated paths directly to `main`.
 
 `.github/workflows/ci.yml` enforces code quality on push and pull request: a
-frontend job (`npm install`, lint, typecheck, format check, test, build) and a
-pipeline job (pytest).
+frontend job (`npm ci`, lint, typecheck, format check, test, build), a pipeline
+job (pytest), and a dependency audit job.
 
 `.github/workflows/deploy-pages.yml` builds the dashboard and deploys it to
 GitHub Pages on push to `main`, after a successful sync run, or on manual
@@ -246,6 +261,8 @@ bensin-api/
   public/                          Static browser assets
   raw/                             Ignored upstream payload output directory
   scripts/check-bundle-size.js     Post-build JS gzip size check
+  scripts/validate-pages-artifact.mjs  Pages artifact integrity check
+  scripts/repair-index-file-sizes.mjs  Generated metadata repair helper
   src/                             React dashboard source
   src/__tests__/                   Vitest unit and property tests
   src/api/client.ts                Fixed-base-url JSON client
@@ -258,7 +275,8 @@ bensin-api/
   index.html                       Vite HTML entry
   package.json                     Node dependencies and scripts
   price.json                       Local upstream snapshot used by the pipeline
-  requirements.txt                 Python dependencies
+  requirements.txt                 Python dependency specification
+  requirements.lock                 Pinned CI/test Python dependencies
   vite.config.ts                   Vite config
   vitest.config.ts                 Vitest config
 ```
@@ -274,12 +292,13 @@ See `CONTRIBUTING.md`.
 Before opening a pull request, run the checks that match your change:
 
 ```bash
-npm run ci
-python -m pytest pipeline/tests/
+  npm run ci
+  python -m pytest pipeline/tests/
 ```
 
-If you only changed frontend code, `npm run ci` is the observed frontend check.
-If you changed pipeline code or generated data, run the pipeline tests.
+If you only changed frontend code, run `npm run ci`. If you changed pipeline
+code or generated data, also run the pipeline tests and
+`python -m pipeline.generated_tree_check`.
 
 ## Security
 
@@ -330,14 +349,14 @@ overwrites `price.json`. `dist/` and `coverage/` are generated by build/test.
 <details><summary><strong>Are the committed `v1/` product names canonical?</strong></summary>
 
 Yes. The committed snapshots use the canonical names from
-`PRODUCT_CANONICAL_MAP` (e.g. `BIOSOLAR`, `BIOSOLAR NON SUBSIDI`). Regenerating
-from the committed `price.json` changes only the `synced_at` timestamps.
+`PRODUCT_CANONICAL_MAP` (e.g. `BIOSOLAR`, `BIOSOLAR NON SUBSIDI`). Regeneration
+may also update `generated_at`, freshness metadata, source hashes, and history.
 
 </details>
 
 <details><summary><strong>What should I run before changing pipeline code?</strong></summary>
 
-Install Python dependencies with `pip install -r requirements.txt`, then run
+Install Python dependencies with `python -m pip install -r requirements.lock`, then run
 `python -m pytest pipeline/tests/`. If you intentionally regenerate data, review
 the `v1/` diff because timestamps and product names can change.
 
@@ -359,9 +378,9 @@ JS chunk over 200 KB gzipped causes a build failure.
 
 <details><summary><strong>What does the scheduled sync workflow validate?</strong></summary>
 
-It validates generated data with pytest and an inline sanity check. The sanity
-check enforces at least 30 provinces, at least 50% non-null prices, and a
-`v1/nasional.json` size between 10 KB and 10 MB.
+It validates generated data with pytest, the generated-tree validator, and the
+sanity check. The workflow rejects unexpected source/config changes and stages
+only `price.json` and `v1/`.
 
 </details>
 

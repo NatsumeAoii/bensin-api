@@ -1,0 +1,9 @@
+* @nasgunawann
+/.github/workflows/ @nasgunawann
+/.github/dependabot.yml @nasgunawann
+/pipeline/ @nasgunawann
+/requirements*.txt @nasgunawann
+/package.json @nasgunawann
+/package-lock.json @nasgunawann
+/SECURITY.md @nasgunawann
+/v1/ @nasgunawann
