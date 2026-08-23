@@ -3,10 +3,10 @@
   "version": "v1",
   "author": "Nasrullah Gunawan",
   "github_repository": "https://github.com/nasgunawann/bensin-api",
-  "synced_at": "2026-08-22T18:24:36.606663Z",
-  "generated_at": "2026-08-22T18:24:36.606676Z",
+  "synced_at": "2026-08-23T01:07:58.421050Z",
+  "generated_at": "2026-08-23T01:07:58.421058Z",
   "source_status": "fallback",
-  "source_snapshot_at": "2026-08-22T18:24:27.375085Z",
+  "source_snapshot_at": "2026-08-23T01:07:48.890584Z",
   "source_fetched_at": null,
   "source_hash": "b2ed690eedbcd35f5367fbdfea72ee911099826a4ae6a66ed6a1897a539055bd",
   "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
@@ -17,7 +17,7 @@
       "slug": "aceh",
       "path": "/v1/provinsi/aceh.json",
       "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
-      "synced_at": "2026-08-22T18:24:36.606773Z",
+      "synced_at": "2026-08-23T01:07:58.421149Z",
       "products_count": 9,
       "file_size_bytes": 1414
     },
@@ -26,7 +26,7 @@
       "slug": "free-trade-zone-ftz-sabang",
       "path": "/v1/provinsi/free-trade-zone-ftz-sabang.json",
       "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
-      "synced_at": "2026-08-22T18:24:36.607274Z",
+      "synced_at": "2026-08-23T01:07:58.421675Z",
       "products_count": 9,
       "file_size_bytes": 1456
     },
@@ -35,7 +35,7 @@
       "slug": "sumatera-utara",
       "path": "/v1/provinsi/sumatera-utara.json",
       "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
-      "synced_at": "2026-08-22T18:24:36.607556Z",
+      "synced_at": "2026-08-23T01:07:58.421945Z",
       "products_count": 9,
       "file_size_bytes": 1434
     },
@@ -44,7 +44,7 @@
       "slug": "sumatera-barat",
       "path": "/v1/provinsi/sumatera-barat.json",
       "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
-      "synced_at": "2026-08-22T18:24:36.607795Z",
+      "synced_at": "2026-08-23T01:07:58.422202Z",
       "products_count": 9,
       "file_size_bytes": 1434
     },
@@ -53,7 +53,7 @@
       "slug": "riau",
       "path": "/v1/provinsi/riau.json",
       "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
-      "synced_at": "2026-08-22T18:24:36.608027Z",
+      "synced_at": "2026-08-23T01:07:58.422478Z",
       "products_count": 9,
       "file_size_bytes": 1414
     },
@@ -62,7 +62,7 @@
       "slug": "kepulauan-riau",
       "path": "/v1/provinsi/kepulauan-riau.json",
       "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
-      "synced_at": "2026-08-22T18:24:36.608261Z",
+      "synced_at": "2026-08-23T01:07:58.422744Z",
       "products_count": 9,
       "file_size_bytes": 1434
     },
@@ -71,7 +71,7 @@
       "slug": "free-trade-zone-ftz-batam",
       "path": "/v1/provinsi/free-trade-zone-ftz-batam.json",
       "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
-      "synced_at": "2026-08-22T18:24:36.608521Z",
+      "synced_at": "2026-08-23T01:07:58.422996Z",
       "products_count": 9,
       "file_size_bytes": 1452
     },
@@ -80,7 +80,7 @@
       "slug": "jambi",
       "path": "/v1/provinsi/jambi.json",
       "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
-      "synced_at": "2026-08-22T18:24:36.608743Z",
+      "synced_at": "2026-08-23T01:07:58.423245Z",
       "products_count": 9,
       "file_size_bytes": 1416
     },
@@ -89,7 +89,7 @@
       "slug": "bengkulu",
       "path": "/v1/provinsi/bengkulu.json",
       "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
-      "synced_at": "2026-08-22T18:24:36.609016Z",
+      "synced_at": "2026-08-23T01:07:58.423556Z",
       "products_count": 9,
       "file_size_bytes": 1422
     },
@@ -98,7 +98,7 @@
       "slug": "sumatera-selatan",
       "path": "/v1/provinsi/sumatera-selatan.json",
       "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
-      "synced_at": "2026-08-22T18:24:36.609236Z",
+      "synced_at": "2026-08-23T01:07:58.423806Z",
       "products_count": 9,
       "file_size_bytes": 1438
     },
@@ -107,7 +107,7 @@
       "slug": "bangka-belitung",
       "path": "/v1/provinsi/bangka-belitung.json",
       "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
-      "synced_at": "2026-08-22T18:24:36.609478Z",
+      "synced_at": "2026-08-23T01:07:58.424050Z",
       "products_count": 9,
       "file_size_bytes": 1436
     },
@@ -116,7 +116,7 @@
       "slug": "lampung",
       "path": "/v1/provinsi/lampung.json",
       "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
-      "synced_at": "2026-08-22T18:24:36.609706Z",
+      "synced_at": "2026-08-23T01:07:58.424301Z",
       "products_count": 9,
       "file_size_bytes": 1420
     },
@@ -125,7 +125,7 @@
       "slug": "dki-jakarta",
       "path": "/v1/provinsi/dki-jakarta.json",
       "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
-      "synced_at": "2026-08-22T18:24:36.609918Z",
+      "synced_at": "2026-08-23T01:07:58.424570Z",
       "products_count": 9,
       "file_size_bytes": 1427
     },
@@ -134,7 +134,7 @@
       "slug": "banten",
       "path": "/v1/provinsi/banten.json",
       "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
-      "synced_at": "2026-08-22T18:24:36.610130Z",
+      "synced_at": "2026-08-23T01:07:58.424812Z",
       "products_count": 9,
       "file_size_bytes": 1417
     },
@@ -143,7 +143,7 @@
       "slug": "jawa-barat",
       "path": "/v1/provinsi/jawa-barat.json",
       "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
-      "synced_at": "2026-08-22T18:24:36.610373Z",
+      "synced_at": "2026-08-23T01:07:58.425068Z",
       "products_count": 9,
       "file_size_bytes": 1425
     },
@@ -152,7 +152,7 @@
       "slug": "jawa-tengah",
       "path": "/v1/provinsi/jawa-tengah.json",
       "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
-      "synced_at": "2026-08-22T18:24:36.610600Z",
+      "synced_at": "2026-08-23T01:07:58.425304Z",
       "products_count": 9,
       "file_size_bytes": 1427
     },
@@ -161,7 +161,7 @@
       "slug": "di-yogyakarta",
       "path": "/v1/provinsi/di-yogyakarta.json",
       "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
-      "synced_at": "2026-08-22T18:24:36.610812Z",
+      "synced_at": "2026-08-23T01:07:58.425572Z",
       "products_count": 9,
       "file_size_bytes": 1431
     },
@@ -170,7 +170,7 @@
       "slug": "jawa-timur",
       "path": "/v1/provinsi/jawa-timur.json",
       "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
-      "synced_at": "2026-08-22T18:24:36.611024Z",
+      "synced_at": "2026-08-23T01:07:58.425818Z",
       "products_count": 9,
       "file_size_bytes": 1425
     },
@@ -179,7 +179,7 @@
       "slug": "bali",
       "path": "/v1/provinsi/bali.json",
       "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
-      "synced_at": "2026-08-22T18:24:36.611242Z",
+      "synced_at": "2026-08-23T01:07:58.426064Z",
       "products_count": 9,
       "file_size_bytes": 1414
     },
@@ -188,7 +188,7 @@
       "slug": "nusa-tenggara-barat",
       "path": "/v1/provinsi/nusa-tenggara-barat.json",
       "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
-      "synced_at": "2026-08-22T18:24:36.611472Z",
+      "synced_at": "2026-08-23T01:07:58.426304Z",
       "products_count": 9,
       "file_size_bytes": 1444
     },
@@ -197,7 +197,7 @@
       "slug": "nusa-tenggara-timur",
       "path": "/v1/provinsi/nusa-tenggara-timur.json",
       "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
-      "synced_at": "2026-08-22T18:24:36.611693Z",
+      "synced_at": "2026-08-23T01:07:58.426572Z",
       "products_count": 9,
       "file_size_bytes": 1443
     },
@@ -206,7 +206,7 @@
       "slug": "kalimantan-barat",
       "path": "/v1/provinsi/kalimantan-barat.json",
       "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
-      "synced_at": "2026-08-22T18:24:36.611910Z",
+      "synced_at": "2026-08-23T01:07:58.426821Z",
       "products_count": 9,
       "file_size_bytes": 1438
     },
@@ -215,7 +215,7 @@
       "slug": "kalimantan-tengah",
       "path": "/v1/provinsi/kalimantan-tengah.json",
       "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
-      "synced_at": "2026-08-22T18:24:36.612126Z",
+      "synced_at": "2026-08-23T01:07:58.427073Z",
       "products_count": 9,
       "file_size_bytes": 1440
     },
@@ -224,7 +224,7 @@
       "slug": "kalimantan-selatan",
       "path": "/v1/provinsi/kalimantan-selatan.json",
       "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
-      "synced_at": "2026-08-22T18:24:36.612335Z",
+      "synced_at": "2026-08-23T01:07:58.427312Z",
       "products_count": 9,
       "file_size_bytes": 1442
     },
@@ -233,7 +233,7 @@
       "slug": "kalimantan-timur",
       "path": "/v1/provinsi/kalimantan-timur.json",
       "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
-      "synced_at": "2026-08-22T18:24:36.612582Z",
+      "synced_at": "2026-08-23T01:07:58.427586Z",
       "products_count": 9,
       "file_size_bytes": 1438
     },
@@ -242,7 +242,7 @@
       "slug": "kalimantan-utara",
       "path": "/v1/provinsi/kalimantan-utara.json",
       "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
-      "synced_at": "2026-08-22T18:24:36.612865Z",
+      "synced_at": "2026-08-23T01:07:58.427898Z",
       "products_count": 9,
       "file_size_bytes": 1438
     },
@@ -251,7 +251,7 @@
       "slug": "sulawesi-utara",
       "path": "/v1/provinsi/sulawesi-utara.json",
       "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
-      "synced_at": "2026-08-22T18:24:36.613089Z",
+      "synced_at": "2026-08-23T01:07:58.428140Z",
       "products_count": 9,
       "file_size_bytes": 1434
     },
@@ -260,7 +260,7 @@
       "slug": "gorontalo",
       "path": "/v1/provinsi/gorontalo.json",
       "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
-      "synced_at": "2026-08-22T18:24:36.613312Z",
+      "synced_at": "2026-08-23T01:07:58.428391Z",
       "products_count": 9,
       "file_size_bytes": 1424
     },
@@ -269,7 +269,7 @@
       "slug": "sulawesi-tengah",
       "path": "/v1/provinsi/sulawesi-tengah.json",
       "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
-      "synced_at": "2026-08-22T18:24:36.613549Z",
+      "synced_at": "2026-08-23T01:07:58.428663Z",
       "products_count": 9,
       "file_size_bytes": 1436
     },
@@ -278,7 +278,7 @@
       "slug": "sulawesi-tenggara",
       "path": "/v1/provinsi/sulawesi-tenggara.json",
       "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
-      "synced_at": "2026-08-22T18:24:36.613769Z",
+      "synced_at": "2026-08-23T01:07:58.428903Z",
       "products_count": 9,
       "file_size_bytes": 1440
     },
@@ -287,7 +287,7 @@
       "slug": "sulawesi-selatan",
       "path": "/v1/provinsi/sulawesi-selatan.json",
       "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
-      "synced_at": "2026-08-22T18:24:36.613984Z",
+      "synced_at": "2026-08-23T01:07:58.429154Z",
       "products_count": 9,
       "file_size_bytes": 1438
     },
@@ -296,7 +296,7 @@
       "slug": "sulawesi-barat",
       "path": "/v1/provinsi/sulawesi-barat.json",
       "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
-      "synced_at": "2026-08-22T18:24:36.614191Z",
+      "synced_at": "2026-08-23T01:07:58.429393Z",
       "products_count": 9,
       "file_size_bytes": 1434
     },
@@ -305,7 +305,7 @@
       "slug": "maluku",
       "path": "/v1/provinsi/maluku.json",
       "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
-      "synced_at": "2026-08-22T18:24:36.614440Z",
+      "synced_at": "2026-08-23T01:07:58.429663Z",
       "products_count": 9,
       "file_size_bytes": 1420
     },
@@ -314,7 +314,7 @@
       "slug": "maluku-utara",
       "path": "/v1/provinsi/maluku-utara.json",
       "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
-      "synced_at": "2026-08-22T18:24:36.614669Z",
+      "synced_at": "2026-08-23T01:07:58.429901Z",
       "products_count": 9,
       "file_size_bytes": 1432
     },
@@ -323,7 +323,7 @@
       "slug": "papua",
       "path": "/v1/provinsi/papua.json",
       "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
-      "synced_at": "2026-08-22T18:24:36.614878Z",
+      "synced_at": "2026-08-23T01:07:58.430138Z",
       "products_count": 9,
       "file_size_bytes": 1417
     },
@@ -332,7 +332,7 @@
       "slug": "papua-barat",
       "path": "/v1/provinsi/papua-barat.json",
       "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
-      "synced_at": "2026-08-22T18:24:36.615087Z",
+      "synced_at": "2026-08-23T01:07:58.430375Z",
       "products_count": 9,
       "file_size_bytes": 1429
     },
@@ -341,7 +341,7 @@
       "slug": "papua-selatan",
       "path": "/v1/provinsi/papua-selatan.json",
       "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
-      "synced_at": "2026-08-22T18:24:36.615295Z",
+      "synced_at": "2026-08-23T01:07:58.430649Z",
       "products_count": 9,
       "file_size_bytes": 1434
     },
@@ -350,7 +350,7 @@
       "slug": "papua-pegunungan",
       "path": "/v1/provinsi/papua-pegunungan.json",
       "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
-      "synced_at": "2026-08-22T18:24:36.615532Z",
+      "synced_at": "2026-08-23T01:07:58.430904Z",
       "products_count": 9,
       "file_size_bytes": 1440
     },
@@ -359,7 +359,7 @@
       "slug": "papua-tengah",
       "path": "/v1/provinsi/papua-tengah.json",
       "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
-      "synced_at": "2026-08-22T18:24:36.615748Z",
+      "synced_at": "2026-08-23T01:07:58.431149Z",
       "products_count": 9,
       "file_size_bytes": 1432
     },
@@ -368,7 +368,7 @@
       "slug": "papua-barat-daya",
       "path": "/v1/provinsi/papua-barat-daya.json",
       "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
-      "synced_at": "2026-08-22T18:24:36.615960Z",
+      "synced_at": "2026-08-23T01:07:58.431386Z",
       "products_count": 9,
       "file_size_bytes": 1439
     }
