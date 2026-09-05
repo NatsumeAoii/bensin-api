@@ -2,7 +2,7 @@
   "province": "Prov. Banten",
   "province_slug": "banten",
   "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
-  "synced_at": "2026-09-05T02:52:07.425591Z",
+  "synced_at": "2026-09-05T09:55:40.742621Z",
   "products": [
     {
       "product": "DEXLITE",
@@ -50,9 +50,9 @@
       "availability": "available"
     }
   ],
-  "generated_at": "2026-09-05T02:52:07.422074Z",
+  "generated_at": "2026-09-05T09:55:40.739930Z",
   "source_status": "fallback",
-  "source_snapshot_at": "2026-09-05T02:51:59.120849Z",
+  "source_snapshot_at": "2026-09-05T09:55:31.606231Z",
   "source_fetched_at": null,
   "source_hash": "b2ed690eedbcd35f5367fbdfea72ee911099826a4ae6a66ed6a1897a539055bd"
 }
