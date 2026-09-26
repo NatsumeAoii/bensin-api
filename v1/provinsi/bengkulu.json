@@ -2,7 +2,7 @@
   "province": "Prov. Bengkulu",
   "province_slug": "bengkulu",
   "pertamina_updated_at": "2026-08-01T08:00:44.000Z",
-  "synced_at": "2026-09-26T03:25:34.079006Z",
+  "synced_at": "2026-09-26T10:46:41.245714Z",
   "products": [
     {
       "product": "DEXLITE",
@@ -50,9 +50,9 @@
       "availability": "available"
     }
   ],
-  "generated_at": "2026-09-26T03:25:34.076523Z",
+  "generated_at": "2026-09-26T10:46:41.244431Z",
   "source_status": "fallback",
-  "source_snapshot_at": "2026-09-26T03:25:26.480060Z",
+  "source_snapshot_at": "2026-09-26T10:46:30.253970Z",
   "source_fetched_at": null,
   "source_hash": "b2ed690eedbcd35f5367fbdfea72ee911099826a4ae6a66ed6a1897a539055bd"
 }
